@@ -1,0 +1,25 @@
+footer {
+  z-index: 9999;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  clear: both;
+  text-align: center;
+}
+
+@import '../../styles.scss';
+.footer {
+  height: 35px;
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  background-color: $primary;
+  border-top: 2px solid #7482cf;
+
+  > p {
+    margin: auto;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.85);
+  }
+}
