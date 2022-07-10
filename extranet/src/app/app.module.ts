@@ -5,7 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-// import { ServiceWorkerModule } from '@angular/service-worker';
+import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { MaterialModule } from './material/material.module';
 import { MainComponent } from './main/main.component';
@@ -28,12 +28,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    // ServiceWorkerModule.register('ngsw-worker.js', {
-    //   enabled: environment.production,
-    //   // Register the ServiceWorker as soon as the app is stable
-    //   // or after 30 seconds (whichever comes first).
-    //   registrationStrategy: 'registerWhenStable:30000'
-    // }),
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: environment.production,
+      // Register the ServiceWorker as soon as the app is stable
+      // or after 30 seconds (whichever comes first).
+      registrationStrategy: 'registerWhenStable:30000'
+    }),
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
