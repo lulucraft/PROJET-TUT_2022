@@ -1,10 +1,16 @@
+.sidebar-close-background {
+  position: absolute;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 9000;
+}
+
 @import "../../styles.scss";
-.sidebar-right {
+.sidebar-right,
+.sidebar-left {
   z-index: 9999;
   position: absolute;
-  right: 0;
-  // top: 101%;
-  width: 200px;
   color: white;
   background-color: $primary;
   border-bottom-left-radius: 2px;
@@ -16,9 +22,10 @@
     margin: 10px auto;
 
     li {
-      mat-icon {
+      mat-icon,
+      img {
         vertical-align: middle;
-        margin-right: 8px;
+        margin-right: 9px;
         font-size: 21px;
       }
 
@@ -29,10 +36,8 @@
   }
 }
 
-.sidebar-close-background {
-  position: absolute;
-  top: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: 9000;
+.sidebar-item {
+  > li {
+    margin-bottom: 4px;
+  }
 }

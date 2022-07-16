@@ -41,6 +41,12 @@ public class User {
 	@Column(name = "password")
 	private String password;
 
+	@Column(name = "access_token")
+	private String accessToken;
+
+	@Column(name = "refresh_token")
+	private String refreshToken;
+
 	@ManyToMany(fetch = FetchType.EAGER)
 	private Collection<Role> roles = new ArrayList<>();
 

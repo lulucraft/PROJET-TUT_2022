@@ -1,4 +1,5 @@
-import { Component, Renderer2 } from '@angular/core';
+import { Component, OnInit, Renderer2 } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthService } from './services/auth.service';
 
 @Component({
@@ -6,15 +7,26 @@ import { AuthService } from './services/auth.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
 
   public darkModeEnabled: boolean = false;
 
-  constructor(private authService: AuthService, private renderer: Renderer2) { }
+  constructor(private renderer: Renderer2, private authService: AuthService, private router: Router) { }
 
-  isAuthenticated(): boolean {
-    return this.authService.isAuthenticated();
+  ngOnInit(): void {
+    // Dark theme by défault
+    this.changeDarkMode(true);
+
+    if (!this.authService.isAuthenticated()) {
+      this.router.navigate(['/login']);
+    }
+
+    // TODO : load user preference
   }
+
+  // isAuthenticated(): boolean {
+  //   return this.authService.isAuthenticated();
+  // }
 
   changeDarkMode(darkMode: boolean): void {
     this.darkModeEnabled = darkMode;
@@ -24,4 +36,5 @@ export class AppComponent {
       this.renderer.removeClass(document.body, 'darkMode');
     }
   }
+
 }

@@ -28,7 +28,14 @@ public class RegistrationController {
 			return "Mot de passe manquant";
 		}
 
+		boolean userExists = userService.getUser(user.getUsername()) != null;
+		if (userExists) {
+			throw new IllegalStateException("Un compte est déjà associé à cet email");
+		}
+
+		// Try to save new user
 		userService.saveUser(user);
+
 		return "ok";
 	}
 }

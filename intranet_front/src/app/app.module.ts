@@ -12,8 +12,12 @@ import { MainComponent } from './main/main.component';
 import { LoginComponent } from './auth/login/login.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
-import { SidebarSettingsComponent } from './sidebar-settings/sidebar-settings.component';
+import { SidebarSettingsComponent } from './sidebar/sidebar-settings/sidebar-settings.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { SidebarLeftComponent } from './sidebar/sidebar-left/sidebar-left.component';
+import { HomeComponent } from './main/home/home.component';
+import { CongesComponent } from './main/conges/conges.component';
+import { AccountComponent } from './main/account/account.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +26,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     LoginComponent,
     HeaderComponent,
     FooterComponent,
-    SidebarSettingsComponent
+    SidebarSettingsComponent,
+    SidebarLeftComponent,
+    HomeComponent,
+    CongesComponent,
+    AccountComponent
   ],
   imports: [
     BrowserModule,

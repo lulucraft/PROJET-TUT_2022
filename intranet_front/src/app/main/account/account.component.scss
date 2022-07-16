@@ -1,0 +1,14 @@
+.form {
+  width: 400px;
+  // height: 400px;
+  margin: auto;
+  padding: 20px;
+  background-color: #fbfbfb;
+  border-radius: 2px;
+  -webkit-box-shadow: -1px 4px 20px -7px rgb(145 145 145);
+  box-shadow: -1px 4px 20px -7px rgb(145 145 145);
+
+  p:first-child {
+    margin-top: 5px;
+  }
+}

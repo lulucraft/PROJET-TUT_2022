@@ -40,7 +40,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 		authFilter.setFilterProcessesUrl("/api/auth/login");
 
-		//http.cors();
+		http.cors();
 		//http.authorizeHttpRequests().anyRequest().authenticated().and().formLogin();
 		http.csrf().disable();
 		//http.authorizeHttpRequests().anyRequest().permitAll();

@@ -6,7 +6,7 @@ import { HeaderComponent } from 'src/app/header/header.component';
 @Component({
   selector: 'app-sidebar-settings',
   templateUrl: './sidebar-settings.component.html',
-  styleUrls: ['./sidebar-settings.component.scss']
+  styleUrls: ['./sidebar-settings.component.scss', './../sidebar.scss']
 })
 export class SidebarSettingsComponent implements OnInit {
 
@@ -35,4 +35,5 @@ export class SidebarSettingsComponent implements OnInit {
       this.appHeader.settingsMenuOpened = false;
     }
   }
+
 }

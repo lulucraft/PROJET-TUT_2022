@@ -47,6 +47,7 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 		String password = request.getParameter(SPRING_SECURITY_FORM_PASSWORD_KEY);
 
 		log.info("Try auth of {}", username);
+		log.info(password);
 
 		UsernamePasswordAuthenticationToken upaToken = new UsernamePasswordAuthenticationToken(username, password);
 

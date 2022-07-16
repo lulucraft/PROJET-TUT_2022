@@ -16,12 +16,20 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("api/auth/")
 public class AuthController {
 
-	@PostMapping(value = "login", consumes = "application/json", produces = "application/json")
+	@PostMapping(value = "refreshtoken", produces = "application/json")//consumes = "application/json", 
 	public ResponseEntity<String> authenticateUser(@RequestBody User user) {
 		System.err.println(user.getUsername());
 		System.err.println(user.getPassword());
 
 		return ResponseEntity.ok().body("test");
 	}
+
+//	@PostMapping(value = "login", consumes = "application/json", produces = "application/json")
+//	public ResponseEntity<String> authenticateUser(@RequestBody User user) {
+//		System.err.println(user.getUsername());
+//		System.err.println(user.getPassword());
+//
+//		return ResponseEntity.ok().body("test");
+//	}
 
 }
