@@ -37,12 +37,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	}
 
 	@Override
-	public Role saveRole(Role role) {
-		log.info("Saving new role to the database");
-		return roleRepo.save(role);
-	}
-
-	@Override
 	public void addRoleToUser(User user, Role role) {
 		user.getRoles().add(role);
 		log.info("Role '{}' added to user '{}'", role.getName(), user.getUsername());

@@ -1,1 +1,26 @@
-<p>conges works!</p>
+<div id="center" class="text-center frame darkModeAuto">
+  <h3>Vos congés</h3>
+
+  <table mat-table [dataSource]="congesCpt" class="mat-elevation-z8 table">
+    <ng-container matColumnDef="label">
+      <th mat-header-cell *matHeaderCellDef>Année en cours</th>
+      <td mat-cell *matCellDef="let congeType">{{ congeType.label }}</td>
+      <td mat-footer-cell *matFooterCellDef>restant</td>
+    </ng-container>
+
+    <!-- Cost Column -->
+    <ng-container matColumnDef="nbr">
+      <th mat-header-cell *matHeaderCellDef>Nombre</th>
+      <td mat-cell *matCellDef="let congeType">{{ congeType.nbr }}</td>
+      <td mat-footer-cell *matFooterCellDef>{{ getCongesRestants() }}</td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
+  </table>
+
+  <div class="frame-footer" *ngIf="getCongesRestants()">
+    <button mat-stroked-button (click)="demandeConges()">Demande de congés</button>
+  </div>
+</div>

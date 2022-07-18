@@ -41,13 +41,19 @@ public class User {
 	@Column(name = "password")
 	private String password;
 
-	@Column(name = "access_token")
-	private String accessToken;
-
-	@Column(name = "refresh_token")
-	private String refreshToken;
+//	@Column(name = "access_token")
+//	private String accessToken;
+//
+//	@Column(name = "refresh_token")
+//	private String refreshToken;
 
 	@ManyToMany(fetch = FetchType.EAGER)
 	private Collection<Role> roles = new ArrayList<>();
+
+	@Column(name = "congesnbr", nullable = false)
+	private double congesNbr;
+
+	@ManyToMany(fetch = FetchType.LAZY)
+	private Collection<Conge> conges = new ArrayList<>();
 
 }

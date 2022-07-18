@@ -37,6 +37,7 @@ export interface User {
 
   username: string;
   password: string;
+  congesAcquis?: number;
   role?: Role;
   id?: number;
   token?: JWTToken;

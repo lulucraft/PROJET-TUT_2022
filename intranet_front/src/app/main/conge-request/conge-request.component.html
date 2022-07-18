@@ -1,0 +1,19 @@
+<div id="center" class="text-center frame darkModeAuto">
+  <form [formGroup]="congesRequestForm">
+    <p>
+      <mat-form-field>
+        <mat-label>Date début :</mat-label>
+        <input matInput [matDatepicker]="picker">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+    </p>
+
+    <p>
+      <mat-form-field>
+        <mat-label>Date fin :</mat-label>
+        <input matInput type="datetime" />
+      </mat-form-field>
+    </p>
+  </form>
+</div>

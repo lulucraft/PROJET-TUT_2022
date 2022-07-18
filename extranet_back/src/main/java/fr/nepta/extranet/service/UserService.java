@@ -9,7 +9,7 @@ public interface UserService {
 
 	User saveUser(User user);
 
-	Role saveRole(Role role);
+//	Role saveRole(Role role);
 
 	void addRoleToUser(User user, Role role);
 
@@ -18,5 +18,7 @@ public interface UserService {
 	User getUser(String username);
 
 	List<User> getUsers();
+
+//	List<Conge> getConges();
 
 }

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -18,6 +18,8 @@ import { SidebarLeftComponent } from './sidebar/sidebar-left/sidebar-left.compon
 import { HomeComponent } from './main/home/home.component';
 import { CongesComponent } from './main/conges/conges.component';
 import { AccountComponent } from './main/account/account.component';
+import { CongeRequestComponent } from './main/conge-request/conge-request.component';
+import { TokenHttpInterceptorInterceptor } from './interceptor/token-http-interceptor.interceptor';
 
 @NgModule({
   declarations: [
@@ -30,7 +32,8 @@ import { AccountComponent } from './main/account/account.component';
     SidebarLeftComponent,
     HomeComponent,
     CongesComponent,
-    AccountComponent
+    AccountComponent,
+    CongeRequestComponent
   ],
   imports: [
     BrowserModule,
@@ -50,7 +53,8 @@ import { AccountComponent } from './main/account/account.component';
     })
   ],
   providers: [
-    { provide: "API_BASE_URL", useValue: environment.apiRoot }
+    { provide: "API_BASE_URL", useValue: environment.apiRoot },
+    { provide: HTTP_INTERCEPTORS, useClass: TokenHttpInterceptorInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })

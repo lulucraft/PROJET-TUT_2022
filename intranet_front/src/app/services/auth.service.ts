@@ -16,9 +16,8 @@ export class AuthService {
 
   constructor(private http: HttpClient, @Inject('API_BASE_URL') private apiBaseUrl: string, private router: Router) {
     let currentUser = localStorage.getItem('currentUser');
-    console.log(currentUser);
-
     let user = null;
+
     if (currentUser) {
       //currentUser = '{}';
       user = JSON.parse(currentUser);
@@ -28,17 +27,17 @@ export class AuthService {
     this.currentUser = this.currentUserSubject.asObservable();
   }
 
-  onTimeOut() {
-    if (this.currentUserValue !== null) {
-      if (this.isTokenExpired()) {
-        this.logout();
-      } else {
-        setTimeout(() => {
-          this.onTimeOut();
-        }, 1000);
-      }
-    }
-  }
+  // onTimeOut() {
+  //   if (this.currentUserValue !== null) {
+  //     if (this.isTokenExpired()) {
+  //       this.logout();
+  //     } else {
+  //       setTimeout(() => {
+  //         this.onTimeOut();
+  //       }, 1000);
+  //     }
+  //   }
+  // }
 
   login(user: User, redirect: boolean = true): void {
     let params: HttpParams = new HttpParams()
@@ -77,20 +76,55 @@ export class AuthService {
   }
 
   logout(): void {
-    // this.http.post(this.apiBaseUrl + 'api/auth/logout', {}).pipe(
-    //   finalize(() => {
-    //   })
-    // ).subscribe();
-    // this.currentUser = null;
+    let headers = new HttpHeaders({
+      'Authorization': 'Bearer ' + this.currentUserValue?.token?.accessToken
+    });
+    this.http.post(this.apiBaseUrl + 'api/auth/logout', null, { headers: headers })
+      // .pipe(
+      //   finalize(() => {
+      //   })
+      // )
+      .subscribe({
+        next: (resp: any) => {
+          console.log(resp);
+        }
+      });
     this.currentUserSubject.next(null);
     localStorage.removeItem('currentUser');
     this.router.navigate(['/login']);
   }
 
+  refreshToken(): void {
+    let headers = new HttpHeaders().set('Authorization', 'Bearer ' + this.currentUserValue?.token?.refreshToken)
+
+    this.http.get<JWTToken>(this.apiBaseUrl + 'api/auth/refreshtoken', { headers: headers })
+      .subscribe((resp: JWTToken) => {
+        let user = this.currentUserValue;
+        if (!user || !resp) {
+          // Fail to refresh token
+          this.logout();
+          return;
+        }
+
+        user.token = resp;
+        localStorage.setItem('currentUser', JSON.stringify(user));
+        this.currentUserSubject.next(user);// = new BehaviorSubject<User | null>(user);
+      });
+    //     .subscribe({
+    //       next: (resp: JWTToken) => {
+    //         console.log(resp)
+    //       },
+    //       error: (error) => {
+    //         console.error(error);
+    //       }
+    //     })
+    // }
+  }
+
   isAuthenticated(): boolean {
     // console.log(this.currentUserSubject);
     // return !!this.currentUserSubject;
-    return !!this.currentUserValue;
+    return !!this.currentUserValue && !!this.currentUserValue.token;
     // let isTokenExpired = this.isTokenExpired();
     // if (isTokenExpired) {
     //   this.http.post<JWTToken>(this.apiBaseUrl + 'api/auth/refreshtoken', this.currentUserValue?.token)
@@ -122,5 +156,19 @@ export class AuthService {
 
     return this.currentUserSubject.value;
   }
+
+  // async onCheckAuth(): Promise<boolean> {
+  //   if (this.isTokenExpired()) {
+  //     console.log('refreshToken');
+  //     await this.refreshToken();
+  //   }
+
+  //   if (this.isTokenExpired()) {
+  //     this.logout();
+  //     return false;
+  //   }
+
+  //   return true;
+  // }
 
 }

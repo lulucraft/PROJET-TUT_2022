@@ -6,6 +6,7 @@ import { HomeComponent as HomeComponent } from './home/home.component';
 import { HomeComponent as Home1Component } from './main/home/home.component';
 import { MainComponent } from './main/main.component';
 import { AccountComponent } from './main/account/account.component';
+import { CongeRequestComponent } from './main/conge-request/conge-request.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -14,7 +15,8 @@ const routes: Routes = [
     children: [
       { path: '', component: Home1Component },
       { path: 'account', component: AccountComponent },
-      { path: 'conges', component: CongesComponent }
+      { path: 'conges', component: CongesComponent },
+      { path: 'congesrequest', component: CongeRequestComponent }
     ]
   },
   { path: 'login', component: LoginComponent },
