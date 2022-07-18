@@ -110,33 +110,11 @@ export class AuthService {
         localStorage.setItem('currentUser', JSON.stringify(user));
         this.currentUserSubject.next(user);// = new BehaviorSubject<User | null>(user);
       });
-    //     .subscribe({
-    //       next: (resp: JWTToken) => {
-    //         console.log(resp)
-    //       },
-    //       error: (error) => {
-    //         console.error(error);
-    //       }
-    //     })
-    // }
   }
 
   isAuthenticated(): boolean {
-    // console.log(this.currentUserSubject);
     // return !!this.currentUserSubject;
     return !!this.currentUserValue && !!this.currentUserValue.token;
-    // let isTokenExpired = this.isTokenExpired();
-    // if (isTokenExpired) {
-    //   this.http.post<JWTToken>(this.apiBaseUrl + 'api/auth/refreshtoken', this.currentUserValue?.token)
-    //     .subscribe({
-    //       next: (resp: JWTToken) => {
-    //         console.log(resp)
-    //       },
-    //       error: (error) => {
-    //         console.error(error);
-    //       }
-    //     })
-    // }
     // return !isTokenExpired;
   }
 
@@ -156,19 +134,5 @@ export class AuthService {
 
     return this.currentUserSubject.value;
   }
-
-  // async onCheckAuth(): Promise<boolean> {
-  //   if (this.isTokenExpired()) {
-  //     console.log('refreshToken');
-  //     await this.refreshToken();
-  //   }
-
-  //   if (this.isTokenExpired()) {
-  //     this.logout();
-  //     return false;
-  //   }
-
-  //   return true;
-  // }
 
 }

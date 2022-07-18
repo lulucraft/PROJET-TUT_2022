@@ -14,6 +14,8 @@ export class TokenHttpInterceptorInterceptor implements HttpInterceptor {
   constructor(private authService: AuthService) { }//private inject: Injector) {}
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
+    // TODO : get last element and check if /login or /refreshtoken
+    console.log(request.url);
     // Add token to http request
     const req = request.clone({ headers: request.headers.set('Authorization', 'Bearer ' + this.authService.currentUserValue?.token?.accessToken) })
 
