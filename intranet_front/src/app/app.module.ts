@@ -20,6 +20,10 @@ import { CongesComponent } from './main/conges/conges.component';
 import { AccountComponent } from './main/account/account.component';
 import { CongeRequestComponent } from './main/conge-request/conge-request.component';
 import { TokenHttpInterceptorInterceptor } from './interceptor/token-http-interceptor.interceptor';
+import { registerLocaleData } from '@angular/common';
+import localeFr from '@angular/common/locales/fr';
+
+registerLocaleData(localeFr, 'fr-FR');
 
 @NgModule({
   declarations: [

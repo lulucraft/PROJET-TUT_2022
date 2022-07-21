@@ -7,11 +7,12 @@ import { HomeComponent as Home1Component } from './main/home/home.component';
 import { MainComponent } from './main/main.component';
 import { AccountComponent } from './main/account/account.component';
 import { CongeRequestComponent } from './main/conge-request/conge-request.component';
+import { AuthGuard } from './guard/auth.guard';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
   {
-    path: 'main', component: MainComponent,
+    path: 'main', component: MainComponent, canActivate: [AuthGuard],
     children: [
       { path: '', component: Home1Component },
       { path: 'account', component: AccountComponent },

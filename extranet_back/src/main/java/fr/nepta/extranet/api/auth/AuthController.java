@@ -12,6 +12,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -71,6 +73,27 @@ public class AuthController {
 		} else {
 			throw new RuntimeException("Refresh token is missing");
 		}
+	}
+
+	@PostMapping(value = "register", consumes = "application/json", produces = "application/json")
+	public String register(@RequestBody User user) {
+		if (user.getUsername() == null) {
+			return "Nom d'utilisateur manquant";
+		}
+
+		if (user.getPassword() == null) {
+			return "Mot de passe manquant";
+		}
+
+		boolean userExists = us.getUser(user.getUsername()) != null;
+		if (userExists) {
+			throw new IllegalStateException("Un compte est déjà associé à cet email");
+		}
+
+		// Try to save new user
+		us.saveUser(user);
+
+		return "ok";
 	}
 
 //	@PostMapping(value = "login", consumes = "application/json", produces = "application/json")

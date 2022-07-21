@@ -1,10 +1,11 @@
 import { Inject, Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { BehaviorSubject, finalize, Observable } from 'rxjs';
+import { HttpClient, HttpEvent, HttpHeaders, HttpParams } from '@angular/common/http';
+import { BehaviorSubject, finalize, Observable, Subscription } from 'rxjs';
 import jwt_decode from 'jwt-decode';
 import { User } from '../models/user';
 import { JWTToken } from '../models/jwt-token';
 import { Router } from '@angular/router';
+import { Role } from '../models/role';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,11 @@ export class AuthService {
   private currentUserSubject: BehaviorSubject<User | null>;
   private currentUser: Observable<User | null>;
 
-  constructor(private http: HttpClient, @Inject('API_BASE_URL') private apiBaseUrl: string, private router: Router) {
+  constructor(
+    private http: HttpClient,
+    @Inject('API_BASE_URL') private apiBaseUrl: string,
+    private router: Router
+  ) {
     let currentUser = localStorage.getItem('currentUser');
     let user = null;
 
@@ -60,14 +65,21 @@ export class AuthService {
           user.token = resp;
           // Reset password to hide it in localStorage
           user.password = '';
+
+          // User roles
+          user.roles = [];
+          for (let role of this.getUserRolesFromToken(user)) {
+            user.roles.push({ name: role });
+          }
+
           localStorage.setItem('currentUser', JSON.stringify(user));
           this.currentUserSubject.next(user);
           console.log(resp['accessToken']);
-          // console.log(this.currentUserSubject);
-          // console.log(localStorage.getItem('currentUser'));
-          if (redirect)
+
+          if (redirect) {
             // Redirect to home page
             this.router.navigate(['/']);
+          }
         },
         error: (error) => {
           console.error(error);
@@ -94,22 +106,24 @@ export class AuthService {
     this.router.navigate(['/login']);
   }
 
-  refreshToken(): void {
-    let headers = new HttpHeaders().set('Authorization', 'Bearer ' + this.currentUserValue?.token?.refreshToken)
+  saveRefreshToken(token: JWTToken): void {
+    let user = this.currentUserValue;
+    if (!user || !token) {
+      // Fail to refresh token
+      this.logout();
+      return;
+    }
 
-    this.http.get<JWTToken>(this.apiBaseUrl + 'api/auth/refreshtoken', { headers: headers })
-      .subscribe((resp: JWTToken) => {
-        let user = this.currentUserValue;
-        if (!user || !resp) {
-          // Fail to refresh token
-          this.logout();
-          return;
-        }
+    user.token = token;
+    localStorage.setItem('currentUser', JSON.stringify(user));
+    this.currentUserSubject.next(user);// = new BehaviorSubject<User | null>(user);
+  }
 
-        user.token = resp;
-        localStorage.setItem('currentUser', JSON.stringify(user));
-        this.currentUserSubject.next(user);// = new BehaviorSubject<User | null>(user);
-      });
+  refreshTokenRequest(): Observable<JWTToken> {
+    let headers = new HttpHeaders().set('Authorization', 'Bearer ' + this.currentUserValue?.token?.refreshToken);
+    console.log('refreshToken to send: ' + this.currentUserValue?.token?.refreshToken);
+
+    return this.http.get<JWTToken>(this.apiBaseUrl + 'api/auth/refreshtoken', { headers: headers });
   }
 
   isAuthenticated(): boolean {
@@ -127,6 +141,26 @@ export class AuthService {
     const date = new Date(0);
     date.setUTCSeconds(decoded.exp);
     return !(date.valueOf() > new Date().valueOf());
+  }
+
+  private getUserRolesFromToken(user: User): string[] {
+    let roles: string[] = [];
+
+    const decoded: any = jwt_decode(user.token!.accessToken);
+    console.log(decoded)
+    if (!decoded || !decoded.roles) return roles;
+
+    return decoded.roles;
+  }
+
+  isUserAdmin(): boolean {
+    let roles = this.currentUserValue!.roles!;
+    return !!roles.length && !!roles.find(r => r.name === 'ADMIN');
+  }
+
+  isUser(): boolean {
+    let roles = this.currentUserValue!.roles!;
+    return !!roles.length && !!roles.find(r => r.name === 'USER');
   }
 
   get currentUserValue(): User | null {

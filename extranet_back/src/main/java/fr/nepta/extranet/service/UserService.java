@@ -2,6 +2,7 @@ package fr.nepta.extranet.service;
 
 import java.util.List;
 
+import fr.nepta.extranet.model.Conge;
 import fr.nepta.extranet.model.Role;
 import fr.nepta.extranet.model.User;
 
@@ -18,6 +19,10 @@ public interface UserService {
 	User getUser(String username);
 
 	List<User> getUsers();
+
+	void addCongeToUser(User user, Conge conge);
+
+	void deleteCongeFromUser(User user, long congeId) throws Exception;
 
 //	List<Conge> getConges();
 

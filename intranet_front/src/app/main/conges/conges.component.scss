@@ -1,21 +1,21 @@
 .frame {
   padding: 20px;
-  max-width: 40vw;
-}
+  max-width: 65vw;
 
-.frame-footer {
-  margin-top: 15px;
+  .frame-footer {
+    margin-top: 15px;
 
-  button {
-    background-color: darkcyan;
-    color: white;
+    button {
+      background-color: darkcyan;
+      color: white;
+    }
   }
-}
 
-.table {
-  width: 100%;
+  .table {
+    width: 100%;
 
-  tr {
-    text-align: left;
+    tr {
+      text-align: left;
+    }
   }
 }

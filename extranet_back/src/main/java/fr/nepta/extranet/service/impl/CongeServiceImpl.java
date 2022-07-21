@@ -27,6 +27,7 @@ public class CongeServiceImpl implements CongeService {
 
 	@Override
 	public Collection<Conge> getConges(User user) {
+		log.info("Fetching conges of {} from database", user.getUsername());
 		return user.getConges();
 	}
 

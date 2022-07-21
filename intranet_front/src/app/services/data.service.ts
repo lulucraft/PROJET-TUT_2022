@@ -1,6 +1,7 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { map, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
+import { Conge } from '../models/conge';
 import { AuthService } from './auth.service';
 
 @Injectable({
@@ -16,10 +17,18 @@ export class DataService {
     return this.http.get<number>(this.apiBaseUrl + 'api/user/congesacquis', { params: params });
   }
 
-  getConges(): Observable<any[]> {
+  getConges(): Observable<Conge[]> {
     let params: HttpParams = new HttpParams().set('username', this.authService.currentUserValue!.username);
 
-    return this.http.get<any[]>(this.apiBaseUrl + 'api/user/conges', { params: params });
+    return this.http.get<Conge[]>(this.apiBaseUrl + 'api/user/conges', { params: params });
+  }
+
+  sendCongeRequest(conge: Conge): Observable<any> {
+    return this.http.post(this.apiBaseUrl + 'api/user/congesrequest', conge);
+  }
+
+  deleteCongeRequest(congeId: number): Observable<string> {
+    return this.http.post<string>(this.apiBaseUrl + 'api/user/deletecongesrequest', congeId);
   }
 
 }

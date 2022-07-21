@@ -24,10 +24,6 @@ export class SidebarLeftComponent implements OnInit {
     return this.authService.isAuthenticated();
   }
 
-  // isUserAdmin(): boolean {
-  //   return !!this.authService.currentUserValue && !!this.authService.currentUserValue.role && !!this.authService.currentUserValue.role?.isAdmin;
-  // }
-
   getUserName(): string {
     if (!this.authService.currentUserValue) {
       // Default to display

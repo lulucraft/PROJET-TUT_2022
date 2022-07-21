@@ -52,7 +52,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 		http.cors();
 		//http.authorizeHttpRequests().anyRequest().authenticated().and().formLogin();
-		http.csrf().ignoringAntMatchers("/api/auth/login", "/api/auth/logout");//.disable();
+//		http.csrf().ignoringAntMatchers("/api/auth/register", "/api/auth/login", "/api/auth/logout");//.disable();
+		http.csrf().disable();
 		//http.authorizeHttpRequests().anyRequest().permitAll();
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
@@ -66,13 +67,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.authorizeHttpRequests().antMatchers(HttpMethod.GET, "/api/admin/**").hasAnyAuthority("ADMIN");
 
 		http.authorizeHttpRequests().anyRequest().authenticated()
-		.and().logout().logoutUrl("/api/auth/logout").deleteCookies("JSESSIONID").logoutSuccessHandler(new LogoutSuccessHandler() {
-
-            @Override
-            public void onLogoutSuccess(HttpServletRequest arg0, HttpServletResponse arg1, Authentication arg2) throws IOException, ServletException {
-                log.debug("***onLogoutSuccess***");
-            }
-        });
+		.and().logout().logoutUrl("/api/auth/logout").deleteCookies("JSESSIONID");
 
 		http.addFilter(authFilter);
 		http.addFilterBefore(new AuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);

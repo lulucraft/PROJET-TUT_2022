@@ -1,19 +1,33 @@
 <div id="center" class="text-center frame darkModeAuto">
-  <form [formGroup]="congesRequestForm">
-    <p>
+  <h3>Demande de congés</h3>
+
+  <form [formGroup]="congesRequestForm" (ngSubmit)="sendCongeRequest()">
+    <!-- <p>
       <mat-form-field>
         <mat-label>Date début :</mat-label>
-        <input matInput [matDatepicker]="picker">
-        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
+        <input matInput [matDatepicker]="startDataPicker">
+        <mat-datepicker-toggle matSuffix [for]="startDataPicker"></mat-datepicker-toggle>
+        <mat-datepicker #startDataPicker></mat-datepicker>
       </mat-form-field>
-    </p>
+    </p> -->
 
     <p>
       <mat-form-field>
-        <mat-label>Date fin :</mat-label>
-        <input matInput type="datetime" />
+        <!-- <mat-label>Date fin :</mat-label>
+        <input matInput [matDatepicker]="endDataPicker">
+        <mat-datepicker-toggle matSuffix [for]="endDataPicker"></mat-datepicker-toggle>
+        <mat-datepicker #endDataPicker></mat-datepicker> -->
+
+        <mat-date-range-input [rangePicker]="picker">
+          <input matStartDate formControlName="startDate" placeholder="Date début">
+          <input matEndDate formControlName="endDate" placeholder="Date fin">
+        </mat-date-range-input>
+
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-date-range-picker #picker></mat-date-range-picker>
       </mat-form-field>
     </p>
+
+    <button mat-button>Envoyer la demande de congé</button>
   </form>
 </div>

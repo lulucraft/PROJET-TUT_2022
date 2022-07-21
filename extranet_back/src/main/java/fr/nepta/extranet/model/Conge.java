@@ -25,11 +25,18 @@ public class Conge {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	@Column(name = "creationDate", nullable = false)
+	@DateTimeFormat(pattern = "dd-MM-yyyy HH:mm")
+	private Date creationDate;
+
 	@Column(name = "startdate", nullable = false)
 	@DateTimeFormat(pattern = "dd-MM-yyyy HH:mm")
 	private Date startDate;
 
 	@Column(name = "enddate", nullable = false)
 	private Date endDate;
+
+	@Column(name = "validated", nullable = false)
+	private boolean validated;
 
 }

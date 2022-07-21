@@ -18,4 +18,10 @@ export class AccountComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  getRoles(): string {
+    if (!this.user.roles || !this.user.roles.length) return 'Aucun';
+
+    return this.user.roles.map(r => r.name).join(', ');
+  }
+
 }
