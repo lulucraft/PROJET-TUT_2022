@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import fr.nepta.extranet.model.Conge;
-import fr.nepta.extranet.model.User;
 import fr.nepta.extranet.repository.CongeRepo;
 import fr.nepta.extranet.service.CongeService;
 import lombok.RequiredArgsConstructor;
@@ -26,10 +25,25 @@ public class CongeServiceImpl implements CongeService {
 	}
 
 	@Override
-	public Collection<Conge> getConges(User user) {
-		log.info("Fetching conges of {} from database", user.getUsername());
-		return user.getConges();
+	public Collection<Conge> getConges() {
+		log.info("Fetching conges from database");
+		return congeRepo.findAll();
 	}
+
+	@Override
+	public Conge getConge(long congeId) {
+		log.info("Fetching conge '{}' from database", congeId);
+		return congeRepo.findById(congeId);
+	}
+
+	@Override
+	public void validateConge(Conge conge) {
+		congeRepo.save(conge);
+//		conge = congeRepo.getById(conge.getId());
+//		congeRepo.save(conge);
+		log.info("Validate conge '{}'", conge.getId());
+	}
+
 
 //	@Override
 //	public Conge getConge(String congeName) {

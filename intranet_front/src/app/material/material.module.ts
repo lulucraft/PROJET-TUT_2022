@@ -10,6 +10,8 @@ import { MatTableModule } from '@angular/material/table';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSelectModule } from '@angular/material/select';
+
 
 @NgModule({
   declarations: [],
@@ -23,7 +25,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     MatDatepickerModule,
     MatNativeDateModule,
     MatDividerModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatSelectModule
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'fr-FR' },
@@ -31,13 +34,13 @@ import { MatPaginatorModule } from '@angular/material/paginator';
       provide: MAT_DATE_FORMATS,
       useValue: {
         parse: {
-        //   dateInput: 'DD/MM/YYYY',
+          //   dateInput: 'DD/MM/YYYY',
         },
         display: {
-        //   dateInput: 'DD/MM/YYYY',
-        //   monthYearLabel: 'MMM YYYY',
-        //   dateA11yLabel: 'DD/MM/YYYY',
-        //   monthYearA11yLabel: 'MMMM YYYY',
+          //   dateInput: 'DD/MM/YYYY',
+          //   monthYearLabel: 'MMM YYYY',
+          //   dateA11yLabel: 'DD/MM/YYYY',
+          //   monthYearA11yLabel: 'MMMM YYYY',
         },
       },
     }

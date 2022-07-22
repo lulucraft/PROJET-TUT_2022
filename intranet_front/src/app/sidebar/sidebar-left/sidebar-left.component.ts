@@ -39,7 +39,11 @@ export class SidebarLeftComponent implements OnInit {
 
   conges(): void {
     this.appHeader.leftMenuOpened = false;
-    this.router.navigate(['/conges']);
+    if (!this.authService.isUserAdmin()) {
+      this.router.navigate(['/conges']);
+    } else {
+      this.router.navigate(['/adminconges']);
+    }
   }
 
   @HostListener('click', ['$event.target'])

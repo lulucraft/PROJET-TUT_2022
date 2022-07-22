@@ -39,4 +39,7 @@ public class Conge {
 	@Column(name = "validated", nullable = false)
 	private boolean validated;
 
+	@Column(name = "validator", nullable = true)
+	private String validator;
+
 }

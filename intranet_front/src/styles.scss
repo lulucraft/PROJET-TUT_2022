@@ -53,8 +53,8 @@ $intranet-dark-theme: mat.define-dark-theme(
 //
 
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background-color: #f3f3f3; }
+// html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background-color: #f3f3f3; position: relative; height: 100vh; }
 
 body.darkMode {
   background-color: $primary;//#383838;

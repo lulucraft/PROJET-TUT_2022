@@ -1,8 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSelectChange } from '@angular/material/select';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
-import { catchError, map, of, throwError } from 'rxjs';
+import { catchError, throwError } from 'rxjs';
 import { Conge } from 'src/app/models/conge';
 import { AuthService } from 'src/app/services/auth.service';
 import { DataService } from 'src/app/services/data.service';
@@ -14,9 +15,7 @@ import { DataService } from 'src/app/services/data.service';
 })
 export class CongesComponent implements OnInit {
 
-  // pageEvent?: PageEvent;
   @ViewChild('paginator') paginator!: MatPaginator;
-  // dataSource!: MatTableDataSource<Conge>;
 
   // Conges counter table
   public congesCpt: CongeType[] = [
@@ -25,40 +24,68 @@ export class CongesComponent implements OnInit {
   ];
   public displayedColumns: string[] = ['label', 'nbr'];
 
+  // Unchanged conges list (not filtered)
+  private conges?: Conge[];
+
   // Conges request table
-  // public congesRequestsNotValidated: Conge[] = [];
   public congesRequestsNotValidated: MatTableDataSource<Conge> = new MatTableDataSource<Conge>();
   public columnsCongesRequestsNotValidated: string[] = ['creationDate', 'startDate', 'endDate', 'btn_del'];
+  public filterNotValidated: string = 'all';
+
 
   constructor(private dataService: DataService, private router: Router, private authService: AuthService) { }
 
   ngOnInit(): void {
-    this.dataService.getCongesAcquis().subscribe((congesAcquis: number) => {
-      this.congesCpt[0].nbr = congesAcquis;
-    });
-
-
+    // if (!this.isAdmin()) {
+    // USER
+    this.loadCongesAcquis()
+    // }
   }
 
   ngAfterViewInit() {
-    // this.dataSource = new MatTableDataSource<Conge>(this.congesRequestsNotValidated);
-    // this.dataSource.paginator = this.paginator;
-    // this.congesRequestsNotValidated = new MatTableDataSource<Conge>();
-    this.congesRequestsNotValidated.paginator = this.paginator;
+    if (!this.isAdmin()) {
+      // USER
+      this.congesRequestsNotValidated.paginator = this.paginator;
+    }
 
-    this.dataService.getConges().subscribe((conges: Conge[]) => {
-      // Get unvalidated conges
-      // this.congesRequestsNotValidated = conges.filter(c => c.validated === false);
-      // this.dataSource.data = this.congesRequestsNotValidated;
-      this.congesRequestsNotValidated.data = conges.filter(c => c.validated === false);
+    // Load conges after getting pagination reference (pagination must be loaded bedore the table dataSource)
+    this.loadConges();
+  }
 
-      let nbr: number = 0.0;
-      for (let c of conges) {
+  loadCongesAcquis(): void {
+    this.dataService.getCongesAcquis().subscribe((congesAcquis: number) => {
+      this.congesCpt[0].nbr = congesAcquis;
+    });
+  }
+
+  loadConges(): void {
+    if (!this.isAdmin()) {
+      // USER
+      this.dataService.getConges().subscribe((conges: Conge[]) => {
+        this.conges = conges;
+
+        // Get unvalidated conges
+        this.congesRequestsNotValidated.data = conges.filter(c => c.validated === false);
+
+        this.calcCongesCounter();
+      });
+    }
+  }
+
+  calcCongesCounter(): void {
+    if (!this.conges) return;
+
+    this.congesCpt[1].nbr = 0;
+
+    let nbr: number = 0.0;
+    for (let c of this.conges) {
+      // If conge is validated or if a conge request is in progress (no validator)
+      if ((!c.validated && !c.validator) || (c.validated && c.validator)) {
         nbr = new Date(c.endDate).getTime() - new Date(c.startDate).getTime();
         // Get days from the dates (+1 to include the first day)
         this.congesCpt[1].nbr += (nbr / (1000 * 3600 * 24)) + 1;
       }
-    });
+    }
   }
 
   getCongesRestants(): number {
@@ -83,12 +110,37 @@ export class CongesComponent implements OnInit {
       )
       .subscribe((resp: string) => {
         console.info(resp);
-        // Remove conges request from table
-        // this.congesRequestsNotValidated = this.congesRequestsNotValidated.filter(cr => cr.id !== congeId);
-        // this.dataSource.data = this.congesRequestsNotValidated;
-        this.congesRequestsNotValidated.data = this.congesRequestsNotValidated.data.filter(cr => cr.id !== congeId);
-      });
 
+        // Remove conges request from table
+        this.congesRequestsNotValidated.data = this.congesRequestsNotValidated.data.filter(cr => cr.id !== congeId);
+        // Remove conges request from unfilter conges list
+        this.conges = this.conges!.filter(c => c.id !== congeId);
+
+        // Refresh conges counter
+        this.calcCongesCounter();
+      });
+  }
+
+  onSelectionChange(event: MatSelectChange): void {
+    if (!this.conges) return;
+
+    switch (event.value) {
+      case 'inprogress':
+        this.congesRequestsNotValidated.data = this.conges.filter(c => !c.validated && !c.validator);
+        break;
+
+      case 'validated':
+        this.congesRequestsNotValidated.data = this.conges.filter(c => c.validated && c.validator);
+        break;
+
+      case 'invalidated':
+        this.congesRequestsNotValidated.data = this.conges.filter(c => !c.validated && c.validator);
+        break;
+
+      default:
+        this.congesRequestsNotValidated.data = this.conges;
+        break;
+    }
   }
 
 }

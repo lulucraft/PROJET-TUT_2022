@@ -77,8 +77,12 @@ export class AuthService {
           console.log(resp['accessToken']);
 
           if (redirect) {
-            // Redirect to home page
-            this.router.navigate(['/']);
+            if (!this.isUserAdmin()) {
+              // Redirect to home page
+              this.router.navigate(['/']);
+            } else {
+              this.router.navigate(['/admin']);
+            }
           }
         },
         error: (error) => {
@@ -154,7 +158,9 @@ export class AuthService {
   }
 
   isUserAdmin(): boolean {
-    let roles = this.currentUserValue!.roles!;
+    if (!this.currentUserValue || !this.currentUserValue.roles) return false;
+
+    let roles = this.currentUserValue.roles;
     return !!roles.length && !!roles.find(r => r.name === 'ADMIN');
   }
 

@@ -32,7 +32,13 @@ export class CongeRequestComponent implements OnInit {
     let conge: Conge = { startDate, endDate };
     this.dataService.sendCongeRequest(conge).subscribe(() => {
       // Redirect to conges page
-      this.router.navigate(['/main/conges']);
+      this.back();
     });
   }
+
+  back(): void {
+    // Redirect to conges page
+    this.router.navigate(['/main/conges']);
+  }
+
 }

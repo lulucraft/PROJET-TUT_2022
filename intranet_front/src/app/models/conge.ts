@@ -4,4 +4,5 @@ export interface Conge {
   startDate: string;
   endDate: string;
   validated?: boolean;
+  validator?: string;
 }

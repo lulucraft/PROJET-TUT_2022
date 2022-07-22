@@ -1,4 +1,4 @@
-<div id="center" class="text-center frame darkModeAuto">
+<div class="text-center frame darkModeAuto">
   <div>
     <h3>Vos congés</h3>
 
@@ -29,8 +29,21 @@
 
   <mat-divider style="margin: 15px 0;"></mat-divider>
 
-  <div>
-    <h4>Vos demandes de congés en cours ({{congesRequestsNotValidated.data.length}})</h4>
+
+  <!-- USER table -->
+  <div style="position: relative;" *ngIf="!isAdmin()">
+    <h4>Vos demandes de congés {{filterNotValidated === 'all' ? '' : filter.triggerValue.toLowerCase()}} ({{congesRequestsNotValidated.data.length}})</h4>
+
+    <!-- Filter conges requests -->
+    <mat-form-field appearance="fill" style="position: absolute; right: 0; top: -12px; max-width: 130px;">
+      <mat-label>Tri demandes</mat-label>
+      <mat-select [(value)]="filterNotValidated" (selectionChange)="onSelectionChange($event)" #filter>
+        <mat-option value="all">Toutes</mat-option>
+        <mat-option value="inprogress">En cours</mat-option>
+        <mat-option value="validated">Validées</mat-option>
+        <mat-option value="invalidated">Refusées</mat-option>
+      </mat-select>
+    </mat-form-field>
 
     <div class="mat-elevation-z8">
 
@@ -60,8 +73,9 @@
           <mat-cell *matCellDef="let conge" style="max-width: 50px;width: 50px;">
             <!-- Line id -->
             <!-- <span style="display: none;" #congeId>{{ conge.id }}</span> -->
-            <!-- Delete line button -->
-            <button mat-mini-fab color="warn" (click)="deleteConge(conge.id)">
+            <!-- Delete line button (only if conge not accepted and no response given) -->
+            <button mat-mini-fab color="warn" (click)="deleteConge(conge.id)"
+              *ngIf="!conge.validated && !conge.validator">
               <mat-icon>delete</mat-icon>
             </button>
           </mat-cell>
@@ -69,15 +83,22 @@
 
         <mat-header-row *matHeaderRowDef="columnsCongesRequestsNotValidated"></mat-header-row>
         <mat-row *matRowDef="let row; columns: columnsCongesRequestsNotValidated"></mat-row>
-
-        <!--  *ngIf="!congesRequestsNotValidated.length" -->
       </mat-table>
 
-      <div style="margin-top: 7px;" *ngIf="!congesRequestsNotValidated.data.length">Aucune demande de congés</div>
-      <mat-divider style="margin-top: 5px;" *ngIf="!congesRequestsNotValidated.data.length"></mat-divider>
+      <!-- No row label -->
+      <div style="margin-top: 10px;" *ngIf="!congesRequestsNotValidated.data.length">
+        <div [ngSwitch]="filterNotValidated">
+          <div *ngSwitchCase="'inprogress'">Aucune demande de congés en cours</div>
+          <div *ngSwitchCase="'validated'">Aucune demande de congés validée</div>
+          <div *ngSwitchCase="'invalidated'">Aucune demande de congés refusée</div>
+          <div *ngSwitchDefault>Aucune demande de congés</div>
+        </div>
+      </div>
+      <mat-divider style="margin-top: 10px;" *ngIf="!congesRequestsNotValidated.data.length"></mat-divider>
 
+      <!-- Paginator -->
       <mat-paginator [pageSizeOptions]="[5, 10, 20]" #paginator showFirstLastButtons></mat-paginator>
-      <!-- (page)="pageEvent = $event"  -->
     </div>
   </div>
+
 </div>

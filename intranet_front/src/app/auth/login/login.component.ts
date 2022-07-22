@@ -14,7 +14,11 @@ export class LoginComponent implements OnInit {
 
   constructor(private authService: AuthService, private router: Router) {
     if (this.authService.isAuthenticated()) {
-      this.router.navigate(['/']);
+      if (!this.authService.isUserAdmin()) {
+        this.router.navigate(['/']);
+      } else {
+        this.router.navigate(['/admin']);
+      }
     }
 
     this.loginForm = new FormBuilder().group({
@@ -31,8 +35,6 @@ export class LoginComponent implements OnInit {
     let password: string = this.loginForm.controls["password"].value;
     if (username && password) {
       this.authService.login({ username: username, password: password });
-      // Redirect to home page
-      this.router.navigate(['/']);
     }
   }
 

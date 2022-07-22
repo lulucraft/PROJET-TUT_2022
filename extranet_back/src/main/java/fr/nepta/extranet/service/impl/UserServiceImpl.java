@@ -42,7 +42,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	@Override
 	public void addRoleToUser(User user, Role role) {
 		user.getRoles().add(role);
-		
+		userRepo.save(user);
 		log.info("Role '{}' added to user '{}'", role.getName(), user.getUsername());
 	}
 
@@ -53,7 +53,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
 	@Override
 	public User getUser(String username) {
-		log.info("Fetching user '{}'", username);
+		log.info("Fetching user '{}' from database", username);
 		return userRepo.findByUsername(username);
 	}
 
@@ -68,7 +68,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 		User u = userRepo.findByUsername(username);
 
 		if (u == null) {
-			log.error("User not found in the database");
+			log.error("User '{}' not found in the database", username);
 			throw new UsernameNotFoundException("User not found in the database");
 		}
 
@@ -93,6 +93,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
 		if (conge == null) {
 			throw new Exception("Aucune demande de congés trouvée avec l'id " + congeId);
+		}
+
+		if (conge.getValidator() != null) {
+			throw new Exception("Impossible de supprimer le congé '" + congeId + "' (déjà validé).");
 		}
 
 		user.getConges().remove(conge);

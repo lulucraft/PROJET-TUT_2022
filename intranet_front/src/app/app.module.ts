@@ -21,6 +21,9 @@ import { AccountComponent } from './main/account/account.component';
 import { CongeRequestComponent } from './main/conge-request/conge-request.component';
 import { TokenHttpInterceptorInterceptor } from './interceptor/token-http-interceptor.interceptor';
 import { registerLocaleData } from '@angular/common';
+import { CongeValidationComponent } from './admin/conge-validation/conge-validation.component';
+import { AdminComponent } from './admin/admin.component';
+import { CongesComponent as AdminCongesComponent } from './admin/conges/conges.component';
 import localeFr from '@angular/common/locales/fr';
 
 registerLocaleData(localeFr, 'fr-FR');
@@ -37,7 +40,10 @@ registerLocaleData(localeFr, 'fr-FR');
     HomeComponent,
     CongesComponent,
     AccountComponent,
-    CongeRequestComponent
+    CongeRequestComponent,
+    AdminComponent,
+    CongeValidationComponent,
+    AdminCongesComponent
   ],
   imports: [
     BrowserModule,

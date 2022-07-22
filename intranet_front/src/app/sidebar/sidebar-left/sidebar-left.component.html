@@ -1,6 +1,6 @@
 <div class="sidebar-left darkModeAuto">
   <!-- <mat-nav-list>
-    <a mat-list-item *ngIf="this.isAuthenticated()" (click)="conges()">
+    <a mat-list-item *ngIf="isAuthenticated()" (click)="conges()">
       <mat-icon>work_off</mat-icon><span>Congés</span>
     </a>
   </mat-nav-list> -->
@@ -8,19 +8,19 @@
     <!-- Image compte visiteur -->
     <li>
       <!-- <a href="https://www.flaticon.com/free-icons/user" title="user icons">User icons created by Smashicons - Flaticon</a> -->
-      <div *ngIf="!this.isAuthenticated()"><img src="assets/images/user.png"><span style="vertical-align: bottom !important;">Visiteur</span></div>
-      <ng-container *ngIf="this.isAuthenticated()">
-        <!-- <button mat-button *ngIf="this.isUserAdmin()"><mat-icon>account</mat-icon> Administrateur</button> -->
-        <button mat-button (click)="this.account()"><img src="assets/images/user.png"><span>{{this.getUserName()}}</span></button>
+      <div *ngIf="!isAuthenticated()"><img src="assets/images/user.png"><span style="vertical-align: bottom !important;">Visiteur</span></div>
+      <ng-container *ngIf="isAuthenticated()">
+        <!-- <button mat-button *ngIf="isUserAdmin()"><mat-icon>account</mat-icon> Administrateur</button> -->
+        <button mat-button (click)="account()"><img src="assets/images/user.png"><span>{{getUserName()}}</span></button>
       </ng-container>
     </li>
     <!-- Congés -->
-    <li *ngIf="this.isAuthenticated()">
-      <button mat-button (click)="this.conges()"><mat-icon>work_off</mat-icon> Congés</button>
+    <li *ngIf="isAuthenticated()">
+      <button mat-button (click)="conges()"><mat-icon>work_off</mat-icon> Congés</button>
     </li>
     <!-- Déconnexion -->
-    <li *ngIf="this.isAuthenticated()">
-      <button mat-button (click)="this.logout()"><mat-icon>exit_to_app</mat-icon> Déconnexion</button>
+    <li *ngIf="isAuthenticated()">
+      <button mat-button (click)="logout()"><mat-icon>exit_to_app</mat-icon> Déconnexion</button>
     </li>
   </ul>
 </div>
