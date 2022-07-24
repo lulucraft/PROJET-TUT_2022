@@ -15,8 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import fr.nepta.extranet.model.Conge;
+import fr.nepta.extranet.model.Newsletter;
 import fr.nepta.extranet.model.User;
 import fr.nepta.extranet.service.CongeService;
+import fr.nepta.extranet.service.NewsletterService;
 import fr.nepta.extranet.service.RoleService;
 import fr.nepta.extranet.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -33,6 +35,8 @@ public class AdminController {
 	private final RoleService rs;
 	@Autowired
 	private final CongeService cs;
+	@Autowired
+	private final NewsletterService ns;
 
 	@RolesAllowed("ADMIN")
 	@GetMapping(value = "users")
@@ -54,10 +58,19 @@ public class AdminController {
 
 	@RolesAllowed("ADMIN")
 	@PostMapping(value = "validateconge")
-	public String validateConge(@RequestBody Conge conge) {
+	public void validateConge(@RequestBody Conge conge) {
 //		Conge conge = cs.getConge(congeId);
 		cs.validateConge(conge);
-		return "";
+	}
+
+	@RolesAllowed("ADMIN")
+	@PostMapping(value = "editnewsletter")
+	public void editNewsletter(@RequestBody Newsletter newsletter) {
+		Newsletter nl = ns.getNewsletter(newsletter.getType());
+		if (nl != null) {
+			newsletter.setId(nl.getId());
+		}
+		ns.saveNewsletter(newsletter);
 	}
 
 }

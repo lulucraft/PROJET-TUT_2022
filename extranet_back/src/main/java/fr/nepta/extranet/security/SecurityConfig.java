@@ -1,11 +1,5 @@
 package fr.nepta.extranet.security;
 
-import java.io.IOException;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -16,19 +10,15 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
 
 @RequiredArgsConstructor
 @Configuration
 @EnableWebSecurity
-@Log4j2
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	private final UserDetailsService userDetailsService;
@@ -62,9 +52,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 		// USER
 		http.authorizeHttpRequests().antMatchers(HttpMethod.GET, "/api/users").hasAnyAuthority("USER");
+		http.authorizeHttpRequests().antMatchers(HttpMethod.POST, "/api/users").hasAnyAuthority("USER");
 
 		// ADMIN
 		http.authorizeHttpRequests().antMatchers(HttpMethod.GET, "/api/admin/**").hasAnyAuthority("ADMIN");
+		http.authorizeHttpRequests().antMatchers(HttpMethod.POST, "/api/admin/**").hasAnyAuthority("ADMIN");
 
 		http.authorizeHttpRequests().anyRequest().authenticated()
 		.and().logout().logoutUrl("/api/auth/logout").deleteCookies("JSESSIONID");

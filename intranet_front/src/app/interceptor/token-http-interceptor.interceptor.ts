@@ -15,7 +15,7 @@ export class TokenHttpInterceptorInterceptor implements HttpInterceptor {
   constructor(@Inject('API_BASE_URL') private apiBaseUrl: string, private authService: AuthService) { }
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    console.log(request.url)
+    // console.log(request.url)
     if (request.url === this.apiBaseUrl + 'api/auth/register' ||
       request.url === this.apiBaseUrl + 'api/auth/login' ||
       request.url === this.apiBaseUrl + 'api/auth/logout' ||
@@ -27,7 +27,7 @@ export class TokenHttpInterceptorInterceptor implements HttpInterceptor {
     // Add token to http request
     const req = request.clone({ headers: request.headers.set('Authorization', 'Bearer ' + this.authService.currentUserValue?.token?.accessToken) })
 
-    console.log(req);
+    // console.log(req);
     return next.handle(req).pipe(
       catchError(err => {
         // If user not authenticated
@@ -45,7 +45,7 @@ export class TokenHttpInterceptorInterceptor implements HttpInterceptor {
               // Re-execute previous failed request
               // Add new token to http request
               const previousReq = req.clone({ headers: request.headers.set('Authorization', 'Bearer ' + this.authService.currentUserValue?.token?.accessToken) })
-              console.log(previousReq)
+              // console.log(previousReq)
               return next.handle(previousReq);
             }),
             catchError((err) => {

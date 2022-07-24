@@ -24,6 +24,9 @@ import { registerLocaleData } from '@angular/common';
 import { CongeValidationComponent } from './admin/conge-validation/conge-validation.component';
 import { AdminComponent } from './admin/admin.component';
 import { CongesComponent as AdminCongesComponent } from './admin/conges/conges.component';
+import { NewsletterComponent } from './main/newsletter/newsletter.component';
+import { NewsletterComponent as AdminNewsletterComponent } from './admin/newsletter/newsletter.component';
+import { NgChartsModule } from 'ng2-charts';
 import localeFr from '@angular/common/locales/fr';
 
 registerLocaleData(localeFr, 'fr-FR');
@@ -41,9 +44,11 @@ registerLocaleData(localeFr, 'fr-FR');
     CongesComponent,
     AccountComponent,
     CongeRequestComponent,
+    NewsletterComponent,
     AdminComponent,
     CongeValidationComponent,
-    AdminCongesComponent
+    AdminCongesComponent,
+    AdminNewsletterComponent
   ],
   imports: [
     BrowserModule,
@@ -60,7 +65,8 @@ registerLocaleData(localeFr, 'fr-FR');
       // Register the ServiceWorker as soon as the application is stable
       // or after 30 seconds (whichever comes first).
       registrationStrategy: 'registerWhenStable:30000'
-    })
+    }),
+    NgChartsModule
   ],
   providers: [
     { provide: "API_BASE_URL", useValue: environment.apiRoot },

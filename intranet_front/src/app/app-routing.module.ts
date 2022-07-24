@@ -12,6 +12,9 @@ import { CongeRequestComponent } from './main/conge-request/conge-request.compon
 import { AuthGuard } from './guard/auth.guard';
 import { Title } from '@angular/platform-browser';
 import { CongeValidationComponent } from './admin/conge-validation/conge-validation.component';
+import { NewsletterComponent } from './main/newsletter/newsletter.component';
+import { NewsletterComponent as AdminNewsletterComponent } from './admin/newsletter/newsletter.component';
+import { AdminComponent } from './admin/admin.component';
 
 @Injectable({ providedIn: 'root' })
 export class TemplatePageTitleStrategy extends TitleStrategy {
@@ -34,21 +37,24 @@ const routes: Routes = [
       { path: '', component: Home1Component },
       { path: 'account', component: AccountComponent },
       { path: 'conges', component: CongesComponent },
-      { path: 'congesrequest', component: CongeRequestComponent }
+      { path: 'congesrequest', component: CongeRequestComponent },
+      { path: 'newsletter', component: NewsletterComponent }
     ]
   },
   {
-    path: 'admin', component: MainComponent, canActivate: [AuthGuard],
+    path: 'admin', component: AdminComponent, canActivate: [AuthGuard],
     children: [
       { path: '', component: AdminHomeComponent },
       { path: 'conges', component: AdminCongesComponent },
-      { path: 'congevalidation', component: CongeValidationComponent }
+      { path: 'congevalidation', component: CongeValidationComponent },
+      { path: 'newsletter', component: AdminNewsletterComponent }
     ]
   },
   { path: 'login', component: LoginComponent },
 
   { path: 'account', redirectTo: 'main/account' },
   { path: 'conges', redirectTo: 'main/conges' },
+  { path: 'newsletter', redirectTo: 'main/newsletter' },
   { path: 'adminconges', redirectTo: 'admin/conges' },
 
   { path: '**', component: HomeComponent }

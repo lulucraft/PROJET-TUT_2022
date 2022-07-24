@@ -3,6 +3,8 @@ import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Conge } from '../models/conge';
 import { AdminConge } from '../models/conge-admin';
+import { Newsletter } from '../models/newsletter';
+import { NewsletterType } from '../models/newsletter-type';
 import { User } from '../models/user';
 import { AuthService } from './auth.service';
 
@@ -34,6 +36,18 @@ export class DataService {
     return this.http.post<string>(this.apiBaseUrl + 'api/user/deletecongesrequest', congeId);
   }
 
+  getNewUsers(): Observable<User[]> {
+    return this.http.get<User[]>(this.apiBaseUrl + 'api/user/newusers');
+  }
+
+  getNewsletter(newsletterType: NewsletterType): Observable<Newsletter> {
+    return this.http.get<Newsletter>(this.apiBaseUrl + 'api/user/newsletter', { params: new HttpParams().set('newsletterType', newsletterType.toString()) });
+  }
+
+  getNewsletters(): Observable<Newsletter[]> {
+    return this.http.get<Newsletter[]>(this.apiBaseUrl + 'api/user/newsletters');
+  }
+
   // ADMIN
   getCongesAdmin(): Observable<{user: Conge[]}> {
     return this.http.get<{user: Conge[]}>(this.apiBaseUrl + 'api/admin/conges');
@@ -41,6 +55,10 @@ export class DataService {
 
   sendCongeValidation(conge: Conge): Observable<any> {
     return this.http.post(this.apiBaseUrl + 'api/admin/validateconge', conge)
+  }
+
+  publishNewsletter(newsletter: Newsletter): Observable<any> {
+    return this.http.post(this.apiBaseUrl + 'api/admin/editnewsletter', newsletter);
   }
 
 }

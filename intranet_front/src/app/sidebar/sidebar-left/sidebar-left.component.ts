@@ -1,3 +1,4 @@
+import { animate, style, transition, trigger } from '@angular/animations';
 import { Component, HostListener, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HeaderComponent } from 'src/app/header/header.component';
@@ -6,7 +7,15 @@ import { AuthService } from 'src/app/services/auth.service';
 @Component({
   selector: 'app-sidebar-left',
   templateUrl: './sidebar-left.component.html',
-  styleUrls: ['./sidebar-left.component.scss', './../sidebar.scss']
+  styleUrls: ['./sidebar-left.component.scss', './../sidebar.scss'],
+  animations: [
+    trigger('fadeIn', [
+      transition('void => *', [
+        style({ opacity: 0 }),
+        animate('0.2s ease-in-out', style({ opacity: 1 }))
+      ])
+    ])
+  ]
 })
 export class SidebarLeftComponent implements OnInit {
 
@@ -22,6 +31,10 @@ export class SidebarLeftComponent implements OnInit {
 
   isAuthenticated(): boolean {
     return this.authService.isAuthenticated();
+  }
+
+  isAdmin(): boolean {
+    return this.authService.isUserAdmin();
   }
 
   getUserName(): string {
@@ -46,9 +59,19 @@ export class SidebarLeftComponent implements OnInit {
     }
   }
 
+  newsletter(): void {
+    this.appHeader.leftMenuOpened = false;
+    this.router.navigate(['/main/newsletter']);
+  }
+
+  adminNewsletter(): void {
+    this.appHeader.leftMenuOpened = false;
+    this.router.navigate(['/admin/newsletter']);
+  }
+
   @HostListener('click', ['$event.target'])
   closeSettingsMenu(el: HTMLElement) {
-    if (el.className === "sidebar-close-background") {
+    if (el.className.includes("sidebar-close-background")) {
       // Close left menu
       this.appHeader.leftMenuOpened = false;
     }

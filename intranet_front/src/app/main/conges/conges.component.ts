@@ -65,7 +65,8 @@ export class CongesComponent implements OnInit {
         this.conges = conges;
 
         // Get unvalidated conges
-        this.congesRequestsNotValidated.data = conges.filter(c => c.validated === false);
+        // this.congesRequestsNotValidated.data = conges.filter(c => c.validated === false);
+        this.congesRequestsNotValidated.data = conges;
 
         this.calcCongesCounter();
       });

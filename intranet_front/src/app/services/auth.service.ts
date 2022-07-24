@@ -151,7 +151,7 @@ export class AuthService {
     let roles: string[] = [];
 
     const decoded: any = jwt_decode(user.token!.accessToken);
-    console.log(decoded)
+    // console.log(decoded);
     if (!decoded || !decoded.roles) return roles;
 
     return decoded.roles;

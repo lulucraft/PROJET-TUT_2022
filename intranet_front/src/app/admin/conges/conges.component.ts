@@ -52,7 +52,7 @@ export class CongesComponent implements OnInit {
       this.conges = adminConges;
 
       // Get invalidated conges
-      this.congesRequestsNotValidated.data = adminConges.filter(adC => !adC.conge.validator);
+      // this.congesRequestsNotValidated.data = adminConges.filter(adC => !adC.conge.validator);
     });
   }
 

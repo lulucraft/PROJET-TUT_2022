@@ -90,7 +90,9 @@ public class AuthController {
 			throw new IllegalStateException("Un compte est déjà associé à cet email");
 		}
 
-		// Try to save new user
+		// User creation date
+		user.setCreationDate(new Date());
+
 		us.saveUser(user);
 
 		return "ok";

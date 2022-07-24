@@ -25,7 +25,7 @@ public class Conge {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(name = "creationDate", nullable = false)
+	@Column(name = "creationdate", nullable = false)
 	@DateTimeFormat(pattern = "dd-MM-yyyy HH:mm")
 	private Date creationDate;
 
