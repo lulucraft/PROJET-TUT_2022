@@ -3,13 +3,13 @@
     <div class="header-item-left">
       <!-- <img src="/assets/icons/menu_blanc.png" alt=""> -->
       <div class="header-inline-item">
-        <button mat-icon-button>
+        <button mat-icon-button (click)="openLeftMenu()">
           <mat-icon style="color: white">menu</mat-icon>
         </button>
       </div>
 
       <div class="header-inline-item">
-        <span class="header-item-brand">Extranet</span>
+        <span class="header-item-brand"><a routerLink="/" style="text-decoration: none;color: inherit;">Extranet</a></span>
       </div>
     </div>
 
@@ -21,6 +21,8 @@
       </div>
     </div>
   </div>
+
+  <app-sidebar-left *ngIf="this.leftMenuOpened"></app-sidebar-left>
 
   <app-sidebar-settings *ngIf="this.settingsMenuOpened"></app-sidebar-settings>
 </header>

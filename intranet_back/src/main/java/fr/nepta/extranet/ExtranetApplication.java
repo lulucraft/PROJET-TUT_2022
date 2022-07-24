@@ -12,7 +12,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import fr.nepta.extranet.model.Conge;
-import fr.nepta.extranet.model.Newsletter;
 import fr.nepta.extranet.model.Role;
 import fr.nepta.extranet.model.User;
 import fr.nepta.extranet.service.NewsletterService;
@@ -23,7 +22,7 @@ import fr.nepta.extranet.service.UserService;
 @EnableJpaRepositories
 public class ExtranetApplication {
 
-	public static final String SECRET = "E)H@McQfTjWnZr4u7x!A%D*F-JaNdRgU";
+	public static final String SECRET = "E)H@mcQfTjWnZr4u7x!A%D*F-JaNdRgU";
 
 	public static void main(String[] args) {
 		SpringApplication.run(ExtranetApplication.class, args);
@@ -53,12 +52,9 @@ public class ExtranetApplication {
 			}
 
 			// NEWSLETTER
-			if (ns.getNewsletter("INFOS") == null) {
-				ns.saveNewsletter(new Newsletter(null, "Loi montagne", "Pour limiter les embouteillages sur les routes dans les régions montagneuses et améliorer la sécurité des usagers, il faudra équiper sa voiture de pneus hiver ou détenir des chaînes dans son coffre en période hivernale dans certaines communes. L'obligation entrera en vigueur au 1er novembre 2021. Quels sont les véhicules et les départements concernés ? Chaînes, pneus hiver, pneus cloutés ou à crampons, quels sont les équipements obligatoires ? Prise en application de la loi Montagne II du 28 décembre 2016, le décret est paru au Journal officiel le 18 octobre 2020.", "INFOS"));
-			}
-			if (ns.getNewsletter("SELLS") == null) {
-				ns.saveNewsletter(new Newsletter(null, "Newsletter ventes", "0, 1", "SELLS"));
-			}
+//			if (ns.getNewsletter("INFOS") == null) {
+//				ns.saveNewsletter(new Newsletter(null, "Loi montagne", "Pour limiter les embouteillages sur les routes dans les régions montagneuses et améliorer la sécurité des usagers, il faudra équiper sa voiture de pneus hiver ou détenir des chaînes dans son coffre en période hivernale dans certaines communes. L'obligation entrera en vigueur au 1er novembre 2021. Quels sont les véhicules et les départements concernés ? Chaînes, pneus hiver, pneus cloutés ou à crampons, quels sont les équipements obligatoires ? Prise en application de la loi Montagne II du 28 décembre 2016, le décret est paru au Journal officiel le 18 octobre 2020.", "INFOS"));
+//			}
 		};
 	}
 

@@ -1,4 +1,4 @@
-package fr.nepta.intranet.model;
+package fr.nepta.extranet.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,25 +9,18 @@ import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Data @AllArgsConstructor @NoArgsConstructor @Getter
+@Data @AllArgsConstructor @NoArgsConstructor
 @Entity
-@Table(name = "product")
-public class Product {
+@Table(name = "size")
+public class Size {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(name = "name")
-	private String name;
-
-	@Column(name = "description")
-	private String description;
-
-	@Column(name = "price")
-	private double price;
+	@Column(name = "label")
+	private String label;
 
 }

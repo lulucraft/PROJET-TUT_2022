@@ -8,10 +8,18 @@ import { Component } from '@angular/core';
 export class HeaderComponent {
 
   public settingsMenuOpened: boolean = false;
+  public leftMenuOpened: boolean = false;
 
   constructor() { }
 
   openSettingsMenu(): void {
     this.settingsMenuOpened = !this.settingsMenuOpened;
+    this.leftMenuOpened = false;
   }
+
+  openLeftMenu() {
+    this.leftMenuOpened = !this.leftMenuOpened;
+    this.settingsMenuOpened = false;
+  }
+
 }

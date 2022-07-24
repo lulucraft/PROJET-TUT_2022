@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -12,8 +12,18 @@ import { MainComponent } from './main/main.component';
 import { LoginComponent } from './auth/login/login.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
-import { SidebarSettingsComponent } from './sidebar-settings/sidebar-settings.component';
+import { SidebarSettingsComponent } from './sidebar/sidebar-settings/sidebar-settings.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { SidebarLeftComponent } from './sidebar/sidebar-left/sidebar-left.component';
+import { HomeComponent } from './main/home/home.component';
+import { AccountComponent } from './main/account/account.component';
+import { TokenHttpInterceptorInterceptor } from './interceptor/token-http-interceptor.interceptor';
+import { registerLocaleData } from '@angular/common';
+import { AdminComponent } from './admin/admin.component';
+import { NgChartsModule } from 'ng2-charts';
+import localeFr from '@angular/common/locales/fr';
+
+registerLocaleData(localeFr, 'fr-FR');
 
 @NgModule({
   declarations: [
@@ -22,7 +32,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     LoginComponent,
     HeaderComponent,
     FooterComponent,
-    SidebarSettingsComponent
+    SidebarSettingsComponent,
+    SidebarLeftComponent,
+    HomeComponent,
+    AccountComponent,
+    AdminComponent,
   ],
   imports: [
     BrowserModule,
@@ -39,10 +53,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
       // Register the ServiceWorker as soon as the application is stable
       // or after 30 seconds (whichever comes first).
       registrationStrategy: 'registerWhenStable:30000'
-    })
+    }),
+    NgChartsModule
   ],
   providers: [
-    { provide: "API_BASE_URL", useValue: environment.apiRoot }
+    { provide: "API_BASE_URL", useValue: environment.apiRoot },
+    { provide: HTTP_INTERCEPTORS, useClass: TokenHttpInterceptorInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })

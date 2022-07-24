@@ -24,10 +24,16 @@ public class Product {
 	@Column(name = "name")
 	private String name;
 
-	@Column(name = "description")
+	@Column(name = "description", columnDefinition = "TEXT")
 	private String description;
 
 	@Column(name = "price")
 	private double price;
+
+	@Column(name = "promo")
+	private double promo;
+
+	@Column(name = "size")
+	private Size size;
 
 }
