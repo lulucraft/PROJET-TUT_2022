@@ -21,6 +21,7 @@ import { TokenHttpInterceptorInterceptor } from './interceptor/token-http-interc
 import { registerLocaleData } from '@angular/common';
 import { AdminComponent } from './admin/admin.component';
 import { NgChartsModule } from 'ng2-charts';
+import { ShopComponent } from './shop/shop.component';
 import localeFr from '@angular/common/locales/fr';
 
 registerLocaleData(localeFr, 'fr-FR');
@@ -37,6 +38,7 @@ registerLocaleData(localeFr, 'fr-FR');
     HomeComponent,
     AccountComponent,
     AdminComponent,
+    ShopComponent,
   ],
   imports: [
     BrowserModule,

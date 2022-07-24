@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 
-import { MatNativeDateModule, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MatNativeDateModule, MatRippleModule, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatButtonModule } from '@angular/material/button';
@@ -12,6 +12,8 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatCardModule } from '@angular/material/card';
+
 
 
 @NgModule({
@@ -28,7 +30,9 @@ import { MatTabsModule } from '@angular/material/tabs';
     MatDividerModule,
     MatPaginatorModule,
     MatSelectModule,
-    MatTabsModule
+    MatTabsModule,
+    MatRippleModule,
+    MatCardModule
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'fr-FR' },

@@ -3,11 +3,11 @@ package fr.nepta.extranet.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import fr.nepta.extranet.model.Conge;
+import fr.nepta.extranet.model.Size;
 
 @Repository
-public interface CongeRepo extends JpaRepository<Conge, Long> {
+public interface SizeRepo extends JpaRepository<Size, Long> {
 
-	Conge findById(long id);
+	Size findByLabel(String label);
 
 }

@@ -9,6 +9,7 @@ import { AccountComponent } from './main/account/account.component';
 import { AuthGuard } from './guard/auth.guard';
 import { Title } from '@angular/platform-browser';
 import { AdminComponent } from './admin/admin.component';
+import { ShopComponent } from './shop/shop.component';
 
 @Injectable({ providedIn: 'root' })
 export class TemplatePageTitleStrategy extends TitleStrategy {
@@ -25,6 +26,7 @@ export class TemplatePageTitleStrategy extends TitleStrategy {
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
+  { path: 'shop', component: ShopComponent },
   {
     path: 'main', component: MainComponent, canActivate: [AuthGuard],
     children: [

@@ -12,10 +12,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import fr.nepta.extranet.model.Conge;
 import fr.nepta.extranet.model.Role;
 import fr.nepta.extranet.model.User;
-import fr.nepta.extranet.repository.CongeRepo;
 import fr.nepta.extranet.repository.RoleRepo;
 import fr.nepta.extranet.repository.UserRepo;
 import fr.nepta.extranet.service.UserService;
@@ -29,7 +27,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
 	private final UserRepo userRepo;
 	private final RoleRepo roleRepo;
-	private final CongeRepo congeRepo;
 	private final PasswordEncoder passEncoder;
 
 	@Override
@@ -80,30 +77,30 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 		return new org.springframework.security.core.userdetails.User(u.getUsername(), u.getPassword(), authorities);
 	}
 
-	@Override
-	public void addCongeToUser(User user, Conge conge) {
-		user.getConges().add(conge);
-		congeRepo.save(conge);
-		log.info("Conge '{}' added to user '{}'", conge.getId(), user.getUsername());
-	}
+//	@Override
+//	public void addCongeToUser(User user, Conge conge) {
+//		user.getConges().add(conge);
+//		congeRepo.save(conge);
+//		log.info("Conge '{}' added to user '{}'", conge.getId(), user.getUsername());
+//	}
 
-	@Override
-	public void deleteCongeFromUser(User user, long congeId) throws Exception {
-		Conge conge = congeRepo.findById(congeId);
-
-		if (conge == null) {
-			throw new Exception("Aucune demande de congés trouvée avec l'id " + congeId);
-		}
-
-		if (conge.getValidator() != null) {
-			throw new Exception("Impossible de supprimer le congé '" + congeId + "' (déjà validé).");
-		}
-
-		user.getConges().remove(conge);
-		congeRepo.delete(conge);
-		userRepo.save(user);
-
-		log.info("Conge request '{}' deleted", congeId);
-	}
+//	@Override
+//	public void deleteCongeFromUser(User user, long congeId) throws Exception {
+//		Conge conge = congeRepo.findById(congeId);
+//
+//		if (conge == null) {
+//			throw new Exception("Aucune demande de congés trouvée avec l'id " + congeId);
+//		}
+//
+//		if (conge.getValidator() != null) {
+//			throw new Exception("Impossible de supprimer le congé '" + congeId + "' (déjà validé).");
+//		}
+//
+//		user.getConges().remove(conge);
+//		congeRepo.delete(conge);
+//		userRepo.save(user);
+//
+//		log.info("Conge request '{}' deleted", congeId);
+//	}
 
 }

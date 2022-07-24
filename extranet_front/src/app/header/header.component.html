@@ -9,8 +9,14 @@
       </div>
 
       <div class="header-inline-item">
-        <span class="header-item-brand"><a routerLink="/" style="text-decoration: none;color: inherit;">Extranet</a></span>
+        <span class="header-item-brand"><a routerLink="/"
+            style="text-decoration: none;color: inherit;">Extranet</a></span>
       </div>
+    </div>
+
+    <div class="header-item-center">
+      <a class="header-button" matRipple [matRippleCentered]="false" [matRippleDisabled]="false"
+        [matRippleUnbounded]="false" routerLink="/shop">Boutique</a>
     </div>
 
     <div class="header-item-right">
@@ -26,4 +32,3 @@
 
   <app-sidebar-settings *ngIf="this.settingsMenuOpened"></app-sidebar-settings>
 </header>
-

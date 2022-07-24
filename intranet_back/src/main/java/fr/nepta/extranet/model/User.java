@@ -48,19 +48,7 @@ public class User {
 	@DateTimeFormat(pattern = "dd-MM-yyyy HH:mm")
 	private Date creationDate;
 
-	@Column(name = "congesnbr", nullable = false)
-	private double congesNbr;
-
-	//	@Column(name = "access_token")
-	//	private String accessToken;
-	//
-	//	@Column(name = "refresh_token")
-	//	private String refreshToken;
-
 	@ManyToMany(fetch = FetchType.EAGER)
 	private Collection<Role> roles = new ArrayList<>();
-
-	@ManyToMany(fetch = FetchType.LAZY)
-	private Collection<Conge> conges = new ArrayList<>();
 
 }

@@ -17,9 +17,9 @@ export class AppComponent implements OnInit {
     // Dark theme by défault
     this.changeDarkMode(true);
 
-    if (!this.authService.isAuthenticated()) {
-      this.router.navigate(['/login']);
-    }
+    // if (!this.authService.isAuthenticated()) {
+    //   this.router.navigate(['/login']);
+    // }
 
     // TODO : load user preference
   }
