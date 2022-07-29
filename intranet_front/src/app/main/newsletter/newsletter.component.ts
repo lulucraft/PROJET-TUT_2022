@@ -34,6 +34,11 @@ export class NewsletterComponent implements OnInit {
   public chartOptions: ChartOptions = {
     // responsive: true,
     // maintainAspectRatio: false
+    scales: {
+      y: {
+        max: 100,
+      }
+    }
   };
 
   // Table new users

@@ -1,0 +1,64 @@
+<div class="cart">
+  <div class="cart-content darkModeAuto">
+    <!-- Cart header -->
+    <div class="cart-header">
+      <h3 class="text-center">Votre panier</h3>
+    </div>
+
+    <!-- Cart body -->
+    <div class="cart-body">
+      <div class="cart-item" *ngFor="let cartProduct of cart">
+        <div class="cart-item-header">
+          <div class="cart-item-header-left">
+            <img [src]="cartProduct.product.img" alt="Pneus">
+          </div>
+          <div class="cart-item-header-right">
+            <div class="cart-item-header-right-top">
+              <h4>{{ cartProduct.product.name }}</h4>
+              <h5>{{ cartProduct.product.size }}</h5>
+            </div>
+            <!-- <div class="cart-item-header-right-bottom">
+              <span>Prix unitaire : </span>
+              <span>{{ cartProduct.product.price }} €</span>
+            </div> -->
+          </div>
+        </div>
+
+        <div class="cart-item-body">
+          <!-- Body left -->
+          <div class="cart-item-body-left">
+            <div class="cart-item-body-left-top">
+              <span>Quantité : </span>
+              <!-- <input matInput type="number" value="1" #quantityToAdd> -->
+            </div>
+            <div class="cart-item-body-left-bottom">
+              <!-- Left button -->
+              <button mat-icon-button (click)="removeProductQuantity(cartProduct)">
+                <mat-icon>remove_circle</mat-icon>
+              </button>
+              <!-- Middle input quantity -->
+              <input matInput type="number" value="1" #quantityToAdd>
+              <!-- Right button -->
+              <button mat-icon-button (click)="addProductQuantity(cartProduct, quantityToAdd.value)">
+                <mat-icon>add_circle</mat-icon>
+              </button>
+            </div>
+          </div>
+
+          <div class="cart-item-body-right-middle">
+            <!-- <span>Total : </span> -->
+            <span>{{ cartProduct.product.price * parseNumber(quantityToAdd.value) }} €</span>
+          </div>
+
+          <!-- Body right -->
+          <div class="cart-item-body-right">
+            <button mat-icon-button (click)="removeProductFromCart(cartProduct)">
+              <mat-icon>delete_circle</mat-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

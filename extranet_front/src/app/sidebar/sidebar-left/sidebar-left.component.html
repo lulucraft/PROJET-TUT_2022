@@ -3,10 +3,8 @@
     <!-- Image compte visiteur -->
     <li>
       <!-- <a href="https://www.flaticon.com/free-icons/user" title="user icons">User icons created by Smashicons - Flaticon</a> -->
-      <div *ngIf="!isAuthenticated()"><img src="assets/images/user.png"><span style="vertical-align: bottom !important;">Visiteur</span></div>
-      <ng-container *ngIf="isAuthenticated()">
-        <button mat-button (click)="account()"><img src="assets/images/user.png"><span>{{getUserName()}}</span></button>
-      </ng-container>
+      <button mat-button *ngIf="!isAuthenticated()" (click)="login()"><img src="assets/images/user.svg" width="24"><span style="vertical-align: bottom !important;">Connexion</span></button>
+      <button mat-button *ngIf="isAuthenticated()" (click)="account()"><img src="assets/images/user.svg" width="24"><span>{{getUserName()}}</span></button>
     </li>
 
     <!-- Déconnexion -->

@@ -1,133 +1,40 @@
 <div class="shop">
-  <div class="shop-header"></div>
+  <div class="shop-content">
+    <!-- Shop header -->
+    <div class="shop-header">
+      <h3 class="text-center">Notre sélection de pneus</h3>
+    </div>
 
-  <div class="shop-body">
-    <!-- TEST 1 -->
-    <mat-card class="shop-card">
-      <mat-card-header>
-        <mat-card-title>Pneus 4 saisons</mat-card-title>
-        <mat-card-subtitle>235/35/19</mat-card-subtitle>
-      </mat-card-header>
+    <!-- Shop body -->
+    <div class="shop-body">
 
-      <img mat-card-image src="assets/images/pneus.jpg" alt="Pneus">
+      <mat-card class="shop-card" *ngFor="let product of filteredProducts">
+        <mat-card-header>
+          <mat-card-title>{{ product.name }}</mat-card-title>
+          <mat-card-subtitle>{{ product.size }}</mat-card-subtitle>
+        </mat-card-header>
 
-      <mat-card-content>
-        <p>Description pneus</p>
-      </mat-card-content>
+        <img mat-card-image [src]="product.img" alt="Pneus">
 
-      <mat-card-actions>
-        <button mat-raised-button color="primary">Ajouter au panier</button>
-      </mat-card-actions>
-    </mat-card>
+        <mat-card-content>
+          <!-- <p>{{ product.brand }}</p> -->
+          <p>{{ product.price }} €</p>
+        </mat-card-content>
 
-    <!-- TEST 2 -->
-    <mat-card class="shop-card">
-      <mat-card-header>
-        <mat-card-title>Pneus 4 saisons</mat-card-title>
-        <mat-card-subtitle>235/35/19</mat-card-subtitle>
-      </mat-card-header>
+        <mat-card-actions>
+          <input matInput type="number" value="1" #quantityToAdd>
+          <button mat-raised-button color="warn" (click)="addToCart(product, quantityToAdd.value)">Ajouter au panier</button>
+        </mat-card-actions>
+      </mat-card>
 
-      <img mat-card-image src="assets/images/pneus.jpg" alt="Pneus">
+    </div>
 
-      <mat-card-content>
-        <p>Description pneus</p>
-      </mat-card-content>
-
-      <mat-card-actions>
-        <button mat-raised-button color="primary">Ajouter au panier</button>
-      </mat-card-actions>
-    </mat-card>
-
-    <!-- TEST 3 -->
-    <mat-card class="shop-card">
-      <mat-card-header>
-        <mat-card-title>Pneus 4 saisons</mat-card-title>
-        <mat-card-subtitle>235/35/19</mat-card-subtitle>
-      </mat-card-header>
-
-      <img mat-card-image src="assets/images/pneus.jpg" alt="Pneus">
-
-      <mat-card-content>
-        <p>Description pneus</p>
-      </mat-card-content>
-
-      <mat-card-actions>
-        <button mat-raised-button color="primary">Ajouter au panier</button>
-      </mat-card-actions>
-    </mat-card>
-
-    <!-- TEST 4 -->
-    <mat-card class="shop-card">
-      <mat-card-header>
-        <mat-card-title>Pneus 4 saisons</mat-card-title>
-        <mat-card-subtitle>235/35/19</mat-card-subtitle>
-      </mat-card-header>
-
-      <img mat-card-image src="assets/images/pneus.jpg" alt="Pneus">
-
-      <mat-card-content>
-        <p>Description pneus</p>
-      </mat-card-content>
-
-      <mat-card-actions>
-        <button mat-raised-button color="primary">Ajouter au panier</button>
-      </mat-card-actions>
-    </mat-card>
-
-    <!-- TEST 5 -->
-    <mat-card class="shop-card">
-      <mat-card-header>
-        <mat-card-title>Pneus 4 saisons</mat-card-title>
-        <mat-card-subtitle>235/35/19</mat-card-subtitle>
-      </mat-card-header>
-
-      <img mat-card-image src="assets/images/pneus.jpg" alt="Pneus">
-
-      <mat-card-content>
-        <p>Description pneus</p>
-      </mat-card-content>
-
-      <mat-card-actions>
-        <button mat-raised-button color="primary">Ajouter au panier</button>
-      </mat-card-actions>
-    </mat-card>
-
-    <!-- TEST 6 -->
-    <mat-card class="shop-card">
-      <mat-card-header>
-        <mat-card-title>Pneus 4 saisons</mat-card-title>
-        <mat-card-subtitle>235/35/19</mat-card-subtitle>
-      </mat-card-header>
-
-      <img mat-card-image src="assets/images/pneus.jpg" alt="Pneus">
-
-      <mat-card-content>
-        <p>Description pneus</p>
-      </mat-card-content>
-
-      <mat-card-actions>
-        <button mat-raised-button color="primary">Ajouter au panier</button>
-      </mat-card-actions>
-    </mat-card>
-
-    <!-- TEST 7 -->
-    <mat-card class="shop-card">
-      <mat-card-header>
-        <mat-card-title>Pneus 4 saisons</mat-card-title>
-        <mat-card-subtitle>235/35/19</mat-card-subtitle>
-      </mat-card-header>
-
-      <img mat-card-image src="assets/images/pneus.jpg" alt="Pneus">
-
-      <mat-card-content>
-        <p>Description pneus</p>
-      </mat-card-content>
-
-      <mat-card-actions>
-        <button mat-raised-button color="primary">Ajouter au panier</button>
-      </mat-card-actions>
-    </mat-card>
+    <!-- Shop footer -->
+    <div class="shop-footer">
+      <!-- Paginator -->
+      <mat-paginator class="shop-pagination" (page)="handlePage($event)" [length]="length"
+        [pageSize]="pageSize" [pageIndex]="pageIndex" [pageSizeOptions]="[8, 16]" #paginator showFirstLastButtons>
+      </mat-paginator>
+    </div>
   </div>
-
-  <div class="shop-footer"></div>
 </div>

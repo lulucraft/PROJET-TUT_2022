@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { DataService } from '../services/data.service';
 
 @Component({
   selector: 'app-header',
@@ -10,7 +12,7 @@ export class HeaderComponent {
   public settingsMenuOpened: boolean = false;
   public leftMenuOpened: boolean = false;
 
-  constructor() { }
+  constructor(private router: Router, private dataService: DataService) { }
 
   openSettingsMenu(): void {
     this.settingsMenuOpened = !this.settingsMenuOpened;
@@ -20,6 +22,18 @@ export class HeaderComponent {
   openLeftMenu() {
     this.leftMenuOpened = !this.leftMenuOpened;
     this.settingsMenuOpened = false;
+  }
+
+  // openCart() {
+  //   this.leftMenuOpened = false;
+  //   this.settingsMenuOpened = false;
+
+  //   // Redirect to cart page
+  //   this.router.navigate(['/cart']);
+  // }
+
+  getCartLength(): number {
+    return this.dataService.getCartLength;
   }
 
 }
