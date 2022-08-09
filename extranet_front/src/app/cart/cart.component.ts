@@ -27,20 +27,37 @@ export class CartComponent implements OnInit {
   }
 
   removeProductQuantity(product: CartProduct): void {
-    // TODO
+    if (product.quantity > 1) {
+      product.quantity -= 1;
+    } else {
+      this.removeProductFromCart(product);
+    }
   }
 
-  addProductQuantity(product: CartProduct, qty: string): void {
-    let qtyNumber = parseInt(qty);
-    // TODO
+  // addProductQuantity(product: CartProduct, qty: string): void {
+  // let qtyNumber = parseInt(qty);
+  addProductQuantity(product: CartProduct): void {
+    product.quantity += 1;
   }
 
   removeProductFromCart(product: CartProduct): void {
-    // TODO
+    this.cart.splice(this.cart.indexOf(product), 1);
   }
 
   parseNumber(number: string): number {
     return parseInt(number);
+  }
+
+  checkout(): void {
+    // TODO
+  }
+
+  getTotalPrice(): number {
+    let total = 0;
+    this.cart.forEach(product => {
+      total += product.product.price * product.quantity;
+    });
+    return total;
   }
 
 }

@@ -1,4 +1,4 @@
-import { Inject, Injectable, Injector } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import {
   HttpRequest,
   HttpHandler,
@@ -40,7 +40,7 @@ export class TokenHttpInterceptorInterceptor implements HttpInterceptor {
           // Try to refresh token
           return this.authService.refreshTokenRequest().pipe(
             switchMap((token: JWTToken) => {
-              console.log(token)
+              console.log(token);
               this.authService.saveRefreshToken(token);
               // Re-execute previous failed request
               // Add new token to http request

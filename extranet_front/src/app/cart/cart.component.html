@@ -1,4 +1,16 @@
 <div class="cart">
+  <div class="cart-float-right">
+    <div class="cart-float-right-content">
+      <div class="cart-float-right-top">
+        <span>Total : </span>
+        <span>{{ getTotalPrice() }} €</span>
+      </div>
+      <div class="cart-float-right-bottom">
+        <button mat-raised-button color="accent" (click)="checkout()">Commander</button>
+      </div>
+    </div>
+  </div>
+
   <div class="cart-content darkModeAuto">
     <!-- Cart header -->
     <div class="cart-header">
@@ -10,7 +22,7 @@
       <div class="cart-item" *ngFor="let cartProduct of cart">
         <div class="cart-item-header">
           <div class="cart-item-header-left">
-            <img [src]="cartProduct.product.img" alt="Pneus">
+            <img [src]="cartProduct.product.img" alt="Pneus" />
           </div>
           <div class="cart-item-header-right">
             <div class="cart-item-header-right-top">
@@ -31,15 +43,18 @@
               <span>Quantité : </span>
               <!-- <input matInput type="number" value="1" #quantityToAdd> -->
             </div>
+
             <div class="cart-item-body-left-bottom">
               <!-- Left button -->
               <button mat-icon-button (click)="removeProductQuantity(cartProduct)">
                 <mat-icon>remove_circle</mat-icon>
               </button>
+
               <!-- Middle input quantity -->
-              <input matInput type="number" value="1" #quantityToAdd>
+              <input type="number" [value]="cartProduct.quantity" #quantityToAdd />
+
               <!-- Right button -->
-              <button mat-icon-button (click)="addProductQuantity(cartProduct, quantityToAdd.value)">
+              <button mat-icon-button (click)="addProductQuantity(cartProduct)">
                 <mat-icon>add_circle</mat-icon>
               </button>
             </div>
@@ -57,8 +72,9 @@
             </button>
           </div>
         </div>
+
       </div>
     </div>
-
   </div>
+
 </div>
