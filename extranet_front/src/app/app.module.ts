@@ -24,6 +24,7 @@ import { NgChartsModule } from 'ng2-charts';
 import { ShopComponent } from './shop/shop.component';
 import localeFr from '@angular/common/locales/fr';
 import { CartComponent } from './cart/cart.component';
+import { CheckoutComponent } from './main/checkout/checkout.component';
 
 registerLocaleData(localeFr, 'fr-FR');
 
@@ -41,6 +42,7 @@ registerLocaleData(localeFr, 'fr-FR');
     AdminComponent,
     ShopComponent,
     CartComponent,
+    CheckoutComponent,
   ],
   imports: [
     BrowserModule,

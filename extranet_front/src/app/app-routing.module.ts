@@ -11,6 +11,7 @@ import { Title } from '@angular/platform-browser';
 import { AdminComponent } from './admin/admin.component';
 import { ShopComponent } from './shop/shop.component';
 import { CartComponent } from './cart/cart.component';
+import { CheckoutComponent } from './main/checkout/checkout.component';
 
 @Injectable({ providedIn: 'root' })
 export class TemplatePageTitleStrategy extends TitleStrategy {
@@ -34,6 +35,7 @@ const routes: Routes = [
     children: [
       { path: '', component: Home1Component },
       { path: 'account', component: AccountComponent },
+      { path: 'checkout', component: CheckoutComponent },
     ]
   },
   {

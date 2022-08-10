@@ -4,6 +4,58 @@
   margin-bottom: 50px;
   text-align: center;
 
+  .cart-float-right {
+    // display: flex;
+    // flex-direction: column;
+    // align-items: center;
+    // justify-content: flex-end;
+    // gap: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    width: 300px;
+    min-width: 155px;
+    max-width: 16vw;
+    position: sticky;
+    top: 10px;
+    right: 10px;
+    float: right;
+    box-shadow: 0px 0px 10px rgb(0 0 0 / 10%);
+
+    .cart-float-right-content {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+      padding: 15px;
+      background-color: white;
+
+      .cart-float-right-top {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+
+        span {
+          // &:first-child {
+          //   margin-right: 10px;
+          // }
+
+          &:last-child {
+            font-weight: bold;
+          }
+        }
+      }
+
+      .cart-float-right-bottom {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+  }
+
   .cart-content {
     // display: flex;
     flex-direction: column;
@@ -136,58 +188,18 @@
       // }
     }
   }
-}
 
-.cart-float-right {
-  // display: flex;
-  // flex-direction: column;
-  // align-items: center;
-  // justify-content: flex-end;
-  // gap: 10px;
-  padding: 10px;
-  border-radius: 5px;
-  width: 300px;
-  min-width: 155px;
-  max-width: 16vw;
-  position: sticky;
-  top: 10px;
-  right: 10px;
-  float: right;
-  background-color: rgba(255, 255, 255, 0.68);
+  .cart-empty {
+    background-color: #424242;
+    width: 100%;
 
-  .cart-float-right-content {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 10px;
-    padding: 15px;
-    background-color: white;
-
-    .cart-float-right-top {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-
-      span {
-        // &:first-child {
-        //   margin-right: 10px;
-        // }
-
-        &:last-child {
-          font-weight: bold;
-        }
-      }
-    }
-
-    .cart-float-right-bottom {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: center;
+    p {
+      color: white;
+      margin: auto;
+      padding: 5px;
     }
   }
+
 }
 
 :host-context(.darkMode) {
