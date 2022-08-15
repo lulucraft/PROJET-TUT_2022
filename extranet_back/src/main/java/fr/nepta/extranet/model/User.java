@@ -51,4 +51,7 @@ public class User {
 	@ManyToMany(fetch = FetchType.EAGER)
 	private Collection<Role> roles = new ArrayList<>();
 
+	@ManyToMany(fetch = FetchType.LAZY)
+	private Collection<Order> orders = new ArrayList<>();
+
 }

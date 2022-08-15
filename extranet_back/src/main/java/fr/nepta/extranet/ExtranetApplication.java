@@ -11,6 +11,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import fr.nepta.extranet.model.Order;
 import fr.nepta.extranet.model.Role;
 import fr.nepta.extranet.model.User;
 import fr.nepta.extranet.service.RoleService;
@@ -43,7 +44,7 @@ public class ExtranetApplication {
 			}
 
 			if (us.getUser("admin") == null) {
-				us.saveUser(new User(null, null, null, "admin@gmail.com", "admin", "root", new Date(), new ArrayList<Role>()));
+				us.saveUser(new User(null, null, null, "admin@gmail.com", "admin", "root", new Date(), new ArrayList<Role>(), new ArrayList<Order>()));
 			}
 			if (!us.getUser("admin").getRoles().contains(rs.getRole("ADMIN"))) {
 				us.addRoleToUser("admin", "ADMIN");

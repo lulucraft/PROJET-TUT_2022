@@ -54,7 +54,9 @@
     <!-- Step 2 -->
     <mat-step [stepControl]="secondFormGroup" label="Procédez au paiement">
       <ng-template matStepLabel>Paiement</ng-template>
-      <div id="paypal-button-container"></div>
+      <div id="paypal-button-container">
+        <p>Total à payer : <b>{{ totalPrice }} €</b></p>
+      </div>
       <div class="form-item-group">
         <button mat-stroked-button matStepperPrevious>Retour</button>
         <!-- <button mat-stroked-button matStepperNext>Next</button> -->

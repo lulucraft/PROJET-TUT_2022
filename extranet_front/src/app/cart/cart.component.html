@@ -62,7 +62,8 @@
 
           <div class="cart-item-body-right-middle">
             <!-- <span>Total : </span> -->
-            <span>{{ cartProduct.product.price * parseNumber(quantityToAdd.value) }} €</span>
+            <div><h5>{{ cartProduct.quantity }} x {{ cartProduct.product.price }} €</h5></div>
+            <div><h4>{{ cartProduct.product.price * parseNumber(quantityToAdd.value) }} €</h4></div>
           </div>
 
           <!-- Body right -->

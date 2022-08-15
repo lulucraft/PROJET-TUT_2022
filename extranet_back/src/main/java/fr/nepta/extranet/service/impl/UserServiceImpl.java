@@ -12,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import fr.nepta.extranet.model.Order;
 import fr.nepta.extranet.model.Role;
 import fr.nepta.extranet.model.User;
 import fr.nepta.extranet.repository.RoleRepo;
@@ -75,6 +76,13 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 		});
 
 		return new org.springframework.security.core.userdetails.User(u.getUsername(), u.getPassword(), authorities);
+	}
+
+	@Override
+	public void addOrderToUser(User user, Order order) {
+		user.getOrders().add(order);
+		userRepo.save(user);
+		log.info("Order '{}' added to user '{}'", order.getOrderId(), user.getUsername());
 	}
 
 //	@Override

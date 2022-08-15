@@ -1,0 +1,74 @@
+.orders {
+  margin: auto;
+  margin-top: 40px;
+  margin-bottom: 50px;
+  text-align: center;
+
+  .orders-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: auto;
+    width: 932px;
+    max-width: 90vw;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+
+    .orders-header {
+      width: 100%;
+      padding: 16px;
+      margin-bottom: 5px;
+      border-radius: 5px;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+
+      h3 {
+        margin: auto;
+        font-weight: 500;
+        padding: 10px;
+        border-radius: 5px;
+        background-color: white;
+      }
+    }
+
+    .orders-body {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+      padding: 14px;
+      border-radius: 5px 5px 0 0;
+
+      .orders-empty {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 14px;
+        border-radius: 5px 5px 0 0;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        margin: auto;
+        border-radius: 5px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        font-weight: 500;
+      }
+    }
+  }
+}
+
+:host-context(.darkMode) {
+  .orders {
+    .orders-header {
+      background-color: #323232;
+
+      h3 {
+        background-color: #424242;
+        color: white;
+      }
+    }
+
+    .orders-body {
+      background-color: #323232;
+    }
+  }
+}

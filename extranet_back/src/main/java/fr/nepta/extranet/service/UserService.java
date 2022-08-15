@@ -2,6 +2,7 @@ package fr.nepta.extranet.service;
 
 import java.util.List;
 
+import fr.nepta.extranet.model.Order;
 import fr.nepta.extranet.model.Role;
 import fr.nepta.extranet.model.User;
 
@@ -16,6 +17,8 @@ public interface UserService {
 	User getUser(String username);
 
 	List<User> getUsers();
+
+	void addOrderToUser(User user, Order order);
 
 //	void addCongeToUser(User user, Conge conge);
 

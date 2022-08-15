@@ -49,6 +49,8 @@ export class TokenHttpInterceptorInterceptor implements HttpInterceptor {
               return next.handle(previousReq);
             }),
             catchError((err) => {
+              // If refresh token failed, logout user
+              this.authService.logout();
               return throwError(() => console.error(err));
             })
           );

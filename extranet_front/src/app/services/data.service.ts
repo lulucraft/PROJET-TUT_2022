@@ -3,6 +3,7 @@ import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CartProduct } from '../models/cart-product';
 import { Country } from '../models/country';
+import { Order } from '../models/order';
 import { Product } from '../models/product';
 import { AuthService } from './auth.service';
 
@@ -51,6 +52,19 @@ export class DataService {
   // sendCongeValidation(conge: Conge): Observable<any> {
   //   return this.http.post(this.apiBaseUrl + 'api/admin/validateconge', conge)
   // }
+
+  getOrders(): Observable<Order[]> {
+    return this.http.get<Order[]>(this.apiBaseUrl + 'api/user/orders');
+  }
+
+  sendOrder(order: Order): Observable<any> {
+    // Clear cart
+    this.cart = [];
+    localStorage.setItem('cart', JSON.stringify(this.cart));
+
+    // Send order to backend
+    return this.http.post(this.apiBaseUrl + 'api/user/sendorder', order);
+  }
 
   addProductToCart(cartProduct: CartProduct): void {
     let productAlreadyInCart: CartProduct | undefined = this.cart.find(cp => cp.product.id === cartProduct.product.id);

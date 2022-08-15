@@ -12,6 +12,7 @@ import { AdminComponent } from './admin/admin.component';
 import { ShopComponent } from './shop/shop.component';
 import { CartComponent } from './cart/cart.component';
 import { CheckoutComponent } from './main/checkout/checkout.component';
+import { OrdersComponent } from './main/orders/orders.component';
 
 @Injectable({ providedIn: 'root' })
 export class TemplatePageTitleStrategy extends TitleStrategy {
@@ -36,6 +37,7 @@ const routes: Routes = [
       { path: '', component: Home1Component },
       { path: 'account', component: AccountComponent },
       { path: 'checkout', component: CheckoutComponent },
+      { path: 'orders', component: OrdersComponent },
     ]
   },
   {

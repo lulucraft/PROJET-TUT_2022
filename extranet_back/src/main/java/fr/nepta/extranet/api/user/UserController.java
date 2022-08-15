@@ -1,10 +1,18 @@
 package fr.nepta.extranet.api.user;
 
+import javax.annotation.security.RolesAllowed;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import fr.nepta.extranet.model.Order;
+import fr.nepta.extranet.service.OrderService;
 import fr.nepta.extranet.service.UserService;
 import lombok.RequiredArgsConstructor;
 
@@ -16,23 +24,31 @@ public class UserController {
 
 	@Autowired
 	private final UserService us;
+	@Autowired
+	private final OrderService os;
 
 	//	@GetMapping(value = "users")
 	//	public String getUsers() {
 	//		return us.getUsers().toString();
 	//	}
 
-//	@RolesAllowed("USER")
-//	@PostMapping(value = "congesrequest", consumes = "application/json")
-//	public void congesRequest(@RequestBody Conge conge) {
-//		conge.setCreationDate(new Date());
+	@RolesAllowed("USER")
+	@PostMapping(value = "sendorder", consumes = "application/json")
+	public void sendOrder(@RequestBody Order order) {
+		// Order already exists
+		if (os.getOrder(order.getOrderId()) != null) {
+			return;
+		}
+
+		os.saveOrder(order);
+
 //		// Avoid bypass of admin validation
 //		conge.setValidated(false);
-//
-//		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//		// Add conges request from username of authenticated user
-//		us.addCongeToUser(us.getUser(auth.getName()), conge);
-//	}
+
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		// Add order to authenticated user from its username
+		us.addOrderToUser(us.getUser(auth.getName()), order);
+	}
 
 //	@RolesAllowed("USER")
 //	@PostMapping(value = "deletecongesrequest", consumes = "application/json")

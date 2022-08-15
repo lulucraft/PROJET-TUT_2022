@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Country } from 'src/app/models/country';
-import { countries } from 'src/app/services/data.service';
-import { loadScript, OnApproveActions, OnApproveData, OnCancelledActions, PayPalNamespace } from "@paypal/paypal-js";
+import { countries, DataService } from 'src/app/services/data.service';
+import { CreateOrderActions, CreateOrderData, loadScript, OnApproveActions, OnApproveData, OnCancelledActions, PayPalNamespace } from "@paypal/paypal-js";
 import { MatStepper } from '@angular/material/stepper';
 import { Router } from '@angular/router';
 
@@ -17,6 +17,8 @@ export class CheckoutComponent implements OnInit {
 
   public countries: Country[] = [];
 
+  public readonly totalPrice: number = this.getTotalPrice();
+
   public firstFormGroup: FormGroup = this.formBuilder.group({
     lastnameCtrl: ['', Validators.required],
     nameCtrl: ['', Validators.required],
@@ -27,7 +29,12 @@ export class CheckoutComponent implements OnInit {
   });
   public secondFormGroup: FormGroup = this.formBuilder.group({});
 
-  constructor(private formBuilder: FormBuilder, private router: Router) {
+  constructor(private formBuilder: FormBuilder, private router: Router, private dataService: DataService) {
+    if (this.dataService.getCart.length === 0) {
+      this.router.navigate(['/']);
+      return;
+    }
+
     loadScript({
       "client-id": "AaD_eArL3lImSsUm6EPqC1XPhS6TZ1wkNt7DEamO8lUUJw9xQ1gf-_qvW4iAeFu3VZsJR61-NN5Qo1AF",
       "currency": "EUR"
@@ -45,7 +52,33 @@ export class CheckoutComponent implements OnInit {
               shape: "rect",
               label: "paypal"
             },
-            onApprove: (data: OnApproveData, actions: OnApproveActions) => {
+            createOrder: (data: CreateOrderData, actions: CreateOrderActions) => {
+              return actions.order.create({
+                purchase_units: [{
+                  amount: {
+                    value: this.totalPrice.toString(),
+                    currency_code: "EUR",
+                    breakdown: {
+                      item_total: {
+                        value: this.totalPrice.toString(),
+                        currency_code: "EUR"
+                      }
+                    }
+                  },
+                  items: this.dataService.getCart.map(p => {
+                    return {
+                      name: p.product.name,
+                      quantity: p.quantity.toString(),
+                      unit_amount: {
+                        currency_code: "EUR",
+                        value: p.product.price.toString()
+                      }
+                    }
+                  })
+                }]
+              });
+            },
+            onApprove: async (data: OnApproveData, actions: OnApproveActions) => {
               console.log("Transaction ID: " + data.paymentID);
               console.log("Payer ID: " + data.payerID);
 
@@ -59,11 +92,13 @@ export class CheckoutComponent implements OnInit {
 
               console.log("Order: " + actions.order);
 
-              return actions.order.capture().then((details: any) => {
-                // alert("Transaction completed by " + details.payer.name.given_name);
-                console.log(details);
-                this.stepper.next();
-              });
+              const details = await actions.order.capture();
+              // alert("Transaction completed by " + details.payer.name.given_name);
+              console.log(details);
+              let order = await actions.order.get();
+              this.dataService.sendOrder({ id: order.id, date: new Date(), products: [] });
+              // Change the route to the success page
+              this.stepper.next();
             },
             onCancel: (data: Record<string, unknown>, actions: OnCancelledActions) => {
               console.log("OnCancel", data, actions);
@@ -98,6 +133,11 @@ export class CheckoutComponent implements OnInit {
 
   home(): void {
     this.router.navigate(['/']);
+  }
+
+  getTotalPrice(): number {
+    let productPrices = this.dataService.getCart.map(p => p.product.price * p.quantity);
+    return productPrices.reduce((a, b) => a + b, 0);
   }
 
 }
