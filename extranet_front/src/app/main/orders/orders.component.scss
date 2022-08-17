@@ -31,26 +31,68 @@
 
     .orders-body {
       display: flex;
-      flex-direction: row;
+      flex-direction: column;
       align-items: center;
       flex-wrap: wrap;
       justify-content: flex-start;
-      padding: 14px;
-      border-radius: 5px 5px 0 0;
+      padding: 16px;
+      border-radius: 5px;
+      // box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+      width: 100%;
+
+      .orders-item {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        padding: 18px;
+        width: 100%;
+        background-color: white;
+        border-bottom: 1px solid #0000001f;
+
+        .orders-item-left {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          justify-content: center;
+          padding: 10px;
+          border-right: 1px solid #0000001f;
+          // flex: 2;
+          width: 50%;
+
+          h4 {
+            margin-bottom: 4px;
+          }
+        }
+
+        .orders-item-middle {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          // flex: 1;
+        }
+
+        .orders-item-right {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-end;
+          justify-content: center;
+          padding: 10px;
+          // border-left: 1px solid #0000001f;
+          // flex: 2;
+          width: 50%;
+        }
+      }
 
       .orders-empty {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        padding: 14px;
-        border-radius: 5px 5px 0 0;
-        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-        margin: auto;
+        background-color: #424242;
+        width: 100%;
         border-radius: 5px;
-        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-        text-align: center;
-        font-weight: 500;
+
+        p {
+          margin: auto;
+          padding: 5px;
+        }
       }
     }
   }
@@ -67,8 +109,21 @@
       }
     }
 
-    .orders-body {
-      background-color: #323232;
+    .orders-content {
+      background-color: initial;
+
+      .orders-body {
+        background-color: #323232;
+
+        .orders-item {
+          background-color: #424242;
+          border-bottom: 1px solid #ffffff1f;
+        }
+
+        .orders-empty {
+          background-color: #424242;
+        }
+      }
     }
   }
 }

@@ -27,11 +27,6 @@ export class CartComponent implements OnInit {
   constructor(private dataService: DataService, private authService: AuthService, private router: Router) { }
 
   ngOnInit(): void {
-    // let cart = localStorage.getItem('cart');
-    // if (cart) {
-    //   this.cart = JSON.parse(cart);
-    // }
-
     this.cart = this.dataService.getCart;
   }
 
@@ -84,7 +79,7 @@ export class CartComponent implements OnInit {
     if (this.authService.isAuthenticated()) {
       this.router.navigate(['/main/checkout']);
     } else {
-      this.router.navigate(['/login']);
+      this.router.navigate(['/login'], { queryParams: { returnUrl: this.router.routerState.snapshot.url }});
     }
   }
 

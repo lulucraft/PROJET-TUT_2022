@@ -25,7 +25,7 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public Order getOrder(String orderId) {
 		log.info("Fetching order '{}'", orderId);
-		return orderRepo.findByOrderId(orderId);
+		return orderRepo.findById(orderId);
 	}
 
 }

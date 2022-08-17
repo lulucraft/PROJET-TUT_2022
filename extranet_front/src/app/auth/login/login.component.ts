@@ -10,7 +10,10 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class LoginComponent implements OnInit {
 
-  public loginForm: FormGroup;
+  public loginForm: FormGroup = new FormBuilder().group({
+    username: ['', Validators.required],
+    password: ['', Validators.required]
+  });
 
   constructor(private authService: AuthService, private router: Router) {
     if (this.authService.isAuthenticated()) {
@@ -20,11 +23,6 @@ export class LoginComponent implements OnInit {
         this.router.navigate(['/admin']);
       }
     }
-
-    this.loginForm = new FormBuilder().group({
-      username: ['', Validators.required],
-      password: ['', Validators.required]
-    });
   }
 
   ngOnInit(): void {

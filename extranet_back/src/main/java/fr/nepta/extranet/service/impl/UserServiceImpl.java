@@ -82,7 +82,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	public void addOrderToUser(User user, Order order) {
 		user.getOrders().add(order);
 		userRepo.save(user);
-		log.info("Order '{}' added to user '{}'", order.getOrderId(), user.getUsername());
+		log.info("Order '{}' added to user '{}'", order.getId(), user.getUsername());
 	}
 
 //	@Override

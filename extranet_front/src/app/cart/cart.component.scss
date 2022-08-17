@@ -192,17 +192,17 @@
       //   object-fit: cover;
       //   max-width: 100%;
       // }
-    }
-  }
 
-  .cart-empty {
-    background-color: #424242;
-    width: 100%;
+      .cart-empty {
+        background-color: white;
+        width: 100%;
+        border-radius: 5px;
 
-    p {
-      color: white;
-      margin: auto;
-      padding: 5px;
+        p {
+          margin: auto;
+          padding: 5px;
+        }
+      }
     }
   }
 
@@ -237,6 +237,10 @@
         .cart-item {
           background-color: #424242;
           border-bottom: 1px solid #ffffff1f;
+        }
+
+        .cart-empty {
+          background-color: #424242;
         }
       }
     }

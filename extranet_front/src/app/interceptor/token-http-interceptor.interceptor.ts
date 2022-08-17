@@ -56,7 +56,11 @@ export class TokenHttpInterceptorInterceptor implements HttpInterceptor {
           );
         }
 
-        return throwError(() => console.error(err));
+        return throwError(() => {
+          // If request failed, logout user
+          this.authService.logout();
+          console.error(err);
+        });
       })
     );
   }

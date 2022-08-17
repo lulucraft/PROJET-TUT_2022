@@ -26,6 +26,7 @@ import localeFr from '@angular/common/locales/fr';
 import { CartComponent } from './cart/cart.component';
 import { CheckoutComponent } from './main/checkout/checkout.component';
 import { OrdersComponent } from './main/orders/orders.component';
+import { RegisterComponent } from './auth/register/register.component';
 
 registerLocaleData(localeFr, 'fr-FR');
 
@@ -45,6 +46,7 @@ registerLocaleData(localeFr, 'fr-FR');
     CartComponent,
     CheckoutComponent,
     OrdersComponent,
+    RegisterComponent,
   ],
   imports: [
     BrowserModule,

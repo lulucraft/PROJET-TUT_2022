@@ -95,7 +95,7 @@ public class AuthController {
 
 		us.saveUser(user);
 
-		return "ok";
+		return user.getId().toString();
 	}
 
 //	@PostMapping(value = "login", consumes = "application/json", produces = "application/json")

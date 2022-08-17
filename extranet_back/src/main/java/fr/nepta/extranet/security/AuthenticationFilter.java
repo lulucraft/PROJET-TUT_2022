@@ -11,6 +11,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.context.ApplicationContext;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -25,6 +26,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import fr.nepta.extranet.ExtranetApplication;
+import fr.nepta.extranet.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -32,8 +34,11 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
 	private AuthenticationManager authenticationManager;
 
-	public AuthenticationFilter(AuthenticationManager am) {
+	private final UserService us;
+
+	public AuthenticationFilter(AuthenticationManager am, ApplicationContext ctx) {
 		this.authenticationManager = am;
+		this.us = ctx.getBean(UserService.class);
 	}
 
 	@Override
@@ -47,7 +52,6 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 		String password = request.getParameter(SPRING_SECURITY_FORM_PASSWORD_KEY);
 
 		log.info("Try auth of {}", username);
-		log.info(password);
 
 		UsernamePasswordAuthenticationToken upaToken = new UsernamePasswordAuthenticationToken(username, password);
 
@@ -56,18 +60,27 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
 	@Override
 	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication auth) throws IOException, ServletException {
-		User user = (User) auth.getPrincipal();
+		User authUser = (User) auth.getPrincipal();
 		Algorithm algo = Algorithm.HMAC256(ExtranetApplication.SECRET.getBytes());
+		fr.nepta.extranet.model.User user = us.getUser(authUser.getUsername());
 
 		String accessToken = JWT.create()
-				.withSubject(user.getUsername())
+				.withSubject(authUser.getUsername())
 				.withExpiresAt(new Date(System.currentTimeMillis() + 10 * 60 * 1000))
 				.withIssuer(request.getRequestURI().toString())
-				.withClaim("roles", user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
+				.withClaim("roles", authUser.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
+				.withClaim("creation_date", user.getCreationDate())
+				.withClaim("given_name", user.getFirstname())
+				.withClaim("family_name", user.getLastname())
+				.withClaim("email", user.getEmail())
+				.withClaim("address", user.getAddress())
+				.withClaim("postal_code", user.getPostalCode())
+				.withClaim("city", user.getCity())
+				.withClaim("country", user.getCountry())
 				.sign(algo);
 
 		String refreshToken = JWT.create()
-				.withSubject(user.getUsername())
+				.withSubject(authUser.getUsername())
 				.withExpiresAt(new Date(System.currentTimeMillis() + 40 * 60 * 1000))
 				.withIssuer(request.getRequestURI().toString())
 				.sign(algo);

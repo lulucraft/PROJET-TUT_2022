@@ -26,7 +26,7 @@ import { AdminComponent } from './admin/admin.component';
 import { CongesComponent as AdminCongesComponent } from './admin/conges/conges.component';
 import { NewsletterComponent } from './main/newsletter/newsletter.component';
 import { NewsletterComponent as AdminNewsletterComponent } from './admin/newsletter/newsletter.component';
-import { NgChartsModule } from 'ng2-charts';
+import { NgChartsModule } from 'ng2-charts/index';
 import localeFr from '@angular/common/locales/fr';
 
 registerLocaleData(localeFr, 'fr-FR');

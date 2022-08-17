@@ -13,6 +13,7 @@ import { ShopComponent } from './shop/shop.component';
 import { CartComponent } from './cart/cart.component';
 import { CheckoutComponent } from './main/checkout/checkout.component';
 import { OrdersComponent } from './main/orders/orders.component';
+import { RegisterComponent } from './auth/register/register.component';
 
 @Injectable({ providedIn: 'root' })
 export class TemplatePageTitleStrategy extends TitleStrategy {
@@ -47,6 +48,7 @@ const routes: Routes = [
     ]
   },
   { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
 
   { path: 'account', redirectTo: 'main/account' },
 

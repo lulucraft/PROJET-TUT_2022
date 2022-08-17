@@ -44,7 +44,7 @@ public class ExtranetApplication {
 			}
 
 			if (us.getUser("admin") == null) {
-				us.saveUser(new User(null, null, null, "admin@gmail.com", "admin", "root", new Date(), new ArrayList<Role>(), new ArrayList<Order>()));
+				us.saveUser(new User(null, null, null, "admin@gmail.com", "admin", "root", new Date(), "151 rue de la camionnette", "42000", "Cabino", "France", new ArrayList<Role>(), new ArrayList<Order>()));
 			}
 			if (!us.getUser("admin").getRoles().contains(rs.getRole("ADMIN"))) {
 				us.addRoleToUser("admin", "ADMIN");

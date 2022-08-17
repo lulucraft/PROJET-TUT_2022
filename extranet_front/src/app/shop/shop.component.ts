@@ -72,12 +72,12 @@ export class ShopComponent implements OnInit {
   addToCart(product: Product, qty: string): void {
     let quantity: number = parseInt(qty);
     if (quantity <= 0) {
-      this.snackBar.open('La quantité doit être positive', '', { duration: 2500, horizontalPosition: 'right', verticalPosition: 'top', panelClass: ['snack-bar-container', 'warn'] });
+      this.snackBar.open('La quantité doit être positive', '', { duration: 2400, horizontalPosition: 'right', verticalPosition: 'top', panelClass: ['snack-bar-container', 'warn'] });
       return;
     }
 
     this.dataService.addProductToCart({ product, quantity });
-    this.snackBar.open('Produit ajouté au panier', '', { duration: 2200, horizontalPosition: 'right', verticalPosition: 'top', panelClass: 'snack-bar-container' });
+    this.snackBar.open('Produit ajouté au panier', '', { duration: 2000, horizontalPosition: 'right', verticalPosition: 'top', panelClass: 'snack-bar-container' });
   }
 
 }

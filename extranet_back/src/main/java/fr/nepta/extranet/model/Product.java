@@ -10,10 +10,9 @@ import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Data @AllArgsConstructor @NoArgsConstructor @Getter
+@Data @AllArgsConstructor @NoArgsConstructor
 @Entity
 @Table(name = "product")
 public class Product {
@@ -21,6 +20,9 @@ public class Product {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+
+	@Column(name = "sku")
+	private String sku;
 
 	@Column(name = "name")
 	private String name;

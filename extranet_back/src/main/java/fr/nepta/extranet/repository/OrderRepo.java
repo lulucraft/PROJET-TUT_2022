@@ -6,6 +6,6 @@ import fr.nepta.extranet.model.Order;
 
 public interface OrderRepo extends JpaRepository<Order, Long> {
 
-	Order findByOrderId(String orderId);
+	Order findById(String orderId);
 
 }

@@ -48,6 +48,18 @@ public class User {
 	@DateTimeFormat(pattern = "dd-MM-yyyy HH:mm")
 	private Date creationDate;
 
+	@Column(name = "address")
+	private String address;
+
+	@Column(name = "postal_code", length = 6)
+	private String postalCode;
+
+	@Column(name = "city")
+	private String city;
+
+	@Column(name = "country")
+	private String country;
+
 	@ManyToMany(fetch = FetchType.EAGER)
 	private Collection<Role> roles = new ArrayList<>();
 

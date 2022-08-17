@@ -1,11 +1,11 @@
 import { Inject, Injectable } from '@angular/core';
-import { HttpClient, HttpEvent, HttpHeaders, HttpParams } from '@angular/common/http';
-import { BehaviorSubject, finalize, Observable, Subscription } from 'rxjs';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { BehaviorSubject, Observable } from 'rxjs';
 import jwt_decode from 'jwt-decode';
 import { User } from '../models/user';
 import { JWTToken } from '../models/jwt-token';
-import { Router } from '@angular/router';
-import { Role } from '../models/role';
+import { ActivatedRoute, Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +17,9 @@ export class AuthService {
   constructor(
     private http: HttpClient,
     @Inject('API_BASE_URL') private apiBaseUrl: string,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute,
+    private snackBar: MatSnackBar
   ) {
     let currentUser = localStorage.getItem('currentUser');
     let user = null;
@@ -27,6 +29,31 @@ export class AuthService {
     }
 
     this.currentUserSubject = new BehaviorSubject<User | null>(user);
+  }
+
+  register(user: User): void {
+    this.http.post(this.apiBaseUrl + 'api/auth/register', user)
+      .subscribe({
+        next: (resp: any) => {
+          if (!resp) {
+            console.error('Error while registering');
+            return;
+          }
+
+          this.login(user);
+        },
+        error: (error) => {
+          if (error.error && error.error.message) {
+            if (error.error.message === "Un compte est déjà associé à cet email") {
+              this.snackBar.open('Un compte est déjà associé à cet email', '', { duration: 1500, horizontalPosition: 'right', verticalPosition: 'top', panelClass: ['snack-bar-container', 'warn'] });
+              this.login(user);
+              // alert("Un compte est déjà associé à cet email");
+              return;
+            }
+          }
+          console.error(error);
+        }
+      });
   }
 
   login(user: User, redirect: boolean = true): void {
@@ -41,17 +68,37 @@ export class AuthService {
           // Reset password to hide it in localStorage
           user.password = '';
 
+          const decodedToken: any = this.decodeToken(user.token);
+
           // User roles
           user.roles = [];
-          for (let role of this.getUserRolesFromToken(user)) {
+          for (let role of decodedToken.roles) {//this.getUserRolesFromToken(user.token)) {
             user.roles.push({ name: role });
           }
+
+          // User details
+          if (decodedToken.creation_date) {
+            user.creationDate = new Date(decodedToken.creation_date * 1000);
+          }
+          user.email = decodedToken.email;
+          user.firstname = decodedToken.given_name;
+          user.lastname = decodedToken.family_name;
+          user.address = decodedToken.address;
+          user.postalCode = decodedToken.postal_code;
+          user.city = decodedToken.city;
+          user.country = decodedToken.country;
 
           localStorage.setItem('currentUser', JSON.stringify(user));
           this.currentUserSubject.next(user);
           console.log(resp['accessToken']);
 
           if (redirect) {
+            if (this.route.snapshot.queryParams['returnUrl']) {
+              // Redirect to redirectUrl
+              this.router.navigateByUrl(this.route.snapshot.queryParams['returnUrl']);
+              return;
+            }
+
             if (!this.isUserAdmin()) {
               // Redirect to home page
               this.router.navigate(['/']);
@@ -116,15 +163,18 @@ export class AuthService {
     return !(date.valueOf() > new Date().valueOf());
   }
 
-  private getUserRolesFromToken(user: User): string[] {
-    let roles: string[] = [];
-
-    const decoded: any = jwt_decode(user.token!.accessToken);
-    // console.log(decoded);
-    if (!decoded || !decoded.roles) return roles;
-
-    return decoded.roles;
+  private decodeToken(token: JWTToken): any {
+    return jwt_decode(token.accessToken);
   }
+
+  // private getUserRolesFromToken(token: JWTToken): string[] {
+  //   let roles: string[] = [];
+
+  //   const decoded: any = this.decodeToken(token);
+  //   if (!decoded || !decoded.roles) return roles;
+
+  //   return decoded.roles;
+  // }
 
   isUserAdmin(): boolean {
     if (!this.currentUserValue || !this.currentUserValue.roles) return false;

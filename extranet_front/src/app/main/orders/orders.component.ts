@@ -19,4 +19,16 @@ export class OrdersComponent implements OnInit {
     });
   }
 
+  getTotalPrice(order: Order): number {
+    let totalPrice: number = 0;
+
+    if (order.products) {
+      order.products.forEach(p => {
+        totalPrice += p.product.price * p.quantity;
+      });
+    }
+
+    return totalPrice;
+  }
+
 }

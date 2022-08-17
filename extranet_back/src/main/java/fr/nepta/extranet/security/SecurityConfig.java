@@ -36,10 +36,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		AuthenticationFilter authFilter = new AuthenticationFilter(authenticationManagerBean());
-
-		authFilter.setFilterProcessesUrl("/api/auth/login");
-
 		http.cors();
 		//http.authorizeHttpRequests().anyRequest().authenticated().and().formLogin();
 //		http.csrf().ignoringAntMatchers("/api/auth/register", "/api/auth/login", "/api/auth/logout");//.disable();
@@ -60,6 +56,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 		http.authorizeHttpRequests().anyRequest().authenticated()
 		.and().logout().logoutUrl("/api/auth/logout").deleteCookies("JSESSIONID");
+
+		AuthenticationFilter authFilter = new AuthenticationFilter(authenticationManagerBean(), getApplicationContext());
+		authFilter.setFilterProcessesUrl("/api/auth/login");
 
 		http.addFilter(authFilter);
 		http.addFilterBefore(new AuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);

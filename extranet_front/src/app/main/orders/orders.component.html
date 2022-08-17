@@ -1,5 +1,5 @@
 <div class="orders">
-  <div class="orders-content">
+  <div class="orders-content darkModeAuto">
     <!-- Orders header -->
     <div class="orders-header">
       <h3>Commandes passées</h3>
@@ -8,45 +8,28 @@
     <!-- Orders body -->
     <div class="orders-body">
       <div class="orders-item" *ngFor="let order of orders">
-        <div class="orders-item-header">
-          <div class="orders-item-header-left"></div>
+        <div class="orders-item-left">
+          <h4>Numéro de commande : {{ order.id }}</h4>
+          <h5>Date de la commande : {{ order.date | date: 'dd/MM/YYYY HH:mm:ss' : 'GMT' }}</h5>
+        </div>
 
-          <div class="orders-item-header-right">
-            <div class="orders-item-header-right-top">
-              <h4>Numéro de commabde : {{ order.id }}</h4>
-              <h5>Date de la commande : {{ order.date }}</h5>
-            </div>
-            <div class="orders-item-header-right-bottom">
-              <span>Prix unitaire : </span>
-              <span>10 €</span>
-            </div>
+        <div class="orders-item-middle">
+          <!-- <div class="orders-item-header-right-bottom">
+              <span>Total : </span>
+              <span>{{ getTotalPrice(order) }}</span>
+            </div> -->
+        </div>
+
+        <div class="orders-item-right">
+          <div class="orders-item-right-top">
+            <span>Articles : {{ order.products ? order.products.length : 0 }}</span>
+          </div>
+
+          <div class="orders-item-right-bottom">
+            <h4>Total : {{ getTotalPrice(order) }}</h4>
           </div>
         </div>
 
-        <div class="orders-item-body">
-          <div class="orders-item-body-left">
-            <div class="orders-item-body-left-top">
-              <span>Quantité : </span>
-              <input type="number" value="1" />
-            </div>
-            <div class="orders-item-body-left-bottom">
-              <!-- Left button -->
-              <button mat-icon-button>
-                <mat-icon>remove_circle</mat-icon>
-              </button>
-              <!-- Middle input quantity -->
-              <input type="number" value="1" />
-              <!-- Right button -->
-              <button mat-icon-button>
-                <mat-icon>add_circle</mat-icon>
-              </button>
-            </div>
-          </div>
-          <div class="orders-item-body-right-middle">
-            <!-- <span>Total : </span> -->
-            <span>10 €</span>
-          </div>
-        </div>
       </div>
 
       <div class="orders-empty" *ngIf="!orders.length">
@@ -54,4 +37,3 @@
       </div>
     </div>
   </div>
-</div>

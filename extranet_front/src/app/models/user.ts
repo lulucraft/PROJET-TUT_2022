@@ -4,8 +4,15 @@ import { Role } from "./role";
 export interface User {
   username: string;
   password: string;
-  creationDate?: string;
+  creationDate?: Date;
   roles?: Role[];
   id?: number;
   token?: JWTToken;
+  firstname?: string;
+  lastname?: string;
+  email?: string;
+  address?: string;
+  postalCode?: string;
+  city?: string;
+  country?: string;
 }

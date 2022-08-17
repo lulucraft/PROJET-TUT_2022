@@ -2,9 +2,12 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Country } from 'src/app/models/country';
 import { countries, DataService } from 'src/app/services/data.service';
-import { CreateOrderActions, CreateOrderData, loadScript, OnApproveActions, OnApproveData, OnCancelledActions, PayPalNamespace } from "@paypal/paypal-js";
+import { CreateOrderActions, CreateOrderData, loadScript, OnApproveActions, OnApproveData, OnCancelledActions, OrderResponseBody, PayPalNamespace, PurchaseItem } from "@paypal/paypal-js";
 import { MatStepper } from '@angular/material/stepper';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
+import { CartProduct } from '../../models/cart-product';
+import { Product } from '../../models/product';
 
 @Component({
   selector: 'app-checkout',
@@ -27,15 +30,18 @@ export class CheckoutComponent implements OnInit {
     cityCtrl: ['', Validators.required],
     countryCtrl: ['', Validators.required],
   });
-  public secondFormGroup: FormGroup = this.formBuilder.group({});
+  // public secondFormGroup: FormGroup = this.formBuilder.group({});
 
-  constructor(private formBuilder: FormBuilder, private router: Router, private dataService: DataService) {
+  constructor(private formBuilder: FormBuilder, private router: Router, private dataService: DataService, private authService: AuthService) {
     if (this.dataService.getCart.length === 0) {
+      // Redirect to home if cart is empty
       this.router.navigate(['/']);
       return;
     }
+  }
 
-    loadScript({
+  async ngOnInit(): Promise<void> {
+    await loadScript({
       "client-id": "AaD_eArL3lImSsUm6EPqC1XPhS6TZ1wkNt7DEamO8lUUJw9xQ1gf-_qvW4iAeFu3VZsJR61-NN5Qo1AF",
       "currency": "EUR"
     })
@@ -90,13 +96,31 @@ export class CheckoutComponent implements OnInit {
                 throw new Error("No order");
               }
 
-              console.log("Order: " + actions.order);
-
-              const details = await actions.order.capture();
+              const details: OrderResponseBody = await actions.order.capture();
               // alert("Transaction completed by " + details.payer.name.given_name);
               console.log(details);
               let order = await actions.order.get();
-              this.dataService.sendOrder({ id: order.id, date: new Date(), products: [] });
+              console.log("Order ID: " + order.id);
+
+              // Send order to backend
+              let paypalProducts: PurchaseItem[] | undefined = [];
+
+              if (order.purchase_units && order.purchase_units.length > 0) {
+                paypalProducts = order.purchase_units[0].items;
+                //.items.map(i => {
+                //   return {
+                //     product: i,
+                //     quantity: parseInt(i.quantity)
+                //   }
+                // }).filter(p => p.quantity > 0)
+              }
+
+              this.dataService.sendOrder({
+                id: order.id,
+                date: new Date()
+                // products: paypalProducts
+              }).subscribe();
+
               // Change the route to the success page
               this.stepper.next();
             },
@@ -116,11 +140,35 @@ export class CheckoutComponent implements OnInit {
       .catch((err: any) => {
         console.error("Failed to load the PayPal JS SDK script", err);
       });
-  }
 
-  ngOnInit(): void {
     this.countries = countries;
 
+    let user = this.authService.currentUserValue;
+
+    if (user) {
+      this.firstFormGroup.patchValue({
+        nameCtrl: user.firstname,
+        lastnameCtrl: user.lastname,
+        addressCtrl: user.address,
+        postalCodeCtrl: user.postalCode,
+        cityCtrl: user.city,
+      });
+
+      if (user.country) {
+        let country = this.countries.find(c => c.name === user!.country);
+
+        this.firstFormGroup.patchValue({
+          countryCtrl: country
+        });
+      } else {
+        this.initDefaultCountry();
+      }
+    } else {
+      this.initDefaultCountry();
+    }
+  }
+
+  initDefaultCountry(): void {
     // Set default country to France
     let country = this.countries.find(c => c.code === 'FR');
     if (country) {
@@ -136,7 +184,7 @@ export class CheckoutComponent implements OnInit {
   }
 
   getTotalPrice(): number {
-    let productPrices = this.dataService.getCart.map(p => p.product.price * p.quantity);
+    let productPrices: number[] = this.dataService.getCart.map(p => p.product.price * p.quantity);
     return productPrices.reduce((a, b) => a + b, 0);
   }
 
