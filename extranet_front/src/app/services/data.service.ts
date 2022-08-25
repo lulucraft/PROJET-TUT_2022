@@ -23,15 +23,25 @@ export class DataService {
         this.cart = cart;
       }
     }
+
+    let orderStr = localStorage.getItem('order');
+    if (orderStr) {
+      let order = JSON.parse(orderStr);
+      console.log('Order from local storage:');
+      console.log(order);
+      if (order) {
+        // Re-send order if user was disconnected during checkout
+        this.sendOrder({
+          id: order.id,
+          date: new Date()
+        });
+        console.log('Order re-sent');
+      }
+      localStorage.removeItem('order');
+    }
   }
 
   // USER
-  // getCongesAcquis(): Observable<number> {
-  //   let params: HttpParams = new HttpParams().set('username', this.authService.currentUserValue!.username);
-
-  //   return this.http.get<number>(this.apiBaseUrl + 'api/user/congesacquis', { params: params });
-  // }
-
   // deleteCongeRequest(congeId: number): Observable<string> {
   //   return this.http.post<string>(this.apiBaseUrl + 'api/user/deletecongesrequest', congeId);
   // }
@@ -44,26 +54,33 @@ export class DataService {
   //   return this.http.get<Newsletter>(this.apiBaseUrl + 'api/user/newsletter', { params: new HttpParams().set('newsletterType', newsletterType.toString()) });
   // }
 
-  // ADMIN
-  // getCongesAdmin(): Observable<{user: Conge[]}> {
-  //   return this.http.get<{user: Conge[]}>(this.apiBaseUrl + 'api/admin/conges');
-  // }
-
-  // sendCongeValidation(conge: Conge): Observable<any> {
-  //   return this.http.post(this.apiBaseUrl + 'api/admin/validateconge', conge)
-  // }
-
   getOrders(): Observable<Order[]> {
     return this.http.get<Order[]>(this.apiBaseUrl + 'api/user/orders');
   }
 
-  sendOrder(order: Order): Observable<any> {
+  sendOrder(order: Order) {
     // Clear cart
     this.cart = [];
     localStorage.setItem('cart', JSON.stringify(this.cart));
 
+    // Save order temporarily in local storage to be able to re-send it after login if token is expired
+    localStorage.setItem('order', JSON.stringify(order));
+
+    //let post: Observable<Object> =
     // Send order to backend
-    return this.http.post(this.apiBaseUrl + 'api/user/sendorder', order);
+    this.http.post(this.apiBaseUrl + 'api/user/sendorder', order).subscribe({
+      next: () => {
+        localStorage.removeItem('order');
+        console.log('Order sent');
+      },
+      error: (err) => {
+        if (!this.authService.isAuthenticated()) {
+          alert('Votre commande a bien été payée. Votre session étant inactive trop longtemps, vous devez vous reconnecter pour qu\'elle puisse être prise en compte.');
+        }
+      }
+    });
+
+    // return post;
   }
 
   addProductToCart(cartProduct: CartProduct): void {
@@ -105,6 +122,11 @@ export class DataService {
 
   get getCartLength(): number {
     return this.cart.length;
+  }
+
+  // ADMIN
+  getProducts(): Observable<Product[]> {
+    return this.http.get<Product[]>(this.apiBaseUrl + 'api/admin/products');
   }
 
 }

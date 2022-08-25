@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.Collection;
 
 import javax.annotation.security.RolesAllowed;
-import javax.naming.AuthenticationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -55,18 +54,18 @@ public class UserController {
 		}
 
 		try {
-			order.setProducts(PayPalService.getOrderProducts());
-		} catch (AuthenticationException | IOException e) {
+			order.setProducts(PayPalService.getOrderProducts(order.getId()));
+		} catch (IOException | InterruptedException e) {
 			e.printStackTrace();
 		}
 
 		os.saveOrder(order);
 
-		//		// Avoid bypass of admin validation
-		//		conge.setValidated(false);
+		// // Avoid bypass of admin validation
+		// conge.setValidated(false);
 
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		// Add order to authenticated user from its username
+		// Add order to authenticated user from his username
 		us.addOrderToUser(us.getUser(auth.getName()), order);
 	}
 

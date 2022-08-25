@@ -41,13 +41,14 @@ export class AuthService {
           }
 
           this.login(user);
+          this.snackBar.open('Votre compte a été créé', '', { duration: 2500, horizontalPosition: 'center', verticalPosition: 'top', panelClass: ['snack-bar-container'] });
         },
         error: (error) => {
           if (error.error && error.error.message) {
             if (error.error.message === "Un compte est déjà associé à cet email") {
-              this.snackBar.open('Un compte est déjà associé à cet email', '', { duration: 1500, horizontalPosition: 'right', verticalPosition: 'top', panelClass: ['snack-bar-container', 'warn'] });
-              this.login(user);
+              this.snackBar.open('Un compte est déjà associé à ce nom d\'utilisateur/cet email', '', { duration: 1500, horizontalPosition: 'right', verticalPosition: 'top', panelClass: ['snack-bar-container', 'warn'] });
               // alert("Un compte est déjà associé à cet email");
+              this.login(user);
               return;
             }
           }
@@ -113,7 +114,7 @@ export class AuthService {
       });
   }
 
-  logout(): void {
+  logout(returnUrl: string | null = null): void {
     let headers = new HttpHeaders({
       'Authorization': 'Bearer ' + this.currentUserValue?.token?.accessToken
     });
@@ -125,14 +126,15 @@ export class AuthService {
       });
     this.currentUserSubject.next(null);
     localStorage.removeItem('currentUser');
-    this.router.navigate(['/login']);
+    // If returnUrl is defined, redirect to it
+    this.router.navigate(['/login'], (returnUrl ? { queryParams: { returnUrl: returnUrl }} : undefined));
   }
 
   saveRefreshToken(token: JWTToken): void {
     let user = this.currentUserValue;
     if (!user || !token) {
-      // Fail to refresh token
-      this.logout();
+      // Fail to refresh token -> disconnect user and save current url to restore it after login
+      this.logout(window.location.pathname);
       return;
     }
 

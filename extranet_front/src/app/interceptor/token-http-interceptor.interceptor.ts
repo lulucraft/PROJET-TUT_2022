@@ -40,7 +40,10 @@ export class TokenHttpInterceptorInterceptor implements HttpInterceptor {
           // Try to refresh token
           return this.authService.refreshTokenRequest().pipe(
             switchMap((token: JWTToken) => {
-              console.log(token)
+              console.log(token);
+              // if (!token) {
+              //   return new Observable<HttpEvent<any>>();
+              // }
               this.authService.saveRefreshToken(token);
               // Re-execute previous failed request
               // Add new token to http request
@@ -49,16 +52,18 @@ export class TokenHttpInterceptorInterceptor implements HttpInterceptor {
               return next.handle(previousReq);
             }),
             catchError((err) => {
-              // If refresh token failed, logout user
-              this.authService.logout();
-              return throwError(() => console.error(err));
+              return throwError(() => {
+                console.error(err)
+                // If refresh token failed, logout user
+                // this.authService.logout();
+              });
             })
           );
         }
 
         return throwError(() => {
           // If request failed, logout user
-          this.authService.logout();
+          // this.authService.logout();
           console.error(err);
         });
       })

@@ -7,9 +7,16 @@
       <button mat-button *ngIf="isAuthenticated()" (click)="account()"><img src="assets/images/user.svg" width="24">{{ getUserName() }}</button>
     </li>
 
-    <!-- Mes commandes -->
     <li *ngIf="isAuthenticated()">
-      <button mat-button (click)="orders()"><mat-icon>event_note</mat-icon> Mes commandes</button>
+      <!-- USER Mes commandes -->
+      <button mat-button *ngIf="!isAdmin()" (click)="orders()"><mat-icon>event_note</mat-icon> Mes commandes</button>
+      <!-- ADMIN Commandes -->
+      <button mat-button *ngIf="isAdmin()" (click)="orders()"><mat-icon>event_note</mat-icon> Commandes</button>
+    </li>
+
+    <!-- ADMIN Produits -->
+    <li *ngIf="isAuthenticated() && isAdmin()">
+      <button mat-button (click)="products()"><mat-icon>shopping_cart</mat-icon> Produits</button>
     </li>
 
     <!-- Déconnexion -->

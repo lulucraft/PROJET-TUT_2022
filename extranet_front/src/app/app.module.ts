@@ -27,6 +27,8 @@ import { CartComponent } from './cart/cart.component';
 import { CheckoutComponent } from './main/checkout/checkout.component';
 import { OrdersComponent } from './main/orders/orders.component';
 import { RegisterComponent } from './auth/register/register.component';
+import { ProductsComponent } from './admin/products/products.component';
+import { ProductComponent } from './admin/product/product.component';
 
 registerLocaleData(localeFr, 'fr-FR');
 
@@ -47,6 +49,8 @@ registerLocaleData(localeFr, 'fr-FR');
     CheckoutComponent,
     OrdersComponent,
     RegisterComponent,
+    ProductsComponent,
+    ProductComponent,
   ],
   imports: [
     BrowserModule,

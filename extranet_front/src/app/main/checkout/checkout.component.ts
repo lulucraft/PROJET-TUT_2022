@@ -103,23 +103,23 @@ export class CheckoutComponent implements OnInit {
               console.log("Order ID: " + order.id);
 
               // Send order to backend
-              let paypalProducts: PurchaseItem[] | undefined = [];
+              // let paypalProducts: PurchaseItem[] | undefined = [];
 
-              if (order.purchase_units && order.purchase_units.length > 0) {
-                paypalProducts = order.purchase_units[0].items;
-                //.items.map(i => {
-                //   return {
-                //     product: i,
-                //     quantity: parseInt(i.quantity)
-                //   }
-                // }).filter(p => p.quantity > 0)
-              }
+              // if (order.purchase_units && order.purchase_units.length > 0) {
+              //   paypalProducts = order.purchase_units[0].items;
+              //.items.map(i => {
+              //   return {
+              //     product: i,
+              //     quantity: parseInt(i.quantity)
+              //   }
+              // }).filter(p => p.quantity > 0)
+              // }
 
               this.dataService.sendOrder({
                 id: order.id,
                 date: new Date()
                 // products: paypalProducts
-              }).subscribe();
+              });
 
               // Change the route to the success page
               this.stepper.next();

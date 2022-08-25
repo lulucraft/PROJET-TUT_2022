@@ -20,6 +20,7 @@
     right: 10px;
     float: right;
     box-shadow: 0px 0px 10px rgb(0 0 0 / 10%);
+    margin-left: 15px;
 
     .cart-float-right-content {
       display: flex;
@@ -64,14 +65,15 @@
     margin: auto;
     width: 940px;
     max-width: 90vw;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    // box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 
     .cart-header {
-      width: 100%;
+      // width: 100%;
       padding: 16px;
       margin-bottom: 5px;
       border-radius: 5px;
       box-shadow: 0px 0px 10px rgb(0 0 0 / 10%);
+      display: flex;
 
       h3 {
         margin: auto;
@@ -79,6 +81,7 @@
         padding: 10px;
         border-radius: 5px;
         background-color: white;
+        width: 100%;
       }
     }
 
@@ -91,7 +94,7 @@
       padding: 16px;
       border-radius: 5px;
       // box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-      width: 100%;
+      // width: 100%;
 
       .cart-item {
         display: flex;
@@ -104,6 +107,7 @@
         width: 100%;
         background-color: white;
         border-bottom: 1px solid #0000001f;
+        flex-wrap: wrap;
 
         .cart-item-header {
           display: flex;
@@ -133,14 +137,16 @@
           display: flex;
           flex-direction: row;
           justify-content: space-between;
-          flex: 1;
+          // flex: 1;
+          gap: 10px;
+          flex-wrap: wrap;
 
           .cart-item-body-left {
             // display: flex;
             // align-items: center;
             // justify-content: flex-start;
             // flex-direction: column;
-            margin-top: -20px;
+            margin-top: -18px;
 
             .cart-item-body-left-bottom {
               display: flex;
@@ -164,7 +170,7 @@
             align-items: center;
             justify-content: center;
             flex-direction: column;
-            width: 100%;
+            // width: 100%;
 
             h5 {
               margin: 0;

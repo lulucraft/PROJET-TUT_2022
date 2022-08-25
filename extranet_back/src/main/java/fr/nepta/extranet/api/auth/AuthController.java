@@ -92,8 +92,12 @@ public class AuthController {
 
 		// User creation date
 		user.setCreationDate(new Date());
+		// Add user role to User by default
+		//user.setRoles(Arrays.asList(rs.getRole("USER")));
 
 		us.saveUser(user);
+		// Add user role to User by default
+		us.addRoleToUser(user.getUsername(), "USER");
 
 		return user.getId().toString();
 	}

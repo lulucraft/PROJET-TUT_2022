@@ -14,6 +14,8 @@ import { CartComponent } from './cart/cart.component';
 import { CheckoutComponent } from './main/checkout/checkout.component';
 import { OrdersComponent } from './main/orders/orders.component';
 import { RegisterComponent } from './auth/register/register.component';
+import { ProductsComponent } from './admin/products/products.component';
+import { ProductComponent } from './admin/product/product.component';
 
 @Injectable({ providedIn: 'root' })
 export class TemplatePageTitleStrategy extends TitleStrategy {
@@ -45,6 +47,8 @@ const routes: Routes = [
     path: 'admin', component: AdminComponent, canActivate: [AuthGuard],
     children: [
       { path: '', component: AdminHomeComponent },
+      { path: 'products', component: ProductsComponent },
+      { path: 'products/:UID', component: ProductComponent },
     ]
   },
   { path: 'login', component: LoginComponent },

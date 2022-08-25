@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 import { Country } from 'src/app/models/country';
 import { AuthService } from 'src/app/services/auth.service';
 import { countries } from 'src/app/services/data.service';
@@ -27,11 +28,19 @@ export class RegisterComponent implements OnInit {
 
   public readonly countries: Country[] = [];
 
-  constructor(private authService: AuthService, private snackBar: MatSnackBar) {
+  constructor(private authService: AuthService, private snackBar: MatSnackBar, private router: Router) {
     this.countries = countries;
   }
 
   ngOnInit(): void {
+    // Redirect to main page if already authenticated (register page should not be accessible if already authenticated)
+    if (this.authService.isAuthenticated()) {
+      if (!this.authService.isUserAdmin()) {
+        this.router.navigate(['/main']);
+      } else {
+        this.router.navigate(['/admin']);
+      }
+    }
   }
 
   register(): void {
@@ -55,7 +64,7 @@ export class RegisterComponent implements OnInit {
     let address: string = this.registerForm.controls["address"].value;
     let city: string = this.registerForm.controls["city"].value;
     let postalCode: string = this.registerForm.controls["postalCode"].value;
-    let country: string = this.registerForm.controls["country"].value;
+    let country: Country = this.registerForm.controls["country"].value;
 
     this.authService.register({
       username: username,
@@ -66,7 +75,7 @@ export class RegisterComponent implements OnInit {
       address: address,
       city: city,
       postalCode: postalCode,
-      country: country
+      country: country.name
     });
   }
 

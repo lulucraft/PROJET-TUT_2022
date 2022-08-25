@@ -77,7 +77,7 @@ export class ShopComponent implements OnInit {
     }
 
     this.dataService.addProductToCart({ product, quantity });
-    this.snackBar.open('Produit ajouté au panier', '', { duration: 2000, horizontalPosition: 'right', verticalPosition: 'top', panelClass: 'snack-bar-container' });
+    this.snackBar.open('Produit ajouté au panier', '', { duration: 1800, horizontalPosition: 'right', verticalPosition: 'top', panelClass: 'snack-bar-container' });
   }
 
 }
