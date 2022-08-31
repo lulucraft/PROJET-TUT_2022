@@ -36,6 +36,11 @@ $primary: map-get($extranet-primary, 'default');
 @include mat.all-component-themes($extranet-theme);
 
 
+:root {
+  --primary-color: #{$primary};
+}
+
+
 // DARK theme
 $extranet-dark-theme: mat.define-dark-theme(
   (
@@ -103,4 +108,14 @@ body.darkMode {
 
 .warn {
   color: #f44336 !important;
+}
+
+// Forms
+.form-item-group {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
 }

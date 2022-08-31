@@ -1,5 +1,7 @@
 package fr.nepta.extranet.service.impl;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +28,12 @@ public class SizeServiceImpl implements SizeService {
 	public Size getSize(String sizeLabel) {
 		log.info("Fetching size '{}'", sizeLabel);
 		return sizeRepo.findByLabel(sizeLabel);
+	}
+
+	@Override
+	public List<Size> getSizes() {
+		log.info("Fetching sizes");
+		return sizeRepo.findAll();
 	}
 
 }

@@ -6,13 +6,12 @@
   z-index: 9000;
 }
 
-@import "../../styles.scss";
 .sidebar-right,
 .sidebar-left {
   z-index: 9999;
   position: absolute;
   color: white;
-  background-color: $primary;
+  background-color: var(--primary-color);
   border-bottom-left-radius: 2px;
   border-top: 2px solid #ffffff2e;
 

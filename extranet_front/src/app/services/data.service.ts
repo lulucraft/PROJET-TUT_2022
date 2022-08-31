@@ -1,10 +1,11 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CartProduct } from '../models/cart-product';
 import { Country } from '../models/country';
 import { Order } from '../models/order';
 import { Product } from '../models/product';
+import { Size } from '../models/size';
 import { AuthService } from './auth.service';
 
 @Injectable({
@@ -13,6 +14,14 @@ import { AuthService } from './auth.service';
 export class DataService {
 
   private cart: CartProduct[] = [];
+  // public static sizes: Size[] = [];
+  // async sizes(): Promise<Size[]> {
+  //   if (DataService.sizes.length === 0) {
+  //     // Get all the sizes from the backend
+  //     DataService.sizes = await firstValueFrom(this.getSizes());
+  //   }
+  //   return DataService.sizes;
+  // }
 
   constructor(private http: HttpClient, @Inject('API_BASE_URL') private apiBaseUrl: string, private authService: AuthService) {
     // Load cart from local storage
@@ -58,7 +67,7 @@ export class DataService {
     return this.http.get<Order[]>(this.apiBaseUrl + 'api/user/orders');
   }
 
-  sendOrder(order: Order) {
+  sendOrder(order: Order): void {
     // Clear cart
     this.cart = [];
     localStorage.setItem('cart', JSON.stringify(this.cart));
@@ -124,9 +133,29 @@ export class DataService {
     return this.cart.length;
   }
 
-  // ADMIN
+  // ADMIN and USER
   getProducts(): Observable<Product[]> {
-    return this.http.get<Product[]>(this.apiBaseUrl + 'api/admin/products');
+    // this.getSizes().subscribe(sizes => {
+    //   this.sizes = sizes;
+    // });
+    return this.http.get<Product[]>(this.apiBaseUrl + 'api/user/products');
+  }
+
+  getSizes(): Observable<Size[]> {
+    return this.http.get<Size[]>(this.apiBaseUrl + 'api/user/sizes');
+  }
+
+  // ADMIN
+  getProduct(productId: number): Observable<Product> {
+    return this.http.get<Product>(this.apiBaseUrl + 'api/admin/product', { params: new HttpParams().set('productId', productId) });
+  }
+
+  sendProduct(product: Product): void {
+    this.http.post(this.apiBaseUrl + 'api/admin/sendproduct', product).subscribe({
+      next: () => {
+        console.log('Product sent');
+      }
+    });
   }
 
 }

@@ -56,19 +56,22 @@ export class CartComponent implements OnInit {
     this.dataService.removeProductFromCart(product.product.id);
   }
 
-  onChangeProductQuantity(event: any, product: CartProduct): void {
+  onChangeProductQuantity(event: any, cartProduct: CartProduct): void {
     if (!event || !event.target || !event.target.value) return;
 
     let qty: number = parseInt(event.target.value);
 
     if (qty < 1) {
       event.target.value = 1;
+    } else if (qty > 10000) {
+      event.target.value = 10000;
+    } else {
+      // Empêche la conversion en string (si on entre un nombre et qu'on clique sur le bouton +,
+      // la valeur devient x1 au lieu de x+1). Ex : 1+1 devient 11 au lieu de 2.
+      event.target.value = qty;
     }
 
-    // Empêche la conversion en string (si on entre un nombre et qu'on clique sur le bouton +,
-    // la valeur devient x1 au lieu de x+1). Ex : 1+1 devient 11 au lieu de 2.
-    event.target.value = qty;
-    this.dataService.setProductQuantity(product.product.id, qty);
+    this.dataService.setProductQuantity(cartProduct.product.id, qty);
   }
 
   parseNumber(number: string): number {
@@ -79,7 +82,7 @@ export class CartComponent implements OnInit {
     if (this.authService.isAuthenticated()) {
       this.router.navigate(['/main/checkout']);
     } else {
-      this.router.navigate(['/login'], { queryParams: { returnUrl: this.router.routerState.snapshot.url }});
+      this.router.navigate(['/login'], { queryParams: { returnUrl: this.router.routerState.snapshot.url } });
     }
   }
 

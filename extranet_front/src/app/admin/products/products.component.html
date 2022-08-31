@@ -8,26 +8,64 @@
     <!-- Products body -->
     <div class="products-body">
       <div class="products-item" *ngFor="let product of products">
-        <div class="products-item-left">
-          <h4>{{ product.name }}</h4>
-          <!-- <h5>{{ product.date | date: 'dd/MM/YYYY HH:mm:ss' : 'GMT' }}</h5> -->
+        <!-- <div class="products-item-left"> -->
+        <!-- <div class="products-item-left-left"> -->
+        <div class="product-image">
+          <img [src]="product.imageLink" alt="Image produit"
+            (error)="product.imageLink='https://cdn.tiresleader.com/static/img/tyre_small_nologo/954747.jpg'">
         </div>
 
-        <div class="products-item-middle">
-          <!-- <div class="products-item-header-right-bottom">
-              <span>Total : </span>
-              <span>{{ getTotalPrice(product) }}</span>
-            </div> -->
+        <!-- <div class="products-item-left-right"> -->
+        <div class="product-name">
+          <small>Nom</small>
+          <p style="color: rgb(226, 183, 43);"><b>{{ product.name }}</b></p>
+          <small>Taille</small>
+          <p><b>{{ product.size.label }}</b></p>
+        </div>
+        <!-- </div> -->
+
+        <!-- <div class="products-item-middle"> -->
+        <!-- <div class="products-item-middle-left"> -->
+        <div class="product-brand">
+          <small>Marque</small>
+          <p><b>{{ product.brand }}</b></p>
         </div>
 
-        <div class="products-item-right">
-          <div class="products-item-right-top">
-          </div>
+        <!-- <div class="products-item-middle-right"> -->
+        <div class="product-description top">
+          <small>Description</small>
+          <p><b>{{ product.description }}</b></p>
+        </div>
+        <!-- </div> -->
 
-          <div class="products-item-right-bottom">
-          </div>
+        <!-- <div class="products-item-right"> -->
+        <!-- <div class="products-item-right-top"> -->
+        <div class="product-price">
+          <ng-container *ngIf="product.refund">
+            <small>Réduction</small>
+            <p>{{ product.refund }} % -> <b>{{ product.price - (product.price * product.refund / 100) }}</b> €</p>
+            <!-- <small>Prix avant réduction</small> -->
+            <small>Prix</small>
+            <p style="margin-bottom: 0;"><span style="text-decoration: line-through;">{{ product.price }}</span> €</p>
+            <p><b>{{ product.price - (product.price * product.refund / 100) }}</b> €</p>
+          </ng-container>
+
+          <ng-container *ngIf="!product.refund">
+            <small>Prix</small>
+            <p><b>{{ product.price }}</b> €</p>
+          </ng-container>
         </div>
 
+        <!-- <div class="products-item-right-bottom"> -->
+        <div class="product-stock">
+          <small>Stock</small>
+          <p><b [style]="{ 'color' : (product.stockQuantity <= 0) ? 'red' : 'green' }">{{ product.stockQuantity }}</b> pièce(s)</p>
+        </div>
+        <!-- </div> -->
+
+        <div>
+          <button mat-mini-fab color="accent" (click)="editProduct(product)"><mat-icon>edit</mat-icon></button>
+        </div>
       </div>
 
       <div class="products-empty" *ngIf="!products.length">

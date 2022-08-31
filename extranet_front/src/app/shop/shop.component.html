@@ -1,8 +1,17 @@
 <div class="shop">
+
   <div class="shop-content">
     <!-- Shop header -->
     <div class="shop-header">
       <h3 class="text-center">Notre sélection de pneus</h3>
+    </div>
+
+    <!-- Shop search -->
+    <div class="shop-search">
+      <mat-form-field>
+        <input matInput type="text" class="shop-search-input" placeholder="Recherche par nom produit"
+          [(ngModel)]="search" (keyup)="onSearch()">
+      </mat-form-field>
     </div>
 
     <!-- Shop body -->
@@ -11,10 +20,10 @@
       <mat-card class="shop-card" *ngFor="let product of filteredProducts">
         <mat-card-header>
           <mat-card-title>{{ product.name }}</mat-card-title>
-          <mat-card-subtitle>{{ product.size }}</mat-card-subtitle>
+          <mat-card-subtitle>{{ product.size.label }}</mat-card-subtitle>
         </mat-card-header>
 
-        <img mat-card-image [src]="product.img" alt="Pneus">
+        <img mat-card-image [src]="product.imageLink" (error)="product.imageLink='https://cdn.tiresleader.com/static/img/tyre_small_nologo/954747.jpg'" alt="Pneus">
 
         <mat-card-content>
           <!-- <p>{{ product.brand }}</p> -->
@@ -22,7 +31,7 @@
         </mat-card-content>
 
         <mat-card-actions>
-          <input matInput type="number" value="1" #quantityToAdd>
+          <input matInput type="number" value="1" min="1" max="10000" (change)="onChangeProductQuantity($event)" #quantityToAdd>
           <button mat-raised-button color="warn" (click)="addToCart(product, quantityToAdd.value)">Ajouter au panier</button>
         </mat-card-actions>
       </mat-card>
@@ -32,8 +41,8 @@
     <!-- Shop footer -->
     <div class="shop-footer">
       <!-- Paginator -->
-      <mat-paginator class="shop-pagination" (page)="handlePage($event)" [length]="length"
-        [pageSize]="pageSize" [pageIndex]="pageIndex" [pageSizeOptions]="[8, 16]" #paginator showFirstLastButtons>
+      <mat-paginator class="shop-pagination" (page)="handlePage($event)" [length]="length" [pageSize]="pageSize"
+        [pageIndex]="pageIndex" [pageSizeOptions]="[8, 16]" #paginator showFirstLastButtons>
       </mat-paginator>
     </div>
   </div>

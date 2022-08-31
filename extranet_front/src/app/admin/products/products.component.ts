@@ -14,14 +14,18 @@ export class ProductsComponent implements OnInit {
 
   constructor(private dataService: DataService, private router: Router) { }
 
-  ngOnInit(): void {
-    this.dataService.getProducts().subscribe((products: Product[]) => {
+  async ngOnInit(): Promise<void> {
+    (await this.dataService.getProducts()).subscribe((products: Product[]) => {
       this.products = products;
     });
   }
 
   addProduct(): void {
-    this.router.navigate(['admin/products/new']);
+    this.router.navigate(['/admin/product', -1]);
+  }
+
+  editProduct(product: Product): void {
+    this.router.navigate(['/admin/product', product.id]);
   }
 
 }

@@ -17,14 +17,15 @@
       width: 100%;
       padding: 16px;
       margin-bottom: 5px;
-      border-radius: 5px;
+      // border-radius: 5px;
       box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 
       h3 {
         margin: auto;
         font-weight: 500;
         padding: 10px;
-        border-radius: 5px;
+        // border-radius: 5px;
+        border-radius: 2px;
         background-color: white;
       }
     }
@@ -36,7 +37,7 @@
       flex-wrap: wrap;
       justify-content: flex-start;
       padding: 16px;
-      border-radius: 5px;
+      // border-radius: 5px;
       // box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
       width: 100%;
 
@@ -85,9 +86,10 @@
       }
 
       .orders-empty {
-        background-color: #424242;
+        background-color: white;
         width: 100%;
-        border-radius: 5px;
+        // border-radius: 5px;
+        border-radius: 2px;
 
         p {
           margin: auto;

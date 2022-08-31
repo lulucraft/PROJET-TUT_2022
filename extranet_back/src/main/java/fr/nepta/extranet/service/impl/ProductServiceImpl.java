@@ -1,5 +1,7 @@
 package fr.nepta.extranet.service.impl;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +28,18 @@ public class ProductServiceImpl implements ProductService {
 	public Product getProduct(String productName) {
 		log.info("Fetching product '{}'", productName);
 		return productRepo.findByName(productName);
+	}
+
+	@Override
+	public List<Product> getProducts() {
+		log.info("Fetching all products");
+		return productRepo.findAll();
+	}
+
+	@Override
+	public Product getProduct(long productId) {
+		log.info("Fetching product '{}'", productId);
+		return productRepo.findById(productId);
 	}
 
 }

@@ -1,5 +1,6 @@
 package fr.nepta.extranet.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -21,8 +22,8 @@ public class Product {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(name = "sku")
-	private String sku;
+//	@Column(name = "sku")
+//	private String sku;
 
 	@Column(name = "name")
 	private String name;
@@ -33,10 +34,19 @@ public class Product {
 	@Column(name = "price")
 	private double price;
 
-	@Column(name = "promo")
-	private double promo;
+	@Column(name = "refund")
+	private double refund;
 
-	@OneToOne
+	@Column(name = "stock")
+	private int stockQuantity;
+
+	@Column(name = "brand")
+	private String brand;
+
+	@OneToOne(cascade = CascadeType.ALL)
 	private Size size;
+
+	@Column(name = "image_link")
+	private String imageLink;
 
 }

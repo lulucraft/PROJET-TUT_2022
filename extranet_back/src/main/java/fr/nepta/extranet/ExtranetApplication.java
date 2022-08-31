@@ -50,6 +50,13 @@ public class ExtranetApplication {
 				us.addRoleToUser("admin", "ADMIN");
 			}
 
+			if (us.getUser("user") == null) {
+				us.saveUser(new User(null, null, null, "user@gmail.com", "user", "azerty", new Date(), "15 rue de la sibanac", "42000", "Saint-Etienne", "France", new ArrayList<Role>(), new ArrayList<Order>()));
+			}
+			if (!us.getUser("user").getRoles().contains(rs.getRole("USER"))) {
+				us.addRoleToUser("user", "USER");
+			}
+
 			// NEWSLETTER
 //			if (ns.getNewsletter("INFOS") == null) {
 //				ns.saveNewsletter(new Newsletter(null, "Loi montagne", "Pour limiter les embouteillages sur les routes dans les régions montagneuses et améliorer la sécurité des usagers, il faudra équiper sa voiture de pneus hiver ou détenir des chaînes dans son coffre en période hivernale dans certaines communes. L'obligation entrera en vigueur au 1er novembre 2021. Quels sont les véhicules et les départements concernés ? Chaînes, pneus hiver, pneus cloutés ou à crampons, quels sont les équipements obligatoires ? Prise en application de la loi Montagne II du 28 décembre 2016, le décret est paru au Journal officiel le 18 octobre 2020.", "INFOS"));

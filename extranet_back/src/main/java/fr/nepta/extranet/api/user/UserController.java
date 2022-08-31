@@ -2,6 +2,7 @@ package fr.nepta.extranet.api.user;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.List;
 
 import javax.annotation.security.RolesAllowed;
 
@@ -16,9 +17,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import fr.nepta.extranet.model.Order;
+import fr.nepta.extranet.model.Product;
+import fr.nepta.extranet.model.Size;
 import fr.nepta.extranet.model.User;
 import fr.nepta.extranet.service.OrderService;
 import fr.nepta.extranet.service.PayPalService;
+import fr.nepta.extranet.service.ProductService;
+import fr.nepta.extranet.service.SizeService;
 import fr.nepta.extranet.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -34,6 +39,10 @@ public class UserController {
 	private final UserService us;
 	@Autowired
 	private final OrderService os;
+	@Autowired
+	private final ProductService ps;
+	@Autowired
+	private final SizeService ss;
 
 	@GetMapping(value = "orders")
 	public Collection<Order> getOrders() {
@@ -67,6 +76,18 @@ public class UserController {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		// Add order to authenticated user from his username
 		us.addOrderToUser(us.getUser(auth.getName()), order);
+	}
+
+	@RolesAllowed({"ADMIN", "USER"})
+	@GetMapping(value = "products")
+	public List<Product> getProducts() {
+		return ps.getProducts();
+	}
+
+	@RolesAllowed({"ADMIN", "USER"})
+	@GetMapping(value = "sizes")
+	public List<Size> getSizes() {
+		return ss.getSizes();
 	}
 
 	//	@RolesAllowed("USER")

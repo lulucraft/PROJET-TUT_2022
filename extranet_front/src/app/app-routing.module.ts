@@ -48,7 +48,7 @@ const routes: Routes = [
     children: [
       { path: '', component: AdminHomeComponent },
       { path: 'products', component: ProductsComponent },
-      { path: 'products/:UID', component: ProductComponent },
+      { path: 'product/:ID', component: ProductComponent },
     ]
   },
   { path: 'login', component: LoginComponent },

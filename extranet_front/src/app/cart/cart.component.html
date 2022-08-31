@@ -22,12 +22,12 @@
       <div class="cart-item" *ngFor="let cartProduct of cart">
         <div class="cart-item-header">
           <div class="cart-item-header-left">
-            <img [src]="cartProduct.product.img" alt="Pneus" />
+            <img [src]="cartProduct.product.imageLink" alt="Pneus" />
           </div>
           <div class="cart-item-header-right">
             <div class="cart-item-header-right-top">
               <h4>{{ cartProduct.product.name }}</h4>
-              <h5>{{ cartProduct.product.size }}</h5>
+              <h5>{{ cartProduct.product.size.label }}</h5>
             </div>
             <!-- <div class="cart-item-header-right-bottom">
               <span>Prix unitaire : </span>
