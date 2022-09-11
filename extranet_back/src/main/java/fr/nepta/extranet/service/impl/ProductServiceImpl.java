@@ -20,7 +20,7 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public Product saveProduct(Product product) {
-		log.info("Saving new product in the database");
+		log.info("Saving product in the database");
 		return productRepo.save(product);
 	}
 

@@ -59,19 +59,26 @@
         <!-- <div class="products-item-right-bottom"> -->
         <div class="product-stock">
           <small>Stock</small>
-          <p><b [style]="{ 'color' : (product.stockQuantity <= 0) ? 'red' : 'green' }">{{ product.stockQuantity }}</b> pièce(s)</p>
+          <p><b [style]="{ 'color' : (product.stockQuantity <= 0) ? 'red' : 'green' }">{{ product.stockQuantity }}</b>
+            pièce(s)</p>
         </div>
         <!-- </div> -->
 
         <div>
-          <button mat-mini-fab color="accent" (click)="editProduct(product)"><mat-icon>edit</mat-icon></button>
+          <button mat-mini-fab color="accent" (click)="editProduct(product)">
+            <mat-icon>edit</mat-icon>
+          </button>
         </div>
       </div>
 
       <div class="products-empty" *ngIf="!products.length">
         <p>Ohh 😓 aucun produit n'a été ajouté
-          <button mat-raised-button (click)="addProduct()" color="accent">Ajouter un produit</button>
+          <!-- <button mat-raised-button (click)="addProduct()" color="accent">Ajouter un produit</button> -->
         </p>
+      </div>
+
+      <div class="products-add">
+        <button mat-raised-button (click)="addProduct()" color="accent">Ajouter un produit</button>
       </div>
     </div>
   </div>

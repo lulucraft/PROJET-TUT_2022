@@ -43,16 +43,25 @@ public class AdminController {
 	@PostMapping(value = "sendproduct", consumes = "application/json")
 	public void sendProduct(@RequestBody Product product) {
 
-		// Product already exists
-		if (ps.getProduct(product.getName()) != null) {
-			log.error("A product with name '{}' already exists", product.getName());
+		// Invalid size label
+		if (product.getSize().getLabel() == null) {
+			log.error("The product size cannot be null");
 			return;
+		}
+
+		// Product already exists
+		Product p = ps.getProduct(product.getName());
+		if (p != null) {
+			log.info("A product with name '{}' already exists... Edition of it", product.getName());
+			// Set id from database to ensure that product has the good id
+			product.setId(p.getId());
+			//return;
 		}
 
 		Size size = ss.getSize(product.getSize().getLabel());
 		// Size not found
 		if (size == null) {
-			log.info("La taille '{}' n'existe pas. Ajout de celle-ci en base", product.getSize().getLabel());
+			log.info("The size '{}' doesn't exists. Adding it in database", product.getSize().getLabel());
 			ss.saveSize(product.getSize());
 		} else {
 			product.setSize(size);

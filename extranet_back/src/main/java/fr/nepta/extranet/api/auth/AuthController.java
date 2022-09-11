@@ -59,6 +59,12 @@ public class AuthController {
 						.withClaim("roles", user.getRoles().stream().map(Role::getName).collect(Collectors.toList()))
 						.sign(algo);
 
+				refreshToken = JWT.create()
+						.withSubject(user.getUsername())
+						.withExpiresAt(new Date(System.currentTimeMillis() + 40 * 60 * 1000))
+						.withIssuer(request.getRequestURI().toString())
+						.sign(algo);
+
 				Map<String, String> tokens = new HashMap<>();
 				tokens.put("accessToken", accessToken);
 				tokens.put("refreshToken", refreshToken);

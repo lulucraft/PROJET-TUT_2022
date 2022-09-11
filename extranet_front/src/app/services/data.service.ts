@@ -158,6 +158,14 @@ export class DataService {
     });
   }
 
+  deleteProduct(productId: number) {
+    this.http.post(this.apiBaseUrl + 'api/admin/deleteproduct', productId).subscribe({
+      next: () => {
+        console.log('Product deleted');
+      }
+    });
+  }
+
 }
 
 export var countries: Country[] = [
