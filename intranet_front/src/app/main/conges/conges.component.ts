@@ -53,8 +53,8 @@ export class CongesComponent implements OnInit {
   }
 
   loadCongesAcquis(): void {
-    this.dataService.getCongesAcquis().subscribe((congesAcquis: number) => {
-      this.congesCpt[0].nbr = congesAcquis;
+    this.dataService.getCongesAcquis().subscribe((congesNbr: number) => {
+      this.congesCpt[0].nbr = congesNbr;
     });
   }
 

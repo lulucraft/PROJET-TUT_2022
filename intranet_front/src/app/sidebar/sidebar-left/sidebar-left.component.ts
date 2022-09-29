@@ -69,6 +69,11 @@ export class SidebarLeftComponent implements OnInit {
     this.router.navigate(['/admin/newsletter']);
   }
 
+  adminComptes(): void {
+    this.appHeader.leftMenuOpened = false;
+    this.router.navigate(['/admin/accounts']);
+  }
+
   @HostListener('click', ['$event.target'])
   closeSettingsMenu(el: HTMLElement) {
     if (el.className.includes("sidebar-close-background")) {

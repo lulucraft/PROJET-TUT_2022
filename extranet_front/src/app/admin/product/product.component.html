@@ -91,8 +91,8 @@
 
         <div class="form-item-group">
           <button mat-stroked-button (click)="back()">Retour</button>
-          <button mat-stroked-button (click)="deleteProduct()">Supprimer le produit</button>
-          <button mat-flat-button type="submit" color="accent">{{ productId === -1 ? 'Ajouter le produit' : 'Valider les modifications' }}</button>
+          <button mat-stroked-button *ngIf="productId > -1" (click)="deleteProduct()">Supprimer le produit</button>
+          <button mat-flat-button type="submit" color="accent">{{ productId == -1 ? 'Ajouter le produit' : 'Valider les modifications' }}</button>
         </div>
       </form>
     </div>

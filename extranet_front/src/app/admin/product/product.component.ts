@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Product } from 'src/app/models/product';
 import { Size } from 'src/app/models/size';
 import { DataService } from 'src/app/services/data.service';
 
@@ -47,7 +48,13 @@ export class ProductComponent implements OnInit {
         // New product
       } else {
         // Edit product
-        this.dataService.getProduct(this.productId).subscribe(product => {
+        this.dataService.getProduct(this.productId).subscribe((product: Product) => {
+          // Produit inexistant
+          if (!product) {
+            this.router.navigate(['/admin/products']);
+            return;
+          }
+
           this.formGroup.patchValue({
             nameCtrl: product.name,
             descriptionCtrl: product.description,
@@ -73,7 +80,7 @@ export class ProductComponent implements OnInit {
     let brand = this.formGroup.controls['brandCtrl'].value;
     let sizeId = this.formGroup.controls['sizeCtrl'].value;
     let imageLink = this.formGroup.controls['imageLinkCtrl'].value;
-    let imageFile = this.formGroup.controls['imageFileCtrl'].value;
+    // let imageFile = this.formGroup.controls['imageFileCtrl'].value;
     let price = this.formGroup.controls['priceCtrl'].value;
     let refund = this.formGroup.controls['refundCtrl'].value;
     let quantity = this.formGroup.controls['quantityCtrl'].value;
@@ -81,6 +88,24 @@ export class ProductComponent implements OnInit {
     let size = this.sizes.find(s => s.id === sizeId);
     if (!size) {
       alert("Erreur lors de la récupération de la taille du produit");
+      return;
+    }
+
+    if (this.productId == -1) {
+      if (this.dataService.productExists(name)) {
+        this.snackBar.open('Le produit \'' + name + '\' existe déjà', '', { duration: 2000, horizontalPosition: 'right', verticalPosition: 'top', panelClass: ['snack-bar-container', 'warn'] });
+        return;
+      }
+    }
+
+    if (price <= 0) {
+      this.snackBar.open('Le prix doit être supérieur à 1', '', { duration: 2000, horizontalPosition: 'right', verticalPosition: 'top', panelClass: ['snack-bar-container', 'warn'] });
+      return;
+    }
+
+    let priceAfterRefund: number = price - (price * refund / 100);
+    if (priceAfterRefund <= 0) {
+      this.snackBar.open('Le prix après promo doit être supérieur à 1', '', { duration: 2000, horizontalPosition: 'right', verticalPosition: 'top', panelClass: ['snack-bar-container', 'warn'] });
       return;
     }
 
@@ -95,6 +120,8 @@ export class ProductComponent implements OnInit {
       imageLink: imageLink,
       refund: refund,
     });
+
+    this.router.navigate(['/admin/products']);
   }
 
   addSize(sizeLabel: string): void {

@@ -11,12 +11,12 @@
     </p>
 
     <!-- Date création compte -->
-    <!-- <p>
+    <p>
       <mat-form-field appearance="legacy" [floatLabel]="'always'">
         <mat-label>Date création compte</mat-label>
-        <input matInput type="text" [value]="this.user.creationDate" readonly />
+        <input matInput type="text" [value]="user.creationDate ? (user.creationDate | date: 'dd/MM/YYYY HH:mm:ss' : 'GMT') : 'Aucune'" readonly />
       </mat-form-field>
-    </p> -->
+    </p>
 
     <!-- Rôles -->
     <p>

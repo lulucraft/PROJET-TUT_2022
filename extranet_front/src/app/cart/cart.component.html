@@ -22,7 +22,7 @@
       <div class="cart-item" *ngFor="let cartProduct of cart">
         <div class="cart-item-header">
           <div class="cart-item-header-left">
-            <img [src]="cartProduct.product.imageLink" alt="Pneus" />
+            <img [src]="cartProduct.product.imageLink" (error)="cartProduct.product.imageLink='https://cdn.tiresleader.com/static/img/tyre_small_nologo/954747.jpg'" alt="Pneus" />
           </div>
           <div class="cart-item-header-right">
             <div class="cart-item-header-right-top">

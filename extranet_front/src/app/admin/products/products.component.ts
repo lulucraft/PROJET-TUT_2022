@@ -14,7 +14,7 @@ export class ProductsComponent implements OnInit {
 
   constructor(private dataService: DataService, private router: Router) { }
 
-  async ngOnInit(): Promise<void> {
+  ngOnInit(): void {
     this.dataService.getProducts().subscribe((products: Product[]) => {
       this.products = products;
     });

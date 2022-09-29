@@ -52,7 +52,7 @@ public class AdminController {
 		// Product already exists
 		Product p = ps.getProduct(product.getName());
 		if (p != null) {
-			log.info("A product with name '{}' already exists... Edition of it", product.getName());
+			log.info("A product with name '{}' already exists... Editing it", product.getName());
 			// Set id from database to ensure that product has the good id
 			product.setId(p.getId());
 			//return;
@@ -74,6 +74,12 @@ public class AdminController {
 	@GetMapping(value = "product")
 	public Product getProduct(@RequestParam long productId) {
 		return ps.getProduct(productId);
+	}
+
+	@RolesAllowed("ADMIN")
+	@GetMapping(value = "productexists")
+	public boolean productExists(@RequestParam String productName) {
+		return ps.getProduct(productName) != null;
 	}
 
 //	@RolesAllowed("ADMIN")

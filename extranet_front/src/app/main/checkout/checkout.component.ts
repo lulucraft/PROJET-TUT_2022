@@ -6,8 +6,6 @@ import { CreateOrderActions, CreateOrderData, loadScript, OnApproveActions, OnAp
 import { MatStepper } from '@angular/material/stepper';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
-import { CartProduct } from '../../models/cart-product';
-import { Product } from '../../models/product';
 
 @Component({
   selector: 'app-checkout',

@@ -45,11 +45,19 @@ public class IntranetApplication {
 				rs.saveRole(new Role(null, "ADMIN"));
 			}
 
+			// Create default users
 			if (us.getUser("admin") == null) {
-				us.saveUser(new User(null, null, null, "admin@gmail.com", "admin", "root", new Date(), 0, new ArrayList<Role>(), new ArrayList<Conge>()));
+				us.saveUser(new User(null, null, null, "admin@gmail.com", "admin", "root", new Date(), 0, true, true, new ArrayList<Role>(), new ArrayList<Conge>()));
 			}
 			if (!us.getUser("admin").getRoles().contains(rs.getRole("ADMIN"))) {
 				us.addRoleToUser("admin", "ADMIN");
+			}
+
+			if (us.getUser("user") == null) {
+				us.saveUser(new User(null, null, null, "user@gmail.com", "user", "azerty", new Date(), 2, true, true, new ArrayList<Role>(), new ArrayList<Conge>()));
+			}
+			if (!us.getUser("user").getRoles().contains(rs.getRole("USER"))) {
+				us.addRoleToUser("user", "USER");
 			}
 
 			// NEWSLETTER

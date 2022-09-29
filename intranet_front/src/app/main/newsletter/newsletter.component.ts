@@ -1,6 +1,6 @@
-import { Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { ChartDataset, ChartOptions, ChartType, ChartData } from 'chart.js';
+import { ChartData, ChartOptions, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { Newsletter } from 'src/app/models/newsletter';
 import { NewsletterType } from 'src/app/models/newsletter-type';

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import fr.nepta.intranet.model.Conge;
@@ -40,8 +41,14 @@ public class AdminController {
 
 	@RolesAllowed("ADMIN")
 	@GetMapping(value = "users")
-	public String getUsers() {
-		return us.getUsers().toString();
+	public Collection<User> getUsers() {
+		return us.getUsers();
+	}
+
+	@RolesAllowed("ADMIN")
+	@GetMapping(value = "user")
+	public User getUser(@RequestParam long userId) throws Exception {
+		return us.getUser(userId);
 	}
 
 	@RolesAllowed("ADMIN")
@@ -59,7 +66,7 @@ public class AdminController {
 	@RolesAllowed("ADMIN")
 	@PostMapping(value = "validateconge")
 	public void validateConge(@RequestBody Conge conge) {
-//		Conge conge = cs.getConge(congeId);
+		//		Conge conge = cs.getConge(congeId);
 		cs.validateConge(conge);
 	}
 
@@ -71,6 +78,12 @@ public class AdminController {
 			newsletter.setId(nl.getId());
 		}
 		ns.saveNewsletter(newsletter);
+	}
+
+	@RolesAllowed("ADMIN")
+	@PostMapping(value = "edituser", consumes = "application/json")
+	public void editUser(@RequestBody User user) throws Exception {
+		us.editUser(user);
 	}
 
 }

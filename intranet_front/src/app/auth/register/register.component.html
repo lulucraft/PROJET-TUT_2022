@@ -1,8 +1,9 @@
 <div id="center" class="auth-form frame darkModeAuto">
-  <h2>Connexion</h2>
+  <h2>S'enregistrer</h2>
 
-  <form [formGroup]="loginForm" (ngSubmit)="login()">
+  <form [formGroup]="registerForm" (ngSubmit)="register()">
     <div class="auth-form-inputs auth-form-item">
+      <!-- Nom d'utilisateur -->
       <div class="auth-form-input">
         <mat-icon aria-hidden="true">account_circle</mat-icon>
         <mat-form-field>
@@ -10,6 +11,7 @@
         </mat-form-field>
       </div>
 
+      <!-- Mot de passe -->
       <div class="auth-form-input">
         <mat-icon aria-hidden="true">key</mat-icon>
         <mat-form-field>
@@ -17,15 +19,20 @@
           <input matInput type="password" formControlName="password" required />
         </mat-form-field>
       </div>
+
+      <!-- Confirmer mot de passe -->
+      <div class="auth-form-input">
+        <mat-icon aria-hidden="true">void</mat-icon>
+        <mat-form-field>
+          <mat-label>Confirmer mot de passe</mat-label>
+          <input matInput type="password" formControlName="confirmPassword" required />
+        </mat-form-field>
+      </div>
+
     </div>
 
     <div class="auth-form-item">
-      <p>
-        <button mat-flat-button color="primary" type="submit" [disabled]="!loginForm.valid">Se connecter</button>
-      </p>
-      <p>
-        <small>Vous n'avez pas de compte ? <a routerLink="/register">S'enregistrer ici</a></small>
-      </p>
+      <button mat-raised-button color="primary" type="submit" [disabled]="!registerForm.valid">S'enregistrer</button>
     </div>
   </form>
 </div>

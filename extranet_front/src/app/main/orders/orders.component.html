@@ -26,7 +26,7 @@
           </div>
 
           <div class="orders-item-right-bottom">
-            <h4>Total : {{ getTotalPrice(order) }}</h4>
+            <h4>Total : {{ order.products ? getTotalPrice(order) : null }}</h4>
           </div>
         </div>
 

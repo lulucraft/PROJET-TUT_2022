@@ -8,10 +8,34 @@
 
     <!-- Shop search -->
     <div class="shop-search">
-      <mat-form-field>
-        <input matInput type="text" class="shop-search-input" placeholder="Recherche par nom produit"
-          [(ngModel)]="search" (keyup)="onSearch()">
-      </mat-form-field>
+      <div class="form-item-group">
+        <h4>Filtres : </h4>
+
+        <!-- Nom produit -->
+        <mat-form-field>
+          <input matInput type="text" class="shop-search-input" placeholder="Nom produit" [(ngModel)]="filterProductName" (keyup)="onFilter()">
+        </mat-form-field>
+
+        <!-- En promotion -->
+        <mat-form-field>
+          <mat-label>En promotion</mat-label>
+          <mat-select placeholder="En promotion" [(ngModel)]="filterRefund" (selectionChange)="onFilter()">
+            <mat-option value="all">-</mat-option>
+            <mat-option value="refund">Oui</mat-option>
+            <mat-option value="norefund">Non</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <!-- Prix min -->
+        <mat-form-field>
+          <input matInput type="number" class="shop-search-input" placeholder="Prix min" [(ngModel)]="filterPriceMin" (keyup)="onFilter()" (change)="onFilter()">
+        </mat-form-field>
+
+        <!-- Prix max -->
+        <mat-form-field>
+          <input matInput type="number" class="shop-search-input" placeholder="Prix max" [(ngModel)]="filterPriceMax" (keyup)="onFilter()" (change)="onFilter()">
+        </mat-form-field>
+      </div>
     </div>
 
     <!-- Shop body -->
@@ -23,7 +47,8 @@
           <mat-card-subtitle>{{ product.size.label }}</mat-card-subtitle>
         </mat-card-header>
 
-        <img mat-card-image [src]="product.imageLink" (error)="product.imageLink='https://cdn.tiresleader.com/static/img/tyre_small_nologo/954747.jpg'" alt="Pneus">
+        <img mat-card-image [src]="product.imageLink"
+          (error)="product.imageLink='https://cdn.tiresleader.com/static/img/tyre_small_nologo/954747.jpg'" alt="Pneus">
 
         <mat-card-content>
           <!-- <p>{{ product.brand }}</p> -->
@@ -31,8 +56,10 @@
         </mat-card-content>
 
         <mat-card-actions>
-          <input matInput type="number" value="1" min="1" max="10000" (change)="onChangeProductQuantity($event)" #quantityToAdd>
-          <button mat-raised-button color="warn" (click)="addToCart(product, quantityToAdd.value)">Ajouter au panier</button>
+          <input matInput type="number" value="1" min="1" max="10000" (change)="onChangeProductQuantity($event)"
+            #quantityToAdd>
+          <button mat-raised-button color="warn" (click)="addToCart(product, quantityToAdd.value)">Ajouter au
+            panier</button>
         </mat-card-actions>
       </mat-card>
 

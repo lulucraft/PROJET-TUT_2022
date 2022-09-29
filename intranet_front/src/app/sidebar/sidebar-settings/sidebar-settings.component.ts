@@ -24,7 +24,7 @@ export class SidebarSettingsComponent implements OnInit {
   constructor(private appMain: AppComponent, private appHeader: HeaderComponent) { }
 
   ngOnInit(): void {
-    this.toggleDarkMode = this.appMain.darkModeEnabled;
+    this.toggleDarkMode = this.appMain.isDarkModeEnabled;
   }
 
   changeDarkMode($event: MatSlideToggleChange): void {

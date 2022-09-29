@@ -8,13 +8,12 @@ footer {
   text-align: center;
 }
 
-@import '../../styles.scss';
 .footer {
   height: 35px;
   display: flex;
   align-content: center;
   justify-content: center;
-  background-color: $primary;
+  background-color: var(--primary-color);
   border-top: 2px solid #7482cf;
 
   > p {

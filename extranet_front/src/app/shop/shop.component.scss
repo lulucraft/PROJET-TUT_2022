@@ -49,6 +49,11 @@
       //   border-radius: 1px;
       //   background-color: white;
       // }
+
+      h4 {
+        margin: auto;
+        padding: 5px;
+      }
     }
 
     .shop-body {
@@ -118,7 +123,7 @@
             text-align: center;
             border: 2px solid #3232322e;
             border-radius: 2px;
-            background-color: white;//rgb(255 255 255 / 68%);
+            background-color: white; //rgb(255 255 255 / 68%);
             color: #3f51b5;
           }
         }
@@ -154,8 +159,9 @@
     .shop-search {
       background-color: #323232;
 
+      h4,
       .shop-search-input {
-      //   background-color: #424242;
+        //   background-color: #424242;
         color: white;
       }
     }
@@ -165,4 +171,3 @@
     }
   }
 }
-

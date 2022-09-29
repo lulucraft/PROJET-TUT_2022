@@ -2,7 +2,9 @@ package fr.nepta.intranet.service.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -60,7 +62,30 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	@Override
 	public List<User> getUsers() {
 		log.info("Fetching all users");
-		return userRepo.findAll();
+		List<User> users = new ArrayList<>();
+		for (Iterator<User> it = userRepo.findAll().iterator(); it.hasNext(); ) {
+			User u = it.next();
+			u.setPassword(null);
+			users.add(u);
+		}
+		return users;
+	}
+
+	@Override
+	public User getUser(long userId) throws Exception {
+		log.info("Fetching user {}", userId);
+
+		Optional<User> optUser = userRepo.findById(userId);
+		if (!optUser.isPresent()) {
+			log.error("User '{}' not found in the database", userId);
+			throw new Exception("User not found in the database");
+		}
+
+		User u = optUser.get();
+
+		if (u != null) u.setPassword(null);
+
+		return u;
 	}
 
 	@Override
@@ -104,6 +129,43 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 		userRepo.save(user);
 
 		log.info("Conge request '{}' deleted", congeId);
+	}
+
+	@Override
+	public void setDarkMode(User user, boolean darkModeEnabled) {
+		if (user == null) {
+			log.error("User is null");
+			return;
+		}
+
+		user.setDarkModeEnabled(darkModeEnabled);
+		userRepo.save(user);
+		log.info("Dark mode changed to '{}' for user '{}'", darkModeEnabled, user.getUsername());
+	}
+
+	@Override
+	public void editUser(User user) throws Exception {
+		if (user == null) {
+			log.error("User is null");
+			return;
+		}
+
+		User u = userRepo.getById(user.getId());
+		if (u == null) {
+			log.error("User '{}' not found in the database", user.getId());
+			throw new Exception("User not found in database");
+		}
+
+		// Set only the modifiable fields
+		if (user.getUsername() != null) u.setUsername(user.getUsername());
+		if (user.getFirstname() != null) u.setFirstname(user.getFirstname());
+		if (user.getLastname() != null) u.setLastname(user.getLastname());
+		if (user.getEmail() != null) u.setEmail(user.getEmail());
+		if (user.getCongesNbr() >= 0) u.setCongesNbr(user.getCongesNbr());
+		u.setAccountActive(user.isAccountActive());
+
+		userRepo.save(u);
+		log.info("User '{}' updated", u.getId());
 	}
 
 }

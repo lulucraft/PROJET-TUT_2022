@@ -44,12 +44,15 @@ export class ShopComponent implements OnInit {
   public pageSize: number = 8;
   public pageIndex: number = 0;
 
-  public search: string = '';
+  public filterProductName: string = '';
+  public filterRefund: string = '-';
+  public filterPriceMin: number | undefined;
+  public filterPriceMax: number | undefined;
 
   constructor(private dataService: DataService, private snackBar: MatSnackBar) { }
 
-  async ngOnInit(): Promise<void> {
-    (await this.dataService.getProducts()).subscribe((products: Product[]) => {
+  ngOnInit(): void {
+    this.dataService.getProducts().subscribe((products: Product[]) => {
       this.products = products;
       this.filteredProducts = this.products;
       this.filteredProducts = this.paginate(this.products, this.pageSize, this.pageIndex + 1);
@@ -99,17 +102,44 @@ export class ShopComponent implements OnInit {
     }
   }
 
-  onSearch(): void {
+  onFilter(): void {
     if (!this.products || !this.products.length) return;
 
-    // If input is empty, reset search
-    if (!this.search) {
-      this.filteredProducts = this.products;
-      return;
+    // Reset filter
+    this.filteredProducts = this.products;
+
+    // Filter product name
+    if (this.filterProductName) {
+      // Filter by product name
+      this.filteredProducts = this.filteredProducts.filter(product => product.name.toLowerCase().indexOf(this.filterProductName.toLowerCase()) !== -1);
     }
 
-    // Search by product name
-    this.filteredProducts = this.products.filter(product => product.name.toLowerCase().indexOf(this.search.toLowerCase()) !== -1);
+    // Filter refund
+    if (this.filterRefund) {
+      switch (this.filterRefund) {
+        case 'all':
+        default:
+          break;
+
+        case 'refund':
+          this.filteredProducts = this.filteredProducts.filter(product => product.refund && product.refund > 0);
+          break;
+
+        case 'norefund':
+          this.filteredProducts = this.filteredProducts.filter(product => !product.refund || product.refund <= 0);
+          break;
+      }
+    }
+
+    // Filter price min
+    if (this.filterPriceMin) {
+      this.filteredProducts = this.filteredProducts.filter(product => product.price >= this.filterPriceMin!);
+    }
+
+    // Filter price max
+    if (this.filterPriceMax) {
+      this.filteredProducts = this.filteredProducts.filter(product => product.price <= this.filterPriceMax!);
+    }
   }
 
 }

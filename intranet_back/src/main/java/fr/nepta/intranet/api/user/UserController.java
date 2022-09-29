@@ -88,12 +88,18 @@ public class UserController {
 			boolean isNewUser = ((currentCal.get(Calendar.YEAR) - cal.get(Calendar.YEAR)) <= 1);
 			if (isNewUser) {
 				// Avoid sending password, ...
-				User us = new User(u.getId(), null, null, null, u.getUsername(), null, u.getCreationDate(), 0, null, null);
+				User us = new User(u.getId(), null, null, null, u.getUsername(), null, u.getCreationDate(), 0, true, u.isAccountActive(), null, null);
 				users.add(us);
 			}
 		});
 
 		return users;
+	}
+
+	@PostMapping(value = "darkmode")
+	public void changeDarkMode(@RequestBody boolean darkModeEnabled) throws Exception {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		us.setDarkMode(us.getUser(auth.getName()), darkModeEnabled);
 	}
 
 	@GetMapping(value = "newsletters")

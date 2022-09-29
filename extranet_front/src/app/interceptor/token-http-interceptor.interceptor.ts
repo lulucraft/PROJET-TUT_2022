@@ -1,4 +1,4 @@
-import { Inject, Injectable, Injector } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import {
   HttpRequest,
   HttpHandler,
@@ -44,7 +44,7 @@ export class TokenHttpInterceptorInterceptor implements HttpInterceptor {
               if (!token) {
                 this.authService.logout(window.location.pathname);
                 throw new Error('Refresh token expired');
-              //   return new Observable<HttpEvent<any>>();
+                //   return new Observable<HttpEvent<any>>();
               }
               this.authService.saveRefreshToken(token);
               // Re-execute previous failed request

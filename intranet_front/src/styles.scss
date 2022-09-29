@@ -36,6 +36,11 @@ $primary: map-get($intranet-primary, 'default');
 @include mat.all-component-themes($intranet-theme);
 
 
+:root {
+  --primary-color: #{$primary};
+}
+
+
 // DARK theme
 $intranet-dark-theme: mat.define-dark-theme(
   (
@@ -94,4 +99,13 @@ body.darkMode {
   border-radius: 2px;
   -webkit-box-shadow: -1px 4px 20px -7px rgb(145 145 145);
   box-shadow: -1px 4px 20px -7px rgb(145 145 145);
+}
+
+.snack-bar-container {
+  margin-bottom: 50px !important;
+  margin-top: 60px !important;
+}
+
+.warn {
+  color: #f44336 !important;
 }

@@ -20,9 +20,15 @@ public interface UserService {
 
 	List<User> getUsers();
 
+	User getUser(long userId) throws Exception;
+
 	void addCongeToUser(User user, Conge conge);
 
 	void deleteCongeFromUser(User user, long congeId) throws Exception;
+
+	void setDarkMode(User user, boolean darkModeEnabled);
+
+	void editUser(User user) throws Exception;
 
 //	List<Conge> getConges();
 

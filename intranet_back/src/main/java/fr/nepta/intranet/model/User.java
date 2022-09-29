@@ -51,6 +51,12 @@ public class User {
 	@Column(name = "congesnbr", nullable = false)
 	private double congesNbr;
 
+	@Column(name = "darkmode", nullable = false, columnDefinition="tinyint(1) default 1")
+	private boolean darkModeEnabled;
+
+	@Column(name = "account_active", nullable = false, columnDefinition="tinyint(1) default 1")
+	private boolean accountActive;	
+
 	//	@Column(name = "access_token")
 	//	private String accessToken;
 	//

@@ -41,6 +41,10 @@ export class TokenHttpInterceptorInterceptor implements HttpInterceptor {
           return this.authService.refreshTokenRequest().pipe(
             switchMap((token: JWTToken) => {
               console.log(token);
+              if (!token) {
+                this.authService.logout(window.location.pathname);
+                throw new Error('Refresh token expired');
+              }
               this.authService.saveRefreshToken(token);
               // Re-execute previous failed request
               // Add new token to http request

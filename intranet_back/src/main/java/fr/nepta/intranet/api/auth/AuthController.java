@@ -59,6 +59,12 @@ public class AuthController {
 						.withClaim("roles", user.getRoles().stream().map(Role::getName).collect(Collectors.toList()))
 						.sign(algo);
 
+				refreshToken = JWT.create()
+						.withSubject(user.getUsername())
+						.withExpiresAt(new Date(System.currentTimeMillis() + 40 * 60 * 1000))
+						.withIssuer(request.getRequestURI().toString())
+						.sign(algo);
+
 				Map<String, String> tokens = new HashMap<>();
 				tokens.put("accessToken", accessToken);
 				tokens.put("refreshToken", refreshToken);
@@ -77,25 +83,27 @@ public class AuthController {
 
 	@PostMapping(value = "register", consumes = "application/json", produces = "application/json")
 	public String register(@RequestBody User user) {
-		if (user.getUsername() == null) {
-			return "Nom d'utilisateur manquant";
+		if (user.getUsername() == null || user.getUsername().trim().isEmpty()) {
+			throw new IllegalStateException("Nom d'utilisateur manquant");
 		}
 
-		if (user.getPassword() == null) {
-			return "Mot de passe manquant";
+		if (user.getPassword() == null || user.getPassword().trim().isEmpty()) {
+			throw new IllegalStateException("Mot de passe manquant");
 		}
 
 		boolean userExists = us.getUser(user.getUsername()) != null;
 		if (userExists) {
-			throw new IllegalStateException("Un compte est déjà associé à cet email");
+			throw new IllegalStateException("Ce nom d'utilisateur est déjà utilisé");
 		}
 
 		// User creation date
 		user.setCreationDate(new Date());
 
 		us.saveUser(user);
+		// Add user role to User by default
+		//us.addRoleToUser(user.getUsername(), "USER");
 
-		return "ok";
+		return user.getId().toString();
 	}
 
 //	@PostMapping(value = "login", consumes = "application/json", produces = "application/json")
