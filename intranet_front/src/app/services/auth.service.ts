@@ -95,7 +95,13 @@ export class AuthService {
           // Reset password to hide it in localStorage
           user.password = '';
 
-          const decodedToken: any = this.decodeToken(user.token);
+          let decodedToken: JWTToken | any;
+          try {
+            decodedToken = this.decodeToken(user.token);
+          } catch (error) {
+            this.snackBar.open('Vous n\'êtes pas autorisé à vous connecter', '', { duration: 2000, horizontalPosition: 'right', verticalPosition: 'top', panelClass: ['snack-bar-container', 'warn']});
+            return;
+          }
 
           // User roles
           user.roles = [];

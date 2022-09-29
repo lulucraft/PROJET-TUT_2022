@@ -23,7 +23,7 @@ import lombok.NoArgsConstructor;
 @Data @NoArgsConstructor @AllArgsConstructor @Getter
 @Entity
 @Table(name = "user")
-public class User {
+public class User implements Cloneable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -55,7 +55,7 @@ public class User {
 	private boolean darkModeEnabled;
 
 	@Column(name = "account_active", nullable = false, columnDefinition="tinyint(1) default 1")
-	private boolean accountActive;	
+	private boolean accountActive;
 
 	//	@Column(name = "access_token")
 	//	private String accessToken;
@@ -69,4 +69,8 @@ public class User {
 	@ManyToMany(fetch = FetchType.LAZY)
 	private Collection<Conge> conges = new ArrayList<>();
 
+	@Override
+	public User clone() throws CloneNotSupportedException {
+		return (User) super.clone();
+	}
 }

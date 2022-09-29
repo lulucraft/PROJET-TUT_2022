@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Navigation, Router } from '@angular/router';
 import { AdminConge } from 'src/app/models/conge-admin';
 import { AuthService } from 'src/app/services/auth.service';
@@ -26,7 +27,8 @@ export class CongeValidationComponent implements OnInit {
     private formBuilder: FormBuilder,
     private router: Router,
     private authService: AuthService,
-    private dataService: DataService
+    private dataService: DataService,
+    private snackBar: MatSnackBar
   ) {
     let conge: Navigation | null = this.router.getCurrentNavigation();
 
@@ -56,7 +58,6 @@ export class CongeValidationComponent implements OnInit {
   }
 
   sendCongeValidation(submitterId: string): void {
-    console.log(submitterId);
     if (!this.authService.currentUserValue) return;
 
     if (submitterId === 'validate') {
@@ -68,7 +69,7 @@ export class CongeValidationComponent implements OnInit {
     this.adminConge.conge.validator = this.authService.currentUserValue.username;
 
     this.dataService.sendCongeValidation(this.adminConge.conge).subscribe(() => {
-      alert("Congé " + (submitterId === 'validate' ? 'validé' : 'refusé') + " avec succès");
+      this.snackBar.open('Congé ' + (submitterId === 'validate' ? 'validé' : 'refusé') + ' avec succès', '', { duration: 2000, horizontalPosition: 'right', verticalPosition: 'top', panelClass: ['snack-bar-container'] });
       this.router.navigate(['/admin/conges']);
     });
   }

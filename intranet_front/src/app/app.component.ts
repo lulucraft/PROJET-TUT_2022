@@ -41,7 +41,7 @@ export class AppComponent implements OnInit {
       .pipe(
         catchError(err => {
           if (this.authService.isAuthenticated()) {
-            alert("erreur lors du changement du mode sombre");
+            alert("Erreur lors du changement du mode sombre");
           }
           return throwError(() => console.error(err));
         })

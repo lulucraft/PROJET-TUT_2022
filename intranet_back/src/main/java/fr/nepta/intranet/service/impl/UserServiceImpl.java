@@ -2,7 +2,6 @@ package fr.nepta.intranet.service.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -62,12 +61,21 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	@Override
 	public List<User> getUsers() {
 		log.info("Fetching all users");
+
 		List<User> users = new ArrayList<>();
-		for (Iterator<User> it = userRepo.findAll().iterator(); it.hasNext(); ) {
-			User u = it.next();
-			u.setPassword(null);
-			users.add(u);
+
+		// new ArrayList<User>(... to clone users list without modify it -> when u.setPassword(null)
+		for (User u : userRepo.findAll()) {
+			try {
+				// Clone to avoid user password change
+				User user = u.clone();
+				user.setPassword(null);
+				users.add(user);
+			} catch (CloneNotSupportedException e) {
+				e.printStackTrace();
+			}
 		}
+
 		return users;
 	}
 
@@ -81,7 +89,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 			throw new Exception("User not found in the database");
 		}
 
-		User u = optUser.get();
+		// Clone to avoid user password change
+		User u = optUser.get().clone();
 
 		if (u != null) u.setPassword(null);
 
@@ -132,14 +141,13 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	}
 
 	@Override
-	public void setDarkMode(User user, boolean darkModeEnabled) {
+	public void setDarkMode(User user, boolean darkModeEnabled) throws Exception {
 		if (user == null) {
 			log.error("User is null");
-			return;
+			throw new Exception("User is null");
 		}
 
 		user.setDarkModeEnabled(darkModeEnabled);
-		userRepo.save(user);
 		log.info("Dark mode changed to '{}' for user '{}'", darkModeEnabled, user.getUsername());
 	}
 
@@ -147,7 +155,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	public void editUser(User user) throws Exception {
 		if (user == null) {
 			log.error("User is null");
-			return;
+			throw new Exception("User is null");
 		}
 
 		User u = userRepo.getById(user.getId());
@@ -164,7 +172,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 		if (user.getCongesNbr() >= 0) u.setCongesNbr(user.getCongesNbr());
 		u.setAccountActive(user.isAccountActive());
 
-		userRepo.save(u);
 		log.info("User '{}' updated", u.getId());
 	}
 

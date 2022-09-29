@@ -26,7 +26,7 @@ public interface UserService {
 
 	void deleteCongeFromUser(User user, long congeId) throws Exception;
 
-	void setDarkMode(User user, boolean darkModeEnabled);
+	void setDarkMode(User user, boolean darkModeEnabled) throws Exception;
 
 	void editUser(User user) throws Exception;
 

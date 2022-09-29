@@ -1,6 +1,7 @@
 import { CdkTextareaAutosize } from '@angular/cdk/text-field';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Newsletter } from 'src/app/models/newsletter';
 import { NewsletterType } from 'src/app/models/newsletter-type';
@@ -38,7 +39,7 @@ export class NewsletterComponent implements OnInit {
   });
   public newsletterSells: Newsletter = { title: '', text: '', type: NewsletterType.SELLS };
 
-  constructor(private formBuilder: FormBuilder, private router: Router, private dataService: DataService) { }
+  constructor(private formBuilder: FormBuilder, private router: Router, private dataService: DataService, private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.dataService.getNewsletters().subscribe((newsletters: Newsletter[]) => {
@@ -79,7 +80,7 @@ export class NewsletterComponent implements OnInit {
 
   publishInfosNewsletter(): void {
     if (this.formGroupInfos.get('title')!.invalid || this.formGroupInfos.get('text')!.invalid) {
-      alert('Veuillez remplir tous les champs');
+      this.snackBar.open('Veuillez remplir tous les champs', '', { duration: 2000, horizontalPosition: 'right', verticalPosition: 'top', panelClass: ['snack-bar-container', 'warn'] });
       return;
     }
 
@@ -107,7 +108,7 @@ export class NewsletterComponent implements OnInit {
       // this.formGroupSells.get('november')!.invalid ||
       // this.formGroupSells.get('december')!.invalid
     ) {
-      alert('Veuillez remplir tous les champs');
+      this.snackBar.open('Veuillez remplir tous les champs', '', { duration: 2000, horizontalPosition: 'right', verticalPosition: 'top', panelClass: ['snack-bar-container', 'warn'] });
       return;
     }
 

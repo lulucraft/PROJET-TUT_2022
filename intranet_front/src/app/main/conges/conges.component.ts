@@ -105,7 +105,7 @@ export class CongesComponent implements OnInit {
     this.dataService.deleteCongeRequest(congeId)
       .pipe(
         catchError(err => {
-          alert("erreur lors de la suppression de la demande de congés");
+          alert("Erreur lors de la suppression de la demande de congés");
           return throwError(() => console.error(err));
         })
       )

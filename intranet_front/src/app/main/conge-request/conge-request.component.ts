@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Conge } from 'src/app/models/conge';
 import { DataService } from 'src/app/services/data.service';
@@ -16,7 +17,7 @@ export class CongeRequestComponent implements OnInit {
     endDate: ['', Validators.required]
   });
 
-  constructor(private formBuilder: FormBuilder, private dataService: DataService, private router: Router) { }
+  constructor(private formBuilder: FormBuilder, private dataService: DataService, private router: Router, private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
   }
@@ -26,7 +27,7 @@ export class CongeRequestComponent implements OnInit {
     let endDate = this.congesRequestForm.controls['endDate'].value;
 
     if (!startDate || !endDate) {
-      alert('Veuillez préciser une date de début et de fin du congé')
+      this.snackBar.open('Veuillez préciser une date de début et de fin du congé', '', { duration: 2000, horizontalPosition: 'right', verticalPosition: 'top', panelClass: ['snack-bar-container', 'warn'] });
       return;
     }
     let conge: Conge = { startDate, endDate };

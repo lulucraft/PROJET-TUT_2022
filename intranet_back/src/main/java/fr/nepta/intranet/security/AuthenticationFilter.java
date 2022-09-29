@@ -64,6 +64,7 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 		Algorithm algo = Algorithm.HMAC256(IntranetApplication.SECRET.getBytes());
 		fr.nepta.intranet.model.User user = us.getUser(authUser.getUsername());
 
+		// Account disabled
 		if (!user.isAccountActive()) {
 			log.error("User '{}' cannot log in. User disabled", user.getId());
 			return;
