@@ -61,6 +61,14 @@
         //   }
         // }
 
+        .product-image {
+          width: 112px;
+
+          img {
+            max-width: 112px;
+          }
+        }
+
         // p.product-name {
         //   font-weight: bolder;
         // }

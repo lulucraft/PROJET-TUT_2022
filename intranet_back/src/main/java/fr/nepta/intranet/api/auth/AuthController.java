@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.auth0.jwt.JWT;
@@ -26,17 +27,20 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.nepta.intranet.IntranetApplication;
 import fr.nepta.intranet.model.Role;
 import fr.nepta.intranet.model.User;
+import fr.nepta.intranet.service.RoleService;
 import fr.nepta.intranet.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
 @RequiredArgsConstructor @Log4j2
-@CrossOrigin(origins = "http://localhost:4200/", maxAge = 3600)
+//@CrossOrigin(origins = "https://intranet.tracroute.lan/", maxAge = 3600)
+@CrossOrigin(origins = {"*"}, maxAge = 4800, allowCredentials = "false", methods = { RequestMethod.GET, RequestMethod.OPTIONS, RequestMethod.POST, RequestMethod.PUT })
 @RestController
 @RequestMapping("api/auth/")
 public class AuthController {
 
 	private final UserService us;
+	private final RoleService rs;
 
 	@GetMapping(value = "refreshtoken")//consumes = "application/json", 
 	public void refreshToken(HttpServletRequest request, HttpServletResponse response) {
@@ -81,7 +85,7 @@ public class AuthController {
 		}
 	}
 
-	@PostMapping(value = "register", consumes = "application/json", produces = "application/json")
+	@PostMapping(value = "register", consumes = "application/json")
 	public String register(@RequestBody User user) {
 		if (user.getUsername() == null || user.getUsername().trim().isEmpty()) {
 			throw new IllegalStateException("Nom d'utilisateur manquant");
@@ -98,6 +102,8 @@ public class AuthController {
 
 		// User creation date
 		user.setCreationDate(new Date());
+
+		user.getRoles().add(rs.getRole("USER"));
 
 		us.saveUser(user);
 		// Add user role to User by default

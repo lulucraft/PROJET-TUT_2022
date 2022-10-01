@@ -103,22 +103,21 @@ export class CongesComponent implements OnInit {
 
   deleteConge(congeId: number): void {
     this.dataService.deleteCongeRequest(congeId)
-      .pipe(
-        catchError(err => {
+      .subscribe({
+        next: (resp: string) => {
+          console.info(resp);
+
+          // Remove conges request from table
+          this.congesRequestsNotValidated.data = this.congesRequestsNotValidated.data.filter(cr => cr.id !== congeId);
+          // Remove conges request from unfilter conges list
+          this.conges = this.conges!.filter(c => c.id !== congeId);
+
+          // Refresh conges counter
+          this.calcCongesCounter();
+        },
+        error: (err) => {
           alert("Erreur lors de la suppression de la demande de congés");
-          return throwError(() => console.error(err));
-        })
-      )
-      .subscribe((resp: string) => {
-        console.info(resp);
-
-        // Remove conges request from table
-        this.congesRequestsNotValidated.data = this.congesRequestsNotValidated.data.filter(cr => cr.id !== congeId);
-        // Remove conges request from unfilter conges list
-        this.conges = this.conges!.filter(c => c.id !== congeId);
-
-        // Refresh conges counter
-        this.calcCongesCounter();
+        }
       });
   }
 

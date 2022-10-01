@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
+import { lastValueFrom, Observable } from 'rxjs';
 import { Product } from 'src/app/models/product';
 import { Size } from 'src/app/models/size';
 import { DataService } from 'src/app/services/data.service';
@@ -74,7 +75,7 @@ export class ProductComponent implements OnInit {
     this.router.navigate(['/admin/products']);
   }
 
-  sendProduct(): void {
+  async sendProduct(): Promise<void> {
     let name = this.formGroup.controls['nameCtrl'].value;
     let description = this.formGroup.controls['descriptionCtrl'].value;
     let brand = this.formGroup.controls['brandCtrl'].value;
@@ -92,7 +93,9 @@ export class ProductComponent implements OnInit {
     }
 
     if (this.productId == -1) {
-      if (this.dataService.productExists(name)) {
+      let productExists$: Observable<boolean> = this.dataService.productExists(name);
+      let exists: boolean = await lastValueFrom(productExists$);
+      if (exists) {
         this.snackBar.open('Le produit \'' + name + '\' existe déjà', '', { duration: 2000, horizontalPosition: 'right', verticalPosition: 'top', panelClass: ['snack-bar-container', 'warn'] });
         return;
       }

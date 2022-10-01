@@ -13,7 +13,8 @@
 
         <!-- Nom produit -->
         <mat-form-field>
-          <input matInput type="text" class="shop-search-input" placeholder="Nom produit" [(ngModel)]="filterProductName" (keyup)="onFilter()">
+          <input matInput type="text" class="shop-search-input" placeholder="Nom produit"
+            [(ngModel)]="filterProductName" (keyup)="onFilter()">
         </mat-form-field>
 
         <!-- En promotion -->
@@ -28,12 +29,14 @@
 
         <!-- Prix min -->
         <mat-form-field>
-          <input matInput type="number" class="shop-search-input" placeholder="Prix min" [(ngModel)]="filterPriceMin" (keyup)="onFilter()" (change)="onFilter()">
+          <input matInput type="number" class="shop-search-input" placeholder="Prix min" [(ngModel)]="filterPriceMin"
+            (keyup)="onFilter()" (change)="onFilter()">
         </mat-form-field>
 
         <!-- Prix max -->
         <mat-form-field>
-          <input matInput type="number" class="shop-search-input" placeholder="Prix max" [(ngModel)]="filterPriceMax" (keyup)="onFilter()" (change)="onFilter()">
+          <input matInput type="number" class="shop-search-input" placeholder="Prix max" [(ngModel)]="filterPriceMax"
+            (keyup)="onFilter()" (change)="onFilter()">
         </mat-form-field>
       </div>
     </div>
@@ -52,7 +55,19 @@
 
         <mat-card-content>
           <!-- <p>{{ product.brand }}</p> -->
-          <p>{{ product.price }} €</p>
+          <div *ngIf="product.refund" [style]="{'margin-right' : (product.refund ? '25px' : null)}">
+            <div class="shop-price-left">
+              <span class="shop-price-refund">-{{ product.refund }} %</span>
+            </div>
+
+            <div class="shop-price-right">
+              <span class="shop-price-left">{{ product.price }} €</span>
+              <span class="shop-price-right">{{ product.price - (product.price * product.refund / 100) }} €</span>
+            </div>
+          </div>
+          <p *ngIf="!product.refund">
+            <span class="shop-price-right">{{ product.price }} €</span>
+          </p>
         </mat-card-content>
 
         <mat-card-actions>

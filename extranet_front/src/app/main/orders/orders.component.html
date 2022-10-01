@@ -6,7 +6,7 @@
     </div>
 
     <!-- Orders body -->
-    <div class="orders-body">
+    <div class="orders-body" *ngIf="orders$ | async">
       <div class="orders-item" *ngFor="let order of orders">
         <div class="orders-item-left">
           <h4>Numéro de commande : {{ order.id }}</h4>

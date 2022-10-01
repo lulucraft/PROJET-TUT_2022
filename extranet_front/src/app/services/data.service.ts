@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { map, Observable } from 'rxjs';
+import { catchError, map, Observable, tap, throwError } from 'rxjs';
 import { CartProduct } from '../models/cart-product';
 import { Country } from '../models/country';
 import { Order } from '../models/order';
@@ -151,11 +151,7 @@ export class DataService {
   }
 
   productExists(productName: string): Observable<boolean> {
-    return this.http.get<boolean>(this.apiBaseUrl + 'api/admin/productexists', { params: new HttpParams().set('productName', productName) })
-      .pipe(map((exists: boolean) => {
-        console.log(exists);
-        return exists;
-      }));
+    return this.http.get<boolean>(this.apiBaseUrl + 'api/admin/productexists', { params: new HttpParams().set('productName', productName) });
   }
 
   sendProduct(product: Product): void {

@@ -65,7 +65,7 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 		fr.nepta.intranet.model.User user = us.getUser(authUser.getUsername());
 
 		// Account disabled
-		if (!user.isAccountActive()) {
+		if (user != null && !user.isAccountActive()) {
 			log.error("User '{}' cannot log in. User disabled", user.getId());
 			return;
 		}
@@ -94,6 +94,7 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 		tokens.put("refreshToken", refreshToken);
 
 		response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+//		response.setHeader("Access-Control-Allow-Origin", "*");
 		new ObjectMapper().writeValue(response.getOutputStream(), tokens);
 	}
 

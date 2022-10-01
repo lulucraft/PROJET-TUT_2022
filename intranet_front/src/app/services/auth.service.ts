@@ -59,14 +59,14 @@ export class AuthService {
           this.snackBar.open('Votre compte a été créé', '', { duration: 2500, horizontalPosition: 'center', verticalPosition: 'top', panelClass: ['snack-bar-container'] });
         },
         error: (error) => {
-          if (error.error && error.error.message) {
-            if (error.error.message === "Ce nom d'utilisateur est déjà utilisé") {
-              this.snackBar.open('Ce nom d\'utilisateur est déjà utilisé', '', { duration: 1500, horizontalPosition: 'right', verticalPosition: 'top', panelClass: ['snack-bar-container', 'warn'] });
-              this.login(user);
-              return;
-            } else {
-              this.snackBar.open(error.error.message, '', { duration: 1500, horizontalPosition: 'right', verticalPosition: 'top', panelClass: ['snack-bar-container', 'warn'] });
-            }
+          if (error.error) {// && error.error.message) {
+            // if (error.error.message === "Ce nom d'utilisateur est déjà utilisé") {
+            this.snackBar.open('Ce nom d\'utilisateur est déjà utilisé', '', { duration: 1500, horizontalPosition: 'right', verticalPosition: 'top', panelClass: ['snack-bar-container', 'warn'] });
+            this.login(user);
+            return;
+            // } else {
+            //   this.snackBar.open(error.error.message, '', { duration: 1500, horizontalPosition: 'right', verticalPosition: 'top', panelClass: ['snack-bar-container', 'warn'] });
+            // }
           }
           console.error(error);
         }
@@ -77,16 +77,6 @@ export class AuthService {
     let params: HttpParams = new HttpParams()
       .set('username', user.username)
       .set('password', user.password);
-
-    // let headers: HttpHeaders = new HttpHeaders({
-    //   'Content-Type': 'application/x-www-form-urlencoded',
-    //   'Access-Control-Allow-Origin': '*',
-    //   // 'Origin': 'http://localhost:4200',
-    //   // 'responseType': 'text'
-    //   'Accept': '*/*'
-    // })
-    // headers = headers.set('Accept', '*/*');
-    // headers = headers.set('Content-Type', 'application/x-www-form-urlencoded');
 
     this.http.post<JWTToken>(this.apiBaseUrl + 'api/auth/login', null, { params: params })
       .subscribe({
@@ -99,7 +89,7 @@ export class AuthService {
           try {
             decodedToken = this.decodeToken(user.token);
           } catch (error) {
-            this.snackBar.open('Vous n\'êtes pas autorisé à vous connecter', '', { duration: 2000, horizontalPosition: 'right', verticalPosition: 'top', panelClass: ['snack-bar-container', 'warn']});
+            this.snackBar.open('Vous n\'êtes pas autorisé à vous connecter', '', { duration: 2000, horizontalPosition: 'right', verticalPosition: 'top', panelClass: ['snack-bar-container', 'warn'] });
             return;
           }
 
@@ -117,8 +107,6 @@ export class AuthService {
 
           // User preferences
           user.darkModeEnabled = decodedToken.dark_mode_enabled;
-
-            document.body.classList.add('darkMode')
 
           localStorage.setItem('currentUser', JSON.stringify(user));
           this.currentUserSubject.next(user);

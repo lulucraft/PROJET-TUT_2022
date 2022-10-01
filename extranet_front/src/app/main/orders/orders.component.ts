@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 import { CartProduct } from 'src/app/models/cart-product';
 import { Order } from 'src/app/models/order';
 import { DataService } from 'src/app/services/data.service';
@@ -11,11 +12,13 @@ import { DataService } from 'src/app/services/data.service';
 export class OrdersComponent implements OnInit {
 
   public orders: Order[] = [];
+  public orders$?: Observable<Order[]>;
 
   constructor(private dataService: DataService) { }
 
   ngOnInit(): void {
-    this.dataService.getOrders().subscribe((orders: Order[]) => {
+    this.orders$ = this.dataService.getOrders();
+    this.orders$.subscribe((orders: Order[]) => {
       this.orders = orders;
     });
   }
@@ -24,10 +27,12 @@ export class OrdersComponent implements OnInit {
     let totalPrice: number = 0;
 
     if (order.products) {
-      order.products.forEach((cartProduct: CartProduct) => {
-        if (!cartProduct.product || !cartProduct.product.price) return;
+      for (let cartProduct of order.products) {
+        console.log(cartProduct);
+        if (!cartProduct.product || !cartProduct.product.price) continue;
         totalPrice += cartProduct.product.price * cartProduct.quantity;
-      });
+        console.log(totalPrice);
+      }
     }
 
     return totalPrice;

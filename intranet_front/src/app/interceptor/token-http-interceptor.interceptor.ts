@@ -16,6 +16,8 @@ export class TokenHttpInterceptorInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     // console.log(request.url)
+    // request.headers.set('Access-Control-Allow-Origin', '*');
+
     if (request.url === this.apiBaseUrl + 'api/auth/register' ||
       request.url === this.apiBaseUrl + 'api/auth/login' ||
       request.url === this.apiBaseUrl + 'api/auth/logout' ||
