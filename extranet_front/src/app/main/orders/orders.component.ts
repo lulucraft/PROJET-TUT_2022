@@ -20,7 +20,6 @@ export class OrdersComponent implements OnInit {
     this.orders$ = this.dataService.getOrders();
     this.orders$.subscribe((orders: Order[]) => {
       this.orders = orders;
-      console.log(orders);
     });
   }
 
@@ -30,7 +29,7 @@ export class OrdersComponent implements OnInit {
     if (order.products) {
       for (let product of order.products) {
         if (!product || !product.price) continue;
-        totalPrice += product.price;
+        totalPrice += DataService.getRefundPrice(product);
       }
     }
 

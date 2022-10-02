@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CartProduct } from '../models/cart-product';
+import { Product } from '../models/product';
 import { AuthService } from '../services/auth.service';
 import { DataService } from '../services/data.service';
 
@@ -86,10 +87,18 @@ export class CartComponent implements OnInit {
     }
   }
 
+  getRefundPrice(product: Product): number {
+    return DataService.getRefundPrice(product);
+  }
+
   getTotalPrice(): number {
     let total = 0;
-    this.cart.forEach(product => {
-      total += product.product.price * product.quantity;
+    this.cart.forEach((cartProduct: CartProduct) => {
+      // if (cartProduct.product.refund) {
+      total += DataService.getRefundPrice(cartProduct.product) * cartProduct.quantity;
+      // } else {
+      //   total += cartProduct.product.price * cartProduct.quantity;
+      // }
     });
     return total;
   }

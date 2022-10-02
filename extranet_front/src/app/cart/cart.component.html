@@ -22,7 +22,8 @@
       <div class="cart-item" *ngFor="let cartProduct of cart">
         <div class="cart-item-header">
           <div class="cart-item-header-left">
-            <img [src]="cartProduct.product.imageLink" (error)="cartProduct.product.imageLink='https://cdn.tiresleader.com/static/img/tyre_small_nologo/954747.jpg'" alt="Pneus" />
+            <img [src]="cartProduct.product.imageLink"
+              (error)="cartProduct.product.imageLink='https://cdn.tiresleader.com/static/img/tyre_small_nologo/954747.jpg'" alt="Pneus" />
           </div>
 
           <div class="cart-item-header-center">
@@ -61,7 +62,8 @@
               </button>
 
               <!-- Middle input quantity -->
-              <input type="number" [value]="cartProduct.quantity" (change)="onChangeProductQuantity($event, cartProduct)" #quantityToAdd />
+              <input type="number" [value]="cartProduct.quantity"
+                (change)="onChangeProductQuantity($event, cartProduct)" #quantityToAdd />
 
               <!-- Right button -->
               <button mat-icon-button (click)="addProductQuantity(cartProduct)">
@@ -72,11 +74,27 @@
 
           <div class="cart-item-body-right-middle">
             <!-- <span>Total : </span> -->
+
+            <!-- Quantity x Price without refund -->
             <div class="cart-item-body-right-middle-price-refund" *ngIf="cartProduct.product.refund">
-              <div><h5>{{ cartProduct.quantity }} x {{ cartProduct.product.price - (cartProduct.product.price * cartProduct.product.refund / 100) }} €</h5></div>
+              <h5>{{ cartProduct.quantity }} x {{ cartProduct.product.price }} €</h5>
             </div>
-            <div><h5>{{ cartProduct.quantity }} x {{ cartProduct.product.price }} €</h5></div>
-            <div><h4>{{ cartProduct.product.price * parseNumber(quantityToAdd.value) }} €</h4></div>
+
+            <div>
+              <!-- Normal price -->
+              <!-- <h5 *ngIf="!cartProduct.product.refund">{{ cartProduct.quantity }} x {{ cartProduct.product.price }} €</h5> -->
+              <!-- Refund price -->
+              <!-- <h5 *ngIf="cartProduct.product.refund">{{ cartProduct.quantity }} x {{ getRefundPrice(cartProduct.product) }} €</h5> -->
+              <h5>{{ cartProduct.quantity }} x {{ getRefundPrice(cartProduct.product) }} €</h5>
+            </div>
+
+            <div>
+              <!-- Normal price -->
+              <!-- <h4 *ngIf="!cartProduct.product.refund">{{ cartProduct.product.price * parseNumber(quantityToAdd.value) }} €</h4> -->
+              <!-- Refund price -->
+              <!-- <h4 *ngIf="cartProduct.product.refund">{{ getRefundPrice(cartProduct.product) * parseNumber(quantityToAdd.value) }} €</h4> -->
+              <h4>{{ getRefundPrice(cartProduct.product) * parseNumber(quantityToAdd.value) }} €</h4>
+            </div>
           </div>
 
           <!-- Body right -->

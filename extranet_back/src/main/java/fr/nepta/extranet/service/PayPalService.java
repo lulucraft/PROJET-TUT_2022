@@ -80,7 +80,11 @@ public class PayPalService {
 
 			Product p = ps.getProduct((String) jsonProduct.get("name"));
 			if (p != null) {
-				products.add(p);					
+				int quantity = (int) Integer.parseInt((String) jsonProduct.get("quantity"));
+				System.err.println(quantity);
+				for (int i1 = 0; i1 < quantity; i1++) {
+					products.add(p);
+				}
 			}
 		}
 

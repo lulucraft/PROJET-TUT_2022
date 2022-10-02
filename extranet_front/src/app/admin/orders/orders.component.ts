@@ -29,7 +29,7 @@ export class OrdersComponent implements OnInit {
     if (order.products) {
       for (let product of order.products) {
         if (!product || !product.price) continue;
-        totalPrice += product.price;
+        totalPrice += DataService.getRefundPrice(product);
       }
     }
 

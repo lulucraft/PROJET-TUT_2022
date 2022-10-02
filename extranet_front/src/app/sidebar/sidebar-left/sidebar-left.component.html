@@ -7,6 +7,11 @@
       <button mat-button *ngIf="isAuthenticated()" (click)="account()"><img src="assets/images/user.svg" width="24">{{ getUserName() }}</button>
     </li>
 
+    <!-- Newsletter -->
+    <li>
+      <button mat-button (click)="newsletter()"><mat-icon>newspaper</mat-icon> Newsletter</button>
+    </li>
+
     <!-- USER Mes commandes -->
     <li *ngIf="isAuthenticated()">
       <button mat-button (click)="orders()"><mat-icon>event_note</mat-icon> Mes commandes</button>

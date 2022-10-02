@@ -6,6 +6,7 @@ import { CreateOrderActions, CreateOrderData, loadScript, OnApproveActions, OnAp
 import { MatStepper } from '@angular/material/stepper';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
+import { Product } from 'src/app/models/product';
 
 @Component({
   selector: 'app-checkout',
@@ -75,7 +76,7 @@ export class CheckoutComponent implements OnInit {
                       quantity: p.quantity.toString(),
                       unit_amount: {
                         currency_code: "EUR",
-                        value: p.product.price.toString()
+                        value: DataService.getRefundPrice(p.product).toString()
                       }
                     }
                   })
@@ -182,7 +183,9 @@ export class CheckoutComponent implements OnInit {
   }
 
   getTotalPrice(): number {
-    let productPrices: number[] = this.dataService.getCart.map(p => p.product.price * p.quantity);
+    let productPrices: number[] = this.dataService.getCart.map(p => {
+      return DataService.getRefundPrice(p.product) * p.quantity;
+    });
     return productPrices.reduce((a, b) => a + b, 0);
   }
 

@@ -111,7 +111,7 @@
           flex-direction: row;
           align-items: center;
           // justify-content: space-between;
-          flex: 2;
+          flex: 2.5;
 
           .cart-item-header-center {
             display: flex;
@@ -153,16 +153,16 @@
           display: flex;
           flex-direction: row;
           justify-content: space-between;
-          // flex: 1;
-          gap: 10px;
-          flex-wrap: wrap;
+          gap: 7px;
+          flex-wrap: nowrap;
+          flex: 1;
 
           .cart-item-body-left {
-            // display: flex;
-            // align-items: center;
             // justify-content: flex-start;
-            // flex-direction: column;
             margin-top: -18px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
 
             .cart-item-body-left-bottom {
               display: flex;
@@ -186,6 +186,7 @@
             align-items: center;
             justify-content: center;
             flex-direction: column;
+            flex: none;
 
             h5 {
               margin: 0;
@@ -228,7 +229,6 @@
       }
     }
   }
-
 }
 
 :host-context(.darkMode) {

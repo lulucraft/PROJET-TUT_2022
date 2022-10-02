@@ -20,7 +20,7 @@ public class CORSConfig implements WebMvcConfigurer {
 		// Enable cross-origin request handling for the specified path pattern. 
         // Exact path mapping URIs (such as "/admin") are supported as well as Ant-style path patterns (such as "/admin/**"). 
         .addMapping("/*")
-        .allowedOrigins("*")
+        .allowedOrigins("https://extranet.tracroute.lan")
         // .allowedOriginPatterns("")
         .allowCredentials(false)
         .allowedHeaders("*")

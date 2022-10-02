@@ -17,6 +17,7 @@ import { RegisterComponent } from './auth/register/register.component';
 import { ProductsComponent } from './admin/products/products.component';
 import { ProductComponent } from './admin/product/product.component';
 import { OrdersComponent as AdminOrdersComponent } from './admin/orders/orders.component';
+import { NewsletterComponent } from './newsletter/newsletter.component';
 
 @Injectable({ providedIn: 'root' })
 export class TemplatePageTitleStrategy extends TitleStrategy {
@@ -56,6 +57,7 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
 
+  { path: 'newsletter', component: NewsletterComponent },
   { path: 'account', redirectTo: 'main/account' },
 
   { path: '**', component: HomeComponent }

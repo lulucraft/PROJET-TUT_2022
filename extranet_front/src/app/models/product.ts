@@ -9,5 +9,5 @@ export interface Product {
   size: Size;
   stockQuantity: number;
   imageLink?: string;
-  refund?: number;
+  refund: number;
 }

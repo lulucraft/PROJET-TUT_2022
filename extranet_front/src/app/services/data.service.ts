@@ -51,6 +51,10 @@ export class DataService {
     }
   }
 
+  public static getRefundPrice(product: Product): number {
+    return product.price - (product.price * product.refund / 100);
+  }
+
   // USER
   // deleteCongeRequest(congeId: number): Observable<string> {
   //   return this.http.post<string>(this.apiBaseUrl + 'api/user/deletecongesrequest', congeId);
@@ -96,8 +100,8 @@ export class DataService {
   addProductToCart(cartProduct: CartProduct): void {
     let productAlreadyInCart: CartProduct | undefined = this.cart.find(cp => cp.product.id === cartProduct.product.id);
     if (productAlreadyInCart) {
-      console.log('Product already in cart');
-      console.log(productAlreadyInCart);
+      // console.log('Product already in cart');
+      // console.log(productAlreadyInCart);
       productAlreadyInCart.quantity += cartProduct.quantity;
       // this.cart.find(cp => cp.product.id === cartProduct.product.id).quantity = productAlreadyInCart.quantity;
     } else {

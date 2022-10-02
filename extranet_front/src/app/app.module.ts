@@ -30,6 +30,7 @@ import { RegisterComponent } from './auth/register/register.component';
 import { ProductsComponent } from './admin/products/products.component';
 import { ProductComponent } from './admin/product/product.component';
 import { OrdersComponent as AdminOrdersComponent } from './admin/orders/orders.component';
+import { NewsletterComponent } from './newsletter/newsletter.component';
 
 registerLocaleData(localeFr, 'fr-FR');
 
@@ -52,7 +53,8 @@ registerLocaleData(localeFr, 'fr-FR');
     RegisterComponent,
     ProductsComponent,
     ProductComponent,
-    AdminOrdersComponent
+    AdminOrdersComponent,
+    NewsletterComponent
   ],
   imports: [
     BrowserModule,
