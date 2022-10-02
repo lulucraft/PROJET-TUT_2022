@@ -24,8 +24,9 @@
           <div class="cart-item-header-left">
             <img [src]="cartProduct.product.imageLink" (error)="cartProduct.product.imageLink='https://cdn.tiresleader.com/static/img/tyre_small_nologo/954747.jpg'" alt="Pneus" />
           </div>
-          <div class="cart-item-header-right">
-            <div class="cart-item-header-right-top">
+
+          <div class="cart-item-header-center">
+            <div class="cart-item-header-center-top">
               <h4>{{ cartProduct.product.name }}</h4>
               <h5>{{ cartProduct.product.size.label }}</h5>
             </div>
@@ -33,6 +34,15 @@
               <span>Prix unitaire : </span>
               <span>{{ cartProduct.product.price }} €</span>
             </div> -->
+          </div>
+
+          <div class="cart-item-header-center-left">
+            <!-- <h4>Marque : </h4> -->
+            <h4>{{ cartProduct.product.brand }}</h4>
+          </div>
+
+          <div class="cart-item-header-center-right">
+            <h4>{{ cartProduct.product.description }}</h4>
           </div>
         </div>
 
@@ -62,6 +72,9 @@
 
           <div class="cart-item-body-right-middle">
             <!-- <span>Total : </span> -->
+            <div class="cart-item-body-right-middle-price-refund" *ngIf="cartProduct.product.refund">
+              <div><h5>{{ cartProduct.quantity }} x {{ cartProduct.product.price - (cartProduct.product.price * cartProduct.product.refund / 100) }} €</h5></div>
+            </div>
             <div><h5>{{ cartProduct.quantity }} x {{ cartProduct.product.price }} €</h5></div>
             <div><h4>{{ cartProduct.product.price * parseNumber(quantityToAdd.value) }} €</h4></div>
           </div>

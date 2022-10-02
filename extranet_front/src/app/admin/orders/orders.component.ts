@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { CartProduct } from 'src/app/models/cart-product';
 import { Order } from 'src/app/models/order';
+import { UserOrder } from 'src/app/models/user-order';
 import { DataService } from 'src/app/services/data.service';
 
 @Component({
@@ -11,16 +11,15 @@ import { DataService } from 'src/app/services/data.service';
 })
 export class OrdersComponent implements OnInit {
 
-  public orders: Order[] = [];
-  public orders$?: Observable<Order[]>;
+  public orders$?: Observable<UserOrder[]>;
+  public orders: UserOrder[] = [];
 
   constructor(private dataService: DataService) { }
 
   ngOnInit(): void {
-    this.orders$ = this.dataService.getOrders();
-    this.orders$.subscribe((orders: Order[]) => {
+    this.orders$ = this.dataService.getUsersOrders();
+    this.orders$.subscribe(orders => {
       this.orders = orders;
-      console.log(orders);
     });
   }
 

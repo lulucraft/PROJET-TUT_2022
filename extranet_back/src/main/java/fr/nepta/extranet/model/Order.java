@@ -32,6 +32,15 @@ public class Order {
 	@DateTimeFormat(pattern = "dd-MM-yyyy HH:mm")
 	private Date date;
 
+////	@ManyToMany(fetch = FetchType.EAGER)
+//	@ElementCollection//(targetClass = ProductQuantity.class)
+//	@CollectionTable(joinColumns = @JoinColumn(name = "order_id"))
+//	@MapKeyJoinColumn(name = "product_id", referencedColumnName = "id")
+////    @MapKeyColumn(name = "product_id")
+//	@Column(name = "qty")
+//	private Map<Product, Integer> products = new HashMap<>();
+
+	@Column(name = "product_id")
 	@ManyToMany(fetch = FetchType.EAGER)
 	private Collection<Product> products = new ArrayList<>();
 

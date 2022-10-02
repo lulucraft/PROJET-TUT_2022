@@ -1,5 +1,7 @@
 package fr.nepta.extranet.api.admin;
 
+import java.util.Collection;
+
 import javax.annotation.security.RolesAllowed;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,11 +10,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import fr.nepta.extranet.model.Product;
 import fr.nepta.extranet.model.Size;
+import fr.nepta.extranet.model.UserOrder;
+import fr.nepta.extranet.service.OrderService;
 import fr.nepta.extranet.service.ProductService;
 import fr.nepta.extranet.service.SizeService;
 import fr.nepta.extranet.service.UserService;
@@ -21,7 +26,8 @@ import lombok.extern.log4j.Log4j2;
 
 @Log4j2
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:4200/", maxAge = 3600)
+//@CrossOrigin(origins = "http://localhost:4200/", maxAge = 3600)
+@CrossOrigin(origins = {"*"}, maxAge = 4800, allowCredentials = "false", methods = { RequestMethod.GET, RequestMethod.OPTIONS, RequestMethod.POST, RequestMethod.PUT })
 @RestController
 @RequestMapping("api/admin/")
 public class AdminController {
@@ -32,6 +38,8 @@ public class AdminController {
 	private final ProductService ps;
 	@Autowired
 	private final SizeService ss;
+	@Autowired
+	private final OrderService os;
 
 	@RolesAllowed("ADMIN")
 	@GetMapping(value = "users")
@@ -80,6 +88,12 @@ public class AdminController {
 	@GetMapping(value = "productexists")
 	public boolean productExists(@RequestParam String productName) {
 		return ps.getProduct(productName) != null;
+	}
+
+	@RolesAllowed("ADMIN")
+	@GetMapping(value = "orders")
+	public Collection<UserOrder> getOrders() {
+		return os.getOrders();
 	}
 
 //	@RolesAllowed("ADMIN")

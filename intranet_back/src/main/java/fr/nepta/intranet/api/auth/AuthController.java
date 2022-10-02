@@ -27,7 +27,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.nepta.intranet.IntranetApplication;
 import fr.nepta.intranet.model.Role;
 import fr.nepta.intranet.model.User;
-import fr.nepta.intranet.service.RoleService;
 import fr.nepta.intranet.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -40,7 +39,6 @@ import lombok.extern.log4j.Log4j2;
 public class AuthController {
 
 	private final UserService us;
-	private final RoleService rs;
 
 	@GetMapping(value = "refreshtoken")//consumes = "application/json", 
 	public void refreshToken(HttpServletRequest request, HttpServletResponse response) {
@@ -103,11 +101,9 @@ public class AuthController {
 		// User creation date
 		user.setCreationDate(new Date());
 
-		user.getRoles().add(rs.getRole("USER"));
-
 		us.saveUser(user);
 		// Add user role to User by default
-		//us.addRoleToUser(user.getUsername(), "USER");
+		us.addRoleToUser(user.getUsername(), "USER");
 
 		return user.getId().toString();
 	}

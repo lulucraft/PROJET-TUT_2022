@@ -6,6 +6,7 @@ import { Country } from '../models/country';
 import { Order } from '../models/order';
 import { Product } from '../models/product';
 import { Size } from '../models/size';
+import { UserOrder } from '../models/user-order';
 import { AuthService } from './auth.service';
 
 @Injectable({
@@ -168,6 +169,10 @@ export class DataService {
         console.log('Product deleted');
       }
     });
+  }
+
+  getUsersOrders(): Observable<UserOrder[]> {
+    return this.http.get<UserOrder[]>(this.apiBaseUrl + 'api/admin/orders');
   }
 
 }

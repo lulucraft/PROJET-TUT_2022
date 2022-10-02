@@ -11,10 +11,11 @@ import java.util.Collection;
 
 import javax.annotation.PostConstruct;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.configurationprocessor.json.JSONArray;
-import org.springframework.boot.configurationprocessor.json.JSONException;
-import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.stereotype.Component;
 
 import fr.nepta.extranet.model.Product;
@@ -43,8 +44,8 @@ public class PayPalService {
 
 		if (checkoutOrders == null) return null;
 
-		System.out.println(checkoutOrders);
-		System.out.println(checkoutOrders.toString());
+//		System.out.println(checkoutOrders);
+//		System.out.println(checkoutOrders.toString());
 		//		System.out.println(checkoutOrders.length());
 
 		//		ObjectMapper om = new ObjectMapper();
@@ -53,38 +54,33 @@ public class PayPalService {
 		//		System.err.println(om.readValue(checkoutOrders.toString(), PurshaseUnits.class).items);
 
 		// Get purshase_units of order
-		JSONObject pu;
-		try {
-			pu = checkoutOrders.getJSONArray("purchase_units").getJSONObject(0);
-		} catch (JSONException e) {
+		JSONArray pu = (JSONArray) checkoutOrders.get("purchase_units");
+		if (pu == null) {
 			log.error("Impossible to get purchase_units of order '{}'", orderId);
-			e.printStackTrace();
 			return null;
 		}
 
 		// Get purshase_units items
-		JSONArray items;
-		try {
-			items = pu.getJSONArray("items");
-		} catch (JSONException e) {
+		JSONArray items = (JSONArray) ((JSONObject) pu.get(0)).get("items");
+		if (items == null) {
 			log.error("Impossible to get items of purshase_units of order '{}'", orderId);
-			e.printStackTrace();
 			return null;
 		}
 
 		Collection<Product> products = new ArrayList<>();
 
 		// Get purshase_units items and convert to product
-		for (int i = 0; i < items.length(); i++) {
-			try {
-				JSONObject jsonProduct = items.getJSONObject(i);
-				Product p = ps.getProduct(jsonProduct.getString("name"));
-				if (p != null) {
-					products.add(p);					
-				}
-			} catch (JSONException e) {
+		for (int i = 0; i < items.size(); i++) {
+			JSONObject jsonProduct = (JSONObject) items.get(i);
+
+			if (jsonProduct == null) {
 				log.error("Impossible to get item '{}' of purshase_units items of order '{}'", i, orderId);
-				e.printStackTrace();
+				continue;
+			}
+
+			Product p = ps.getProduct((String) jsonProduct.get("name"));
+			if (p != null) {
+				products.add(p);					
 			}
 		}
 
@@ -107,14 +103,20 @@ public class PayPalService {
 		HttpResponse<?> response = client.send(request, BodyHandlers.ofString());
 
 		JSONObject jsonResponse = null;
-		try {
-			jsonResponse = new JSONObject(response.body().toString());
+//		try {
+			try {
+				jsonResponse = (JSONObject) new JSONParser().parse(response.body().toString());
+				return (String) jsonResponse.get("access_token");
+			} catch (ParseException e) {
+				log.error("PayPal access_token request failed");
+				e.printStackTrace();
+			}
 			//System.out.println(jsonResponse);
-			return jsonResponse.getString("access_token");
-		} catch (JSONException e) {
-			log.error("PayPal access_token request failed");
-			e.printStackTrace();
-		}
+//			return jsonResponse.getString("access_token");
+//		} catch (JSONException e) {
+//			log.error("PayPal access_token request failed");
+//			e.printStackTrace();
+//		}
 
 		//		URL url = new URL(urlStr);
 		//		URLConnection conn = url.openConnection();
@@ -170,8 +172,8 @@ public class PayPalService {
 
 		JSONObject jsonResponse = null;
 		try {
-			jsonResponse = new JSONObject(response.body().toString());
-		} catch (JSONException e) {
+			jsonResponse = (JSONObject) new JSONParser().parse(response.body().toString());
+		} catch (ParseException e) {
 			log.error("Authorizations request failed for order '{}'", orderId);
 			e.printStackTrace();
 		}

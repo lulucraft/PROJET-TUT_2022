@@ -1,7 +1,7 @@
-import { CartProduct } from "./cart-product";
+import { Product } from "./product";
 
 export interface Order {
   id: string;
   date: Date;
-  products?: CartProduct[];
+  products?: Product[];
 }

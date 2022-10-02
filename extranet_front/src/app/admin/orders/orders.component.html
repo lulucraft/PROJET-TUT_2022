@@ -2,15 +2,16 @@
   <div class="orders-content darkModeAuto">
     <!-- Orders header -->
     <div class="orders-header">
-      <h3>Commandes passées</h3>
+      <h3>Commandes passées par les utilisateurs</h3>
     </div>
 
     <!-- Orders body -->
     <div class="orders-body" *ngIf="orders$ | async">
-      <div class="orders-item" *ngFor="let order of orders">
+      <div class="orders-item" *ngFor="let userOrder of orders">
         <div class="orders-item-left">
-          <h4>Numéro de commande : {{ order.id }}</h4>
-          <h5>Date de la commande : {{ order.date | date: 'dd/MM/YYYY HH:mm:ss' : 'GMT' }}</h5>
+          <h3>Utilisateur : <b>{{ userOrder.user.username }}</b></h3>
+          <h4>Numéro de commande : {{ userOrder.order.id }}</h4>
+          <h5>Date de la commande : {{ userOrder.order.date | date: 'dd/MM/YYYY HH:mm:ss' : 'GMT' }}</h5>
         </div>
 
         <div class="orders-item-middle">
@@ -22,18 +23,18 @@
 
         <div class="orders-item-right">
           <div class="orders-item-right-top">
-            <span>Articles : {{ order.products ? order.products.length : 0 }}</span>
+            <span>Articles : {{ userOrder.order.products ? userOrder.order.products.length : 0 }}</span>
           </div>
 
           <div class="orders-item-right-bottom">
-            <h4>Total : {{ order.products ? getTotalPrice(order) : null }} €</h4>
+            <h4>Total : {{ userOrder.order.products ? getTotalPrice(userOrder.order) : null }} €</h4>
           </div>
         </div>
 
       </div>
 
       <div class="orders-empty" *ngIf="!orders.length">
-        <p>Ohh 😓 tu n'as passé aucune commande</p>
+        <p>Aucun utilisateur n'a passé de commande</p>
       </div>
     </div>
   </div>

@@ -54,7 +54,8 @@
           (error)="product.imageLink='https://cdn.tiresleader.com/static/img/tyre_small_nologo/954747.jpg'" alt="Pneus">
 
         <mat-card-content>
-          <!-- <p>{{ product.brand }}</p> -->
+          <p>{{ product.brand }}</p>
+
           <div *ngIf="product.refund" [style]="{'margin-right' : (product.refund ? '25px' : null)}">
             <div class="shop-price-left">
               <span class="shop-price-refund">-{{ product.refund }} %</span>
@@ -65,6 +66,7 @@
               <span class="shop-price-right">{{ product.price - (product.price * product.refund / 100) }} €</span>
             </div>
           </div>
+
           <p *ngIf="!product.refund">
             <span class="shop-price-right">{{ product.price }} €</span>
           </p>

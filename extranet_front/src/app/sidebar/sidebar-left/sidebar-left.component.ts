@@ -52,7 +52,16 @@ export class SidebarLeftComponent implements OnInit {
 
   orders(): void {
     this.appHeader.leftMenuOpened = false;
-    this.router.navigate(['main/orders']);
+    // if (!this.isAdmin()) {
+      this.router.navigate(['main/orders']);
+    // } else {
+      // this.router.navigate(['admin/orders']);
+    // }
+  }
+
+  adminOrders(): void {
+    this.appHeader.leftMenuOpened = false;
+    this.router.navigate(['admin/orders']);
   }
 
   login(): void {

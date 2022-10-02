@@ -29,6 +29,7 @@ import { OrdersComponent } from './main/orders/orders.component';
 import { RegisterComponent } from './auth/register/register.component';
 import { ProductsComponent } from './admin/products/products.component';
 import { ProductComponent } from './admin/product/product.component';
+import { OrdersComponent as AdminOrdersComponent } from './admin/orders/orders.component';
 
 registerLocaleData(localeFr, 'fr-FR');
 
@@ -51,6 +52,7 @@ registerLocaleData(localeFr, 'fr-FR');
     RegisterComponent,
     ProductsComponent,
     ProductComponent,
+    AdminOrdersComponent
   ],
   imports: [
     BrowserModule,
@@ -68,6 +70,7 @@ registerLocaleData(localeFr, 'fr-FR');
       // or after 30 seconds (whichever comes first).
       registrationStrategy: 'registerWhenStable:30000'
     }),
+
     NgChartsModule
   ],
   providers: [

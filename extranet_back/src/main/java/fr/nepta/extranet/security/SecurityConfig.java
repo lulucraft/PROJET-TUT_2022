@@ -45,6 +45,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 		// ALL
 		http.authorizeHttpRequests().antMatchers("/api/auth/**").permitAll();
+		// Shop accessible
+		http.authorizeHttpRequests().antMatchers("/api/user/products").permitAll();
 
 		// USER
 		http.authorizeHttpRequests().antMatchers(HttpMethod.GET, "/api/users").hasAnyAuthority("USER");
