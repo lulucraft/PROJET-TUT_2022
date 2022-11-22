@@ -11,6 +11,9 @@ Image shop:
 ![image](https://user-images.githubusercontent.com/27904062/203270882-b3142f27-937c-4f23-9419-13132a9564bf.png)
 
 Image Newsletter:
+white theme
+![image](https://user-images.githubusercontent.com/27904062/203271724-6eaf229a-24dc-4dc1-a149-c355a8419142.png)
+black theme
 ![image](https://user-images.githubusercontent.com/27904062/203271394-3414e986-f98b-40f5-9f40-2024a4dd9342.png)
 
 Image conges:
